@@ -14,6 +14,8 @@ yarn add -g typescript
 
 khởi động web:
 
+yarn
+
 cd client
 
 yarn dev

@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .swiper-slide {
+    @apply text-center text-lg bg-white flex justify-center items-center;
+  }
+  .swiper-slide img {
+    @apply block w-full h-banner object-cover;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply mx-4 after:text-red-500 after:text-4xl after:font-bold after:z-10 after:absolute after:top-1/2 after:transform after:-translate-y-1/2 after:px-3 after:py-2 after:bg-black after:bg-opacity-50 after:rounded-full after:transition;
+  }
+
+  .mySwiper2-1 {
+    @apply h-4/5 w-full;
+  }
+  .mySwiper-1 {
+    @apply h-20 w-3/5 mt-2;
+  }
+
+  .mySwiper-1 .swiper-slide-thumb-active {
+    @apply border-4 p-1;
+  }
+  .mySwiper-1 .swiper-slide img {
+    @apply w-full h-full object-cover scale-105;
+  }
+}
