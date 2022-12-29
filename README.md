@@ -13,9 +13,8 @@ npm install --global yarn
 yarn add -g typescript
 
 khởi động web:
+cd client
 
 yarn
-
-cd client
 
 yarn dev
