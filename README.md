@@ -2,7 +2,9 @@ Bài tập lớn WWW
 
 GVHD: Nguyễn Thị Thu Hà
 
-Thành viên nhóm:Nguyễn Xuân Long,Trần Minh Trí,Nguyễn Văn Thuận
+Thành viên nhóm:
+Nguyễn Xuân Long
+Trần Minh Trí
 
 cài đặt thêm [typescript(global)](https://www.typescriptlang.org/docs/) và [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable):
 
