@@ -1,3 +1,4 @@
+import { IRoom } from "./types"
 //init list image from assets
 export const listImage = [
   require("../assets/images/room1.jpg"),
@@ -17,37 +18,112 @@ export const serviceImage = [
   require("../assets/images/service2.jpg")
 ]
 
-export const roomImage = [
+export const BANNER_BOOKING = require("../assets/images/roomBooking/banner.jpg")
+
+export const roomImage: IRoom[] = [
   {
-    id: 1,
+    _id: 1,
     image: require("../assets/images/room/room1.jpg"),
     title: "Superior Room",
     price: 199,
-    description: "2 adults 1 children",
-    acreage: 30
+    limited: "2 adults 1 children",
+    description:
+      "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
+    acreage: 30,
+    images: [
+      require("../assets/images/roomBooking/room11.jpg"),
+      require("../assets/images/roomBooking/room12.jpg"),
+      require("../assets/images/roomBooking/room13.jpg"),
+      require("../assets/images/roomBooking/room14.jpg"),
+      require("../assets/images/roomBooking/room14.jpg")
+    ]
   },
   {
-    id: 2,
+    _id: 2,
     image: require("../assets/images/room/room2.jpg"),
     title: "Signature Room",
     price: 399,
-    description: "3 adults 2 children",
-    acreage: 70
+    limited: "3 adults 2 children",
+    description:
+      "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
+    acreage: 70,
+    images: [
+      require("../assets/images/roomBooking/room21.jpg"),
+      require("../assets/images/roomBooking/room22.jpg"),
+      require("../assets/images/roomBooking/room23.jpg"),
+      require("../assets/images/roomBooking/room24.jpg"),
+      require("../assets/images/roomBooking/room24.jpg")
+    ]
   },
   {
-    id: 3,
+    _id: 3,
     image: require("../assets/images/room/room3.jpg"),
     title: "Deluxe Room",
     price: 299,
-    description: "3 adults 1 children",
-    acreage: 55
+    limited: "3 adults 1 children",
+    description:
+      "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
+    acreage: 55,
+    images: [
+      require("../assets/images/roomBooking/room31.jpg"),
+      require("../assets/images/roomBooking/room32.jpg"),
+      require("../assets/images/roomBooking/room33.jpg"),
+      require("../assets/images/roomBooking/room34.jpg"),
+      require("../assets/images/roomBooking/room34.jpg")
+    ]
   },
   {
-    id: 4,
+    _id: 4,
     image: require("../assets/images/room/room1.jpg"),
     title: "Luxury Suite Room",
     price: 499,
-    description: "4 adults 2 children",
-    acreage: 120
+    limited: "4 adults 2 children",
+    description:
+      "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
+    acreage: 120,
+    images: [
+      require("../assets/images/roomBooking/room41.jpg"),
+      require("../assets/images/roomBooking/room42.jpg"),
+      require("../assets/images/roomBooking/room43.jpg"),
+      require("../assets/images/roomBooking/room44.jpg"),
+      require("../assets/images/roomBooking/room44.jpg")
+    ]
+  }
+]
+export const listExperience = [
+  {
+    _id: 1,
+    image: require("../assets/images/experience/exp1.jpg"),
+    title: "Spa & Massage",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+  },
+  {
+    _id: 2,
+    image: require("../assets/images/experience/exp2.jpg"),
+    title: "Gourmet Trip",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+  },
+  {
+    _id: 3,
+    image: require("../assets/images/experience/exp3.jpg"),
+    title: "Art break and relaxation",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+  },
+  {
+    _id: 4,
+    image: require("../assets/images/experience/exp4.jpg"),
+    title: "Daily Clean Up",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+  },
+  {
+    _id: 5,
+    image: require("../assets/images/experience/exp5.jpg"),
+    title: "Swimming Pool",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   }
 ]

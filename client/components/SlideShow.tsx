@@ -19,10 +19,14 @@ export default function SlideShow() {
         loop={true}
         zoom={true}
         spaceBetween={10}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false
+        }}
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null
         }}
-        modules={[FreeMode, Navigation, Thumbs, Zoom]}
+        modules={[FreeMode, Navigation, Thumbs, Zoom, Autoplay]}
         className="mySwiper2-1"
       >
         {listImage.map((item, index) => {

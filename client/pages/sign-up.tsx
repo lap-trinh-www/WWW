@@ -1,41 +1,40 @@
 import Head from "next/head"
 import Link from "next/link"
 import { useState } from "react"
-import { BsFacebook } from "react-icons/bs"
-import { FcGoogle } from "react-icons/fc"
-import { useDispatch, useSelector } from "react-redux"
-import { login } from "../redux/actions/authAction"
-import {
-  FormSubmit,
-  InputChange,
-  RootStore,
-  TypedDispatch
-} from "../utils/types"
+import { useDispatch } from "react-redux"
+import { register } from "../redux/actions/authAction"
+import { FormSubmit, InputChange, TypedDispatch } from "../utils/types"
 
-const Login = () => {
-  const initalState = { account: "", password: "" }
-  const [userLogin, setUserLogin] = useState(initalState)
-  const { account, password } = userLogin
+const Register = () => {
+  const initalState = {
+    name: "",
+    account: "",
+    password: "",
+    cf_password: ""
+  }
+
+  const [userRegister, setUserRegister] = useState(initalState)
+  const { name, account, password, cf_password } = userRegister
 
   const dispatch = useDispatch<TypedDispatch>()
 
   const handleChangeInput = (e: InputChange) => {
-    const { value, name } = e.target
-    setUserLogin({ ...userLogin, [name]: value })
+    const { name, value } = e.target
+    setUserRegister({
+      ...userRegister,
+      [name]: value
+    })
   }
 
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
-    dispatch(login(userLogin))
+    dispatch(register(userRegister))
   }
-  const { auth } = useSelector((state: RootStore) => state)
-  // useEffect(() => {
-  //   if (auth.access_token) window.location.href = "/"
-  // }, [auth.access_token])
+
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>Đăng ký</title>
       </Head>
       <section className="h-screen">
         <div className="px-6 h-full text-gray-800">
@@ -49,61 +48,58 @@ const Login = () => {
             </div>
             <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
               <form onSubmit={handleSubmit}>
-                <div className="flex flex-row items-center justify-center lg:justify-start">
-                  <p className="text-lg mb-0 mr-4">Sign in with</p>
-                  <button>
-                    <BsFacebook className="text-2xl text-blue-600 mr-2" />
-                  </button>
-                  <button>
-                    <FcGoogle className="text-2xl" />
-                  </button>
-                </div>
-
-                <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
-                  <p className="text-center font-semibold mx-4 mb-0">Or</p>
-                </div>
-
                 <div className="mb-6">
+                  <label htmlFor="" className="text-xl font-semibold px-1">
+                    Name
+                  </label>
                   <input
                     type="text"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    placeholder="Email address"
-                    name="account"
-                    value={account}
                     onChange={handleChangeInput}
+                    value={name}
+                    name="name"
+                    autoComplete="name"
+                  />
+                </div>
+                <div className="mb-6">
+                  <label htmlFor="" className="text-xl font-semibold px-1">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     autoComplete="username"
+                    onChange={handleChangeInput}
+                    value={account}
+                    name="account"
                   />
                 </div>
 
                 <div className="mb-6">
+                  <label htmlFor="" className="text-xl font-semibold px-1">
+                    Password
+                  </label>
                   <input
                     type="password"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    placeholder="Password"
-                    name="password"
-                    value={password}
+                    autoComplete="new-password"
                     onChange={handleChangeInput}
-                    autoComplete="current-password"
+                    value={password}
+                    name="password"
                   />
                 </div>
-
-                <div className="flex justify-between items-center mb-6">
-                  <div className="form-group form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                      id="exampleCheck2"
-                    />
-                    <label
-                      className="form-check-label inline-block text-gray-800"
-                      htmlFor="exampleCheck2"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                  <a href="#!" className="text-gray-800">
-                    Forgot password?
-                  </a>
+                <div className="mb-6">
+                  <label htmlFor="" className="text-xl font-semibold px-1">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    autoComplete="new-password"
+                    onChange={handleChangeInput}
+                    value={cf_password}
+                    name="cf_password"
+                  />
                 </div>
 
                 <div className="text-center lg:text-left">
@@ -111,15 +107,15 @@ const Login = () => {
                     type="submit"
                     className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                   >
-                    Login
+                    Sign Up
                   </button>
                   <p className="text-sm font-semibold mt-2 pt-1 mb-0">
-                    Don't have an account?
+                    You have an account?
                     <Link
-                      href="/sign-up"
+                      href="/login"
                       className="ml-1 text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
                     >
-                      Register
+                      Login
                     </Link>
                   </p>
                 </div>
@@ -132,4 +128,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register

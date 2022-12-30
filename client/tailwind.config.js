@@ -18,6 +18,10 @@ module.exports = {
         ping: "ping 2s linear infinite",
         upto: "upto 2s linear infinite"
       },
+      transformOrigin: {
+        "center-left": "center left",
+        "center-right": "center right"
+      },
 
       keyframes: (theme) => ({
         fadeOut: {
