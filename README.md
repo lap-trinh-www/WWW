@@ -4,7 +4,10 @@ GVHD: Nguyễn Thị Thu Hà
 
 Thành viên nhóm:
 Nguyễn Xuân Long
+
 Trần Minh Trí
+
+Nguyễn Văn Thuận
 
 cài đặt thêm [typescript(global)](https://www.typescriptlang.org/docs/) và [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable):
 
