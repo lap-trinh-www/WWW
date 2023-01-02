@@ -27,21 +27,27 @@ import Header from "../components/Header"
 import SlideShow from "../components/SlideShow"
 
 import { refreshToken } from "../redux/actions/authAction"
+import Loading from "../components/alter/Loading"
 const Home: NextPage = () => {
   useEffect(() => {
     AOS.init()
   }, [])
-
   const dispatch = useDispatch<TypedDispatch>()
   useEffect(() => {
     dispatch(refreshToken())
   }, [dispatch])
   const { auth } = useSelector((state: RootStore) => state)
+
+  setTimeout(() => {
+    return <Loading />
+  }, 3000)
+
   return (
     <>
       <Head>
         <title>Trang chủ</title>
       </Head>
+
       <main>
         <Header />
         <Swiper
@@ -68,7 +74,7 @@ const Home: NextPage = () => {
           grabCursor={true}
           slidesPerView={"auto"}
         >
-          {listImage.map((item, index) => {
+          {roomImage.map((item, index) => {
             return (
               <SwiperSlide key={index} className="swiper-slide relative">
                 <div className="absolute w-96 h-96 bg-red-200/40  top-12 right-64 rounded-full flex flex-col items-center justify-center">
@@ -78,14 +84,16 @@ const Home: NextPage = () => {
                   </h2>
                   <h2 className="text-4xl font-bold text-white my-2">sale</h2>
                   <h2 className="text-4xl font-bold text-white my-2">-50%</h2>
-                  <button className="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 mt-8 border border-white hover:border-transparent rounded animate-bounce">
-                    book now
-                  </button>
+                  <Link href={`room/${item._id}`}>
+                    <button className="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 mt-8 border border-white hover:border-transparent rounded animate-bounce">
+                      book now
+                    </button>
+                  </Link>
                 </div>
                 <div className="w-32 h-32 rounded-full bg-white absolute top-12 right-56 animate-ping shadow-lg shadow-black/50 flex items-center">
                   ONLY UNTIL 10.01.18
                 </div>
-                <Image src={item} alt="banner" className="bg-fixed" />
+                <Image src={item.image} alt="banner" className="bg-fixed" />
               </SwiperSlide>
             )
           })}
@@ -293,25 +301,27 @@ const Home: NextPage = () => {
                   key={room._id}
                   className="swiper-slide flex-col bg-[#f0f0f0]"
                 >
-                  <Image
-                    src={room.image}
-                    alt={room.description}
-                    className="bg-fixed"
-                  />
-                  <ul className="flex justify-between w-[95%] mt-4">
-                    <li className="text-left">
-                      <h1 className="font-semibold text-4xl mb-1">
-                        {room.title}
-                      </h1>
-                      <span>
-                        {room.acreage} m2 / {room.limited}
-                      </span>
-                    </li>
-                    <li className="text-right">
-                      <span>from</span>
-                      <h1 className="font-bold text-4xl">$ {room.price}</h1>
-                    </li>
-                  </ul>
+                  <Link href={`room/${room._id}`}>
+                    <Image
+                      src={room.image}
+                      alt={room.description}
+                      className="bg-fixed"
+                    />
+                    <ul className="flex justify-between w-[95%] mt-4">
+                      <li className="text-left">
+                        <h1 className="font-semibold text-4xl mb-1">
+                          {room.title}
+                        </h1>
+                        <span>
+                          {room.acreage} m2 / {room.limited}
+                        </span>
+                      </li>
+                      <li className="text-right">
+                        <span>from</span>
+                        <h1 className="font-bold text-4xl">$ {room.price}</h1>
+                      </li>
+                    </ul>
+                  </Link>
                 </SwiperSlide>
               )
             })}

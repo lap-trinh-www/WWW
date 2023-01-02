@@ -1,3 +1,4 @@
+import AOS from "aos"
 import Head from "next/head"
 import Link from "next/link"
 import { FaCity, FaSwimmer } from "react-icons/fa"
@@ -6,12 +7,10 @@ import { MdChair, MdOutlineYard } from "react-icons/md"
 import { TbMassage } from "react-icons/tb"
 import Experience from "../components/Experience"
 import Footer from "../components/Footer"
-import Header from "../components/Header"
 import RoomBooking from "../components/RoomBooking"
-import AOS from "aos"
 
-import { BANNER_BOOKING, roomImage } from "../utils/image"
 import { useEffect } from "react"
+import { BANNER_BOOKING, roomImage } from "../utils/image"
 const OurRoom = () => {
   useEffect(() => {
     AOS.init()
@@ -41,6 +40,14 @@ const OurRoom = () => {
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
               kuga
             </span>
+          </Link>
+          <Link
+            href="/booking"
+            className="flex items-center absolute top-4 right-4"
+          >
+            <button className="bg-white px-6 py-2 rounded-3xl font-bold">
+              BOOK NOW
+            </button>
           </Link>
         </div>
         <div
