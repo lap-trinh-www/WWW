@@ -5,8 +5,17 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}"
   ],
+  // variants: {
+  //   width: ["responsive", "hover", "focus"]
+  // },
   theme: {
     extend: {
+      variants: {
+        width: ["responsive", "hover", "focus"]
+      },
+      borderWidth: {
+        max: "20px"
+      },
       width: {
         max: "40rem"
       },
@@ -46,6 +55,7 @@ module.exports = {
           "75%": { transform: "scale(1)", opacity: "1" },
           "100%": { transform: "scale(0.95)", opacity: "1" }
         },
+
         upto: {
           "0%": {
             transform: "translateY(0px)"

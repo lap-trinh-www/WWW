@@ -36,7 +36,8 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room13.jpg"),
       require("../assets/images/roomBooking/room14.jpg"),
       require("../assets/images/roomBooking/room14.jpg")
-    ]
+    ],
+    star: 5
   },
   {
     _id: 2,
@@ -53,7 +54,8 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room23.jpg"),
       require("../assets/images/roomBooking/room24.jpg"),
       require("../assets/images/roomBooking/room24.jpg")
-    ]
+    ],
+    star: 4
   },
   {
     _id: 3,
@@ -70,7 +72,8 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room33.jpg"),
       require("../assets/images/roomBooking/room34.jpg"),
       require("../assets/images/roomBooking/room34.jpg")
-    ]
+    ],
+    star: 4
   },
   {
     _id: 4,
@@ -87,7 +90,8 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room43.jpg"),
       require("../assets/images/roomBooking/room44.jpg"),
       require("../assets/images/roomBooking/room44.jpg")
-    ]
+    ],
+    star: 2
   }
 ]
 export const listExperience = [
