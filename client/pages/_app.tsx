@@ -3,6 +3,8 @@ import { Provider } from "react-redux"
 import { Alert } from "../components/alter/Alert"
 import store from "../redux/store"
 import "../styles/globals.css"
+import "react-date-range/dist/styles.css"
+import "react-date-range/dist/theme/default.css"
 import "aos/dist/aos.css"
 function MyApp({ Component, pageProps }: AppProps) {
   return (

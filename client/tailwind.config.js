@@ -16,7 +16,9 @@ module.exports = {
       animation: {
         fade: "fadeOut 5s ease-in-out",
         ping: "ping 2s linear infinite",
-        upto: "upto 2s linear infinite"
+        upto: "upto 2s linear infinite",
+        "fade-down": "fade-down linear",
+        "fade-up": "fade-up 0.3s linear"
       },
       transformOrigin: {
         "center-left": "center left",
@@ -24,6 +26,14 @@ module.exports = {
       },
 
       keyframes: (theme) => ({
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(-5px)" },
+          "100%": { opacity: "1", transform: "translateY(0px)" }
+        },
+        "fade-down": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" }
+        },
         fadeOut: {
           "0%": { backgroundColor: theme("colors.red.300") },
           "100%": { backgroundColor: theme("colors.transparent") }
