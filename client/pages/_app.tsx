@@ -6,6 +6,7 @@ import "../styles/globals.css"
 import "react-date-range/dist/styles.css"
 import "react-date-range/dist/theme/default.css"
 import "aos/dist/aos.css"
+import "react-day-picker/dist/style.css"
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>

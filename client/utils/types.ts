@@ -47,4 +47,5 @@ export interface IRoom {
   description: string
   acreage: number
   images: string[]
+  star: number
 }

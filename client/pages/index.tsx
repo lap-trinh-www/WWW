@@ -2,7 +2,7 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { CgShapeZigzag } from "react-icons/cg"
@@ -20,7 +20,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import AOS from "aos"
 
 import { listImage, roomImage, serviceImage } from "../utils/image"
-import { RootStore, TypedDispatch } from "../utils/types"
+import { InputChange, RootStore, TypedDispatch } from "../utils/types"
 
 import Footer from "../components/Footer"
 import Header from "../components/Header"
@@ -28,6 +28,7 @@ import SlideShow from "../components/SlideShow"
 
 import { refreshToken } from "../redux/actions/authAction"
 import Loading from "../components/alter/Loading"
+import { imageUpload } from "../utils/ImageUpload"
 const Home: NextPage = () => {
   useEffect(() => {
     AOS.init()
@@ -93,11 +94,16 @@ const Home: NextPage = () => {
                 <div className="w-32 h-32 rounded-full bg-white absolute top-12 right-56 animate-ping shadow-lg shadow-black/50 flex items-center">
                   ONLY UNTIL 10.01.18
                 </div>
-                <Image src={item.image} alt="banner" className="bg-fixed" />
+                <Image
+                  src={item.image}
+                  alt="banner"
+                  className="bg-fixed bg-cover"
+                />
               </SwiperSlide>
             )
           })}
         </Swiper>
+
         <div className="grid grid-cols-2">
           <div className="h-96 p-16 relative pl-32" data-aos="fade-left">
             <div className="absolute top-24 left-10 w-14 h-2 bg-black"></div>
@@ -336,3 +342,30 @@ const Home: NextPage = () => {
 }
 
 export default Home
+//upload image
+{
+  /* <form onSubmit={handleSubmit}>
+<input
+  type="file"
+  accept="image/*"
+  onChange={handleChangeThumbnail}
+/>
+<button type="submit">upload</button>
+</form> */
+}
+// const handleChangeThumbnail = (e: InputChange) => {
+//   const target = e.target as HTMLInputElement
+//   const files = target.files
+//   if (files) {
+//     const file = files[0]
+//     setImg(file)
+//   }
+// }
+// let url = ""
+// const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+//   e.preventDefault()
+//   if (img) {
+//     const photo = await imageUpload(img)
+//     url = photo.url
+//   }
+// }

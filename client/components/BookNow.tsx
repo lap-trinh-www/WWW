@@ -23,24 +23,6 @@ interface IProps {
 }
 
 const BookNow = ({ room }: IProps) => {
-  // const room: IRoom = {
-  //   _id: 1,
-  //   image: require("../assets/images/room/room1.jpg"),
-  //   title: "Superior Room",
-  //   price: 199,
-  //   limited: "2 adults 1 children",
-  //   description:
-  //     "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
-  //   acreage: 30,
-  //   images: [
-  //     require("../assets/images/roomBooking/room11.jpg"),
-  //     require("../assets/images/roomBooking/room12.jpg"),
-  //     require("../assets/images/roomBooking/room13.jpg"),
-  //     require("../assets/images/roomBooking/room14.jpg"),
-  //     require("../assets/images/roomBooking/room14.jpg")
-  //   ]
-  // }
-
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [numOfGuests, setNumOfGuests] = useState("1")
@@ -109,62 +91,22 @@ const BookNow = ({ room }: IProps) => {
                 <li className="relative group cursor-pointer">
                   <div className="hidden show">A</div>
                   <MdChair />
-                  <div
-                    id="tooltip-bottom"
-                    role="tooltip"
-                    className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    Tooltip on bottom
-                    <div className="tooltip-arrow" data-popper-arrow></div>
-                  </div>
                 </li>
                 <li className="relative group cursor-pointer">
                   <div className="hidden show">A</div>
                   <FaSwimmer />
-                  <div
-                    id="tooltip-bottom"
-                    role="tooltip"
-                    className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    Tooltip on bottom
-                    <div className="tooltip-arrow" data-popper-arrow></div>
-                  </div>
                 </li>
                 <li className="relative group cursor-pointer">
                   <div className="hidden show">A</div>
                   <TbMassage />
-                  <div
-                    id="tooltip-bottom"
-                    role="tooltip"
-                    className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    Tooltip on bottom
-                    <div className="tooltip-arrow" data-popper-arrow></div>
-                  </div>
                 </li>
                 <li className="relative group cursor-pointer">
                   <div className="hidden show">A</div>
                   <MdOutlineYard />
-                  <div
-                    id="tooltip-bottom"
-                    role="tooltip"
-                    className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    Tooltip on bottom
-                    <div className="tooltip-arrow" data-popper-arrow></div>
-                  </div>
                 </li>
                 <li className="relative group cursor-pointer">
                   <div className="hidden show">A</div>
                   <FaCity />
-                  <div
-                    id="tooltip-bottom"
-                    role="tooltip"
-                    className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                  >
-                    Tooltip on bottom
-                    <div className="tooltip-arrow" data-popper-arrow></div>
-                  </div>
                 </li>
                 <li className="text-xs">+11 Amenities</li>
               </ul>

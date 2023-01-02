@@ -32,6 +32,9 @@
   .show {
     @apply group-hover:inline-block group-hover:absolute group-hover:z-10 group-hover:py-1 group-hover:px-4 group-hover:text-xs group-hover:font-medium group-hover:text-white group-hover:bg-black group-hover:rounded-lg group-hover:shadow-sm group-hover:top-[calc(100%+5px)] group-hover:-left-2 group-hover:animate-fade-up group-hover:before:w-0 group-hover:before:h-0 group-hover:before:border-solid group-hover:before:border-t-transparent group-hover:before:border-r-transparent group-hover:before:border-b-black group-hover:before:border-l-transparent group-hover:before:border-8 group-hover:before:left-1/2 group-hover:before:-translate-x-1/2 group-hover:before:absolute group-hover:before:-top-3 group-hover:before:z-0;
   }
+  .picker {
+    @apply animate-fade-up before:w-0 before:h-0 before:border-solid before:border-t-transparent before:border-r-transparent before:border-b-[#f5f5f5] before:border-l-transparent before:border-max before:left-1/2 before:-translate-x-1/2 before:absolute before:-top-9 before:z-0;
+  }
   .rdrDefinedRangesWrapper {
     @apply hidden;
   }
