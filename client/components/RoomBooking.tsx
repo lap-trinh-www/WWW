@@ -57,7 +57,7 @@ const RoomBooking = ({ room, position }: Props) => {
   const Info = () => (
     <div className="pl-24 mt-4">
       <div className="absolute top-12 left-24 w-14 h-[6px] bg-black"></div>
-      <h1 className="font-semibold text-[55px] leading-none">{room.title}</h1>
+      <h1 className="font-semibold text-[55px] leading-none">{room.name}</h1>
       <br />
       <br />
       <p className="w-[22rem] text-lg mr-96">{room.description}</p>

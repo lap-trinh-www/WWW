@@ -40,12 +40,35 @@ export interface IUser extends IUserLogin {
 
 export interface IRoom {
   _id: number
-  title: string
-  image: string
+  name: string
   price: number
   limited: string
   description: string
   acreage: number
   images: string[]
-  star: number
+  star?: number
+  services: IService[]
+}
+export interface IUser2 extends IUserLogin {
+  id: number
+  name: string
+  username: string
+  email: string
+  address?: object
+  phone: string
+  website: string
+  company?: object
+}
+
+export interface IService {
+  _id: number
+  name: string
+}
+export interface IIMg {
+  id: string
+  author: string
+  width: number
+  height: number
+  url: string
+  download_url: string
 }

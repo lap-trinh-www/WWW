@@ -27,7 +27,12 @@ export const getAPI = async (url: string, token?: string) => {
   const res = await axios.get(`http://localhost:8080/api/${url}`, {
     headers: { Authorization: token as string }
   })
-  console.log(res)
+  return res
+}
+export const getAPIFecth = async (url: string, token?: string) => {
+  const res = await axios.get(`${url}`, {
+    headers: { Authorization: token as string }
+  })
   return res
 }
 

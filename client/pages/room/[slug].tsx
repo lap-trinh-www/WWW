@@ -43,7 +43,7 @@ const RoomDetail = () => {
             <>
               <div
                 style={{
-                  backgroundImage: `url('${item.image.default.src}')`
+                  backgroundImage: `url('${item.images.default.src}')`
                 }}
                 className="bg-red-500 h-screen bg-cover bg-center relative bg-fixed "
               >

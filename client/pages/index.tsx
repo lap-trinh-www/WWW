@@ -2,7 +2,7 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { CgShapeZigzag } from "react-icons/cg"
@@ -19,16 +19,15 @@ import { Swiper, SwiperSlide } from "swiper/react"
 
 import AOS from "aos"
 
-import { listImage, roomImage, serviceImage } from "../utils/image"
-import { InputChange, RootStore, TypedDispatch } from "../utils/types"
+import { roomImage, serviceImage } from "../utils/image"
+import { RootStore, TypedDispatch } from "../utils/types"
 
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import SlideShow from "../components/SlideShow"
 
-import { refreshToken } from "../redux/actions/authAction"
 import Loading from "../components/alter/Loading"
-import { imageUpload } from "../utils/ImageUpload"
+import { refreshToken } from "../redux/actions/authAction"
 const Home: NextPage = () => {
   useEffect(() => {
     AOS.init()
@@ -95,7 +94,7 @@ const Home: NextPage = () => {
                   ONLY UNTIL 10.01.18
                 </div>
                 <Image
-                  src={item.image}
+                  src={item.images[0]}
                   alt="banner"
                   className="bg-fixed bg-cover"
                 />
@@ -309,14 +308,14 @@ const Home: NextPage = () => {
                 >
                   <Link href={`room/${room._id}`}>
                     <Image
-                      src={room.image}
+                      src={room.images[0]}
                       alt={room.description}
                       className="bg-fixed"
                     />
                     <ul className="flex justify-between w-[95%] mt-4">
                       <li className="text-left">
                         <h1 className="font-semibold text-4xl mb-1">
-                          {room.title}
+                          {room.name}
                         </h1>
                         <span>
                           {room.acreage} m2 / {room.limited}
@@ -342,30 +341,3 @@ const Home: NextPage = () => {
 }
 
 export default Home
-//upload image
-{
-  /* <form onSubmit={handleSubmit}>
-<input
-  type="file"
-  accept="image/*"
-  onChange={handleChangeThumbnail}
-/>
-<button type="submit">upload</button>
-</form> */
-}
-// const handleChangeThumbnail = (e: InputChange) => {
-//   const target = e.target as HTMLInputElement
-//   const files = target.files
-//   if (files) {
-//     const file = files[0]
-//     setImg(file)
-//   }
-// }
-// let url = ""
-// const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//   e.preventDefault()
-//   if (img) {
-//     const photo = await imageUpload(img)
-//     url = photo.url
-//   }
-// }
