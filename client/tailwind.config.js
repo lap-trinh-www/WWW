@@ -27,7 +27,10 @@ module.exports = {
         ping: "ping 2s linear infinite",
         upto: "upto 2s linear infinite",
         "fade-down": "fade-down linear",
-        "fade-up": "fade-up 0.3s linear"
+        "fade-up": "fade-up 0.3s linear",
+        dropDown: "dropDown 1s linear",
+        spin: "spin 0.4s linear",
+        "un-spin": "un-spin 0.4s linear"
       },
       transformOrigin: {
         "center-left": "center left",
@@ -35,6 +38,19 @@ module.exports = {
       },
 
       keyframes: (theme) => ({
+        spin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" }
+        },
+        "un-spin": {
+          "0%": { transform: "rotate(360deg)" },
+          "100%": { transform: "rotate(0deg)" }
+        },
+
+        dropDown: {
+          "0%": { height: "0px" },
+          "100%": { height: "5rem" }
+        },
         "fade-up": {
           "0%": { opacity: "0", transform: "translateY(-5px)" },
           "100%": { opacity: "1", transform: "translateY(0px)" }

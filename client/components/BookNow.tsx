@@ -2,8 +2,7 @@ import viLocale from "date-fns/locale/vi"
 import Image from "next/image"
 import { useState } from "react"
 import { DateRange } from "react-date-range"
-// import "react-date-range/dist/styles.css" // main style file
-// import "react-date-range/dist/theme/default.css" // theme css file
+
 import { AiOutlineGift } from "react-icons/ai"
 import { FaCity, FaSwimmer } from "react-icons/fa"
 import { IoIosFitness } from "react-icons/io"
@@ -42,14 +41,13 @@ const BookNow = ({ room }: IProps) => {
   const [rooms, setRooms] = useState(1)
   const [bed, setBed] = useState(1)
   const [children, setChildren] = useState(0)
-  console.log(room)
   return (
     <div className="grid grid-cols-10 space-x-11 p-12 bg-[#f0f0f0]">
       <div className="col-span-7">
         <div className="grid grid-cols-6 space-x-10">
           <div className="col-span-4 grid grid-cols-5 bg-white border-2 shadow-lg rounded-xl overflow-hidden">
             <Image
-              src={room.image}
+              src={room.images[0]}
               alt={room.description}
               className="bg-cover col-span-2 h-full"
             />
@@ -57,7 +55,7 @@ const BookNow = ({ room }: IProps) => {
               <ul className="flex justify-between w-full">
                 <li className="relative group cursor-pointer">
                   <div className="hidden show">A</div>
-                  <p className="text-xl font-semibold mb-2">{room.title}</p>
+                  <p className="text-xl font-semibold mb-2">{room.name}</p>
                   <div className="flex space-x-2">
                     <div className="bg-[#D2EEE1] text-green-500 flex items-center px-2 py-1 rounded-md font-bold text-xs">
                       <BsBookmarkCheck className="mr-1" /> Special Rate
@@ -238,9 +236,7 @@ const BookNow = ({ room }: IProps) => {
             </ul>
             <button
               className="mx-8 mt-[38px] w-4/5 bg-transparent hover:bg-[#028ead] text-[#028ead] font-semibold hover:text-white py-2 px-4 border border-[#028ead] hover:border-transparent rounded"
-              onClick={() => {
-                console.log(adults, children, rooms, bed)
-              }}
+              onClick={() => {}}
             >
               CONFIRM
             </button>
@@ -308,10 +304,7 @@ const BookNow = ({ room }: IProps) => {
             </form>
             <button
               className="mx-8 mt-[38px] w-4/5 bg-transparent hover:bg-[#028ead] text-[#028ead] font-semibold hover:text-white py-2 px-4 border border-[#028ead] hover:border-transparent rounded"
-              onClick={() => {
-                console.log(startDate.toLocaleString())
-                console.log(endDate.toLocaleString())
-              }}
+              onClick={() => {}}
             >
               CONFIRM
             </button>
@@ -328,7 +321,7 @@ const BookNow = ({ room }: IProps) => {
             <div className="flex justify-between">
               <div>
                 <p className="flex items-center">
-                  {room.title} <ImWarning className="ml-1 text-cyan-400" />
+                  {room.name} <ImWarning className="ml-1 text-cyan-400" />
                 </p>
                 <span>{room.limited}</span>
               </div>

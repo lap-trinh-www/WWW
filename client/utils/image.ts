@@ -23,8 +23,7 @@ export const BANNER_BOOKING = require("../assets/images/roomBooking/banner.jpg")
 export const roomImage: IRoom[] = [
   {
     _id: 1,
-    image: require("../assets/images/room/room1.jpg"),
-    title: "Superior Room",
+    name: "Superior Room",
     price: 199,
     limited: "2 adults 1 children",
     description:
@@ -37,12 +36,12 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room14.jpg"),
       require("../assets/images/roomBooking/room14.jpg")
     ],
-    star: 5
+    star: 5,
+    services: []
   },
   {
     _id: 2,
-    image: require("../assets/images/room/room2.jpg"),
-    title: "Signature Room",
+    name: "Signature Room",
     price: 399,
     limited: "3 adults 2 children",
     description:
@@ -55,12 +54,12 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room24.jpg"),
       require("../assets/images/roomBooking/room24.jpg")
     ],
-    star: 4
+    star: 4,
+    services: []
   },
   {
     _id: 3,
-    image: require("../assets/images/room/room3.jpg"),
-    title: "Deluxe Room",
+    name: "Deluxe Room",
     price: 299,
     limited: "3 adults 1 children",
     description:
@@ -73,12 +72,12 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room34.jpg"),
       require("../assets/images/roomBooking/room34.jpg")
     ],
-    star: 4
+    star: 4,
+    services: []
   },
   {
     _id: 4,
-    image: require("../assets/images/room/room1.jpg"),
-    title: "Luxury Suite Room",
+    name: "Luxury Suite Room",
     price: 499,
     limited: "4 adults 2 children",
     description:
@@ -91,43 +90,114 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room44.jpg"),
       require("../assets/images/roomBooking/room44.jpg")
     ],
-    star: 2
+    star: 2,
+    services: []
   }
 ]
 export const listExperience = [
   {
     _id: 1,
-    image: require("../assets/images/experience/exp1.jpg"),
-    title: "Spa & Massage",
+    name: "Spa & Massage",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 2,
-    image: require("../assets/images/experience/exp2.jpg"),
-    title: "Gourmet Trip",
+    name: "Gourmet Trip",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 3,
-    image: require("../assets/images/experience/exp3.jpg"),
-    title: "Art break and relaxation",
+    name: "Art break and relaxation",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 4,
-    image: require("../assets/images/experience/exp4.jpg"),
-    title: "Daily Clean Up",
+    name: "Daily Clean Up",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 5,
-    image: require("../assets/images/experience/exp5.jpg"),
-    title: "Swimming Pool",
+    name: "Swimming Pool",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
+  }
+]
+
+export const listService = [
+  {
+    _id: 1,
+    name: "Spa & Massage"
+  },
+  {
+    _id: 2,
+    name: "Gourmet Trip"
+  },
+  {
+    _id: 3,
+    name: "Art break and relaxation"
+  },
+  {
+    _id: 4,
+    name: "Daily Clean Up"
+  },
+  {
+    _id: 5,
+    name: "Swimming Pool"
+  },
+  {
+    _id: 6,
+    name: "Spa & Massage"
+  },
+  {
+    _id: 7,
+    name: "Gourmet Trip"
+  },
+  {
+    _id: 8,
+    name: "Art break and relaxation"
+  },
+  {
+    _id: 9,
+    name: "Daily Clean Up"
+  },
+  {
+    _id: 10,
+    name: "Swimming Pool"
+  },
+  {
+    _id: 11,
+    name: "Spa & Massage"
+  },
+  {
+    _id: 12,
+    name: "Gourmet Trip"
+  },
+  {
+    _id: 13,
+    name: "Art break and relaxation"
+  },
+  {
+    _id: 14,
+    name: "Daily Clean Up"
+  },
+  {
+    _id: 15,
+    name: "Swimming Pool"
+  },
+  {
+    _id: 16,
+    name: "Spa & Massage"
+  },
+  {
+    _id: 17,
+    name: "Gourmet Trip"
+  },
+  {
+    _id: 18,
+    name: "Art break and relaxation"
   }
 ]
