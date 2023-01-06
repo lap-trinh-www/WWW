@@ -72,3 +72,9 @@ export interface IIMg {
   url: string
   download_url: string
 }
+export type StorageType = "session" | "local"
+export type UseStorageReturnValue = {
+  getItem: (key: string, type?: StorageType) => string
+  setItem: (key: string, value: string, type?: StorageType) => boolean
+  removeItem: (key: string, type?: StorageType) => void
+}
