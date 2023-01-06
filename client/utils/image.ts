@@ -97,31 +97,36 @@ export const roomImage: IRoom[] = [
 export const listExperience = [
   {
     _id: 1,
-    name: "Spa & Massage",
+    image: require("../assets/images/experience/exp1.jpg"),
+    title: "Spa & Massage",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 2,
-    name: "Gourmet Trip",
+    image: require("../assets/images/experience/exp2.jpg"),
+    title: "Gourmet Trip",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 3,
-    name: "Art break and relaxation",
+    image: require("../assets/images/experience/exp3.jpg"),
+    title: "Art break and relaxation",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 4,
-    name: "Daily Clean Up",
+    image: require("../assets/images/experience/exp4.jpg"),
+    title: "Daily Clean Up",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 5,
-    name: "Swimming Pool",
+    image: require("../assets/images/experience/exp5.jpg"),
+    title: "Swimming Pool",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   }
@@ -130,74 +135,92 @@ export const listExperience = [
 export const listService = [
   {
     _id: 1,
-    name: "Spa & Massage"
+    name: "Spa & Massage",
+    status: false
   },
   {
     _id: 2,
-    name: "Gourmet Trip"
+    name: "Gourmet Trip",
+    status: false
   },
   {
     _id: 3,
-    name: "Art break and relaxation"
+    name: "Art break and relaxation",
+    status: false
   },
   {
     _id: 4,
-    name: "Daily Clean Up"
+    name: "Daily Clean Up",
+    status: false
   },
   {
     _id: 5,
-    name: "Swimming Pool"
+    name: "Swimming Pool",
+    status: false
   },
   {
     _id: 6,
-    name: "Spa & Massage"
+    name: "Spa & Massage",
+    status: false
   },
   {
     _id: 7,
-    name: "Gourmet Trip"
+    name: "Gourmet Trip",
+    status: false
   },
   {
     _id: 8,
-    name: "Art break and relaxation"
+    name: "Art break and relaxation",
+    status: false
   },
   {
     _id: 9,
-    name: "Daily Clean Up"
+    name: "Daily Clean Up",
+    status: false
   },
   {
     _id: 10,
-    name: "Swimming Pool"
+    name: "Swimming Pool",
+    status: false
   },
   {
     _id: 11,
-    name: "Spa & Massage"
+    name: "Spa & Massage",
+    status: false
   },
   {
     _id: 12,
-    name: "Gourmet Trip"
+    name: "Gourmet Trip",
+    status: false
   },
   {
     _id: 13,
-    name: "Art break and relaxation"
+    name: "Art break and relaxation",
+    status: false
   },
   {
     _id: 14,
-    name: "Daily Clean Up"
+    name: "Daily Clean Up",
+    status: false
   },
   {
     _id: 15,
-    name: "Swimming Pool"
+    name: "Swimming Pool",
+    status: false
   },
   {
     _id: 16,
-    name: "Spa & Massage"
+    name: "Spa & Massage",
+    status: false
   },
   {
     _id: 17,
-    name: "Gourmet Trip"
+    name: "Gourmet Trip",
+    status: false
   },
   {
     _id: 18,
-    name: "Art break and relaxation"
+    name: "Art break and relaxation",
+    status: false
   }
 ]

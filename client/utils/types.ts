@@ -46,7 +46,7 @@ export interface IRoom {
   description: string
   acreage: number
   images: string[]
-  star?: number
+  star: number
   services: IService[]
 }
 export interface IUser2 extends IUserLogin {
@@ -71,4 +71,27 @@ export interface IIMg {
   height: number
   url: string
   download_url: string
+}
+
+export interface IBillDetail {
+  childNum?: number
+  adultNum?: number
+  checkIn?: Date
+  checkOut?: Date
+  roomNum?: number
+  bedNum?: number
+  user?: IUser
+}
+
+export interface IBill {
+  _id: number
+  date: Date
+  total: number
+}
+
+export type StorageType = "session" | "local"
+export type UseStorageReturnValue = {
+  getItem: (key: string, type?: StorageType) => string
+  setItem: (key: string, value: string, type?: StorageType) => boolean
+  removeItem: (key: string, type?: StorageType) => void
 }

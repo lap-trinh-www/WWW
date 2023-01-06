@@ -10,12 +10,35 @@ import Loading from "../../components/alter/Loading"
 import BookNow from "../../components/BookNow"
 import Experience from "../../components/Experience"
 import Footer from "../../components/Footer"
+import { IBill, IBillDetail } from "../../utils/types"
+import { useStorage } from "../../utils/hooks"
 
 const RoomDetail = () => {
   const { slug } = useRouter().query
 
   let scroll = 0
 
+  const initialBillState: IBill = {
+    _id: 0,
+    date: new Date(),
+    total: 0
+  }
+
+  const { setItem, getItem } = useStorage()
+
+  const [billDetail, setBillDetail] = useState<IBillDetail>()
+
+  const [billDetails, setBillDetails] = useState<IBillDetail[]>([])
+  // useEffect(() => {
+  //   roomImage.map((item, index) => {
+  //     if (item._id.toString() === slug) {
+  //       setBillDetail({
+  //         ...billDetail,
+  //         room: item
+  //       })
+  //     }
+  //   })
+  // }, [slug])
   const [scrollPosition, setScrollPosition] = useState(0)
   const handleScroll = () => {
     const position = window.pageYOffset
@@ -34,16 +57,27 @@ const RoomDetail = () => {
   setTimeout(() => {
     return <Loading />
   }, 3000)
+
+  const handleCallback = (childData?: IBillDetail) => {
+    console.log(childData)
+    if (childData) {
+      setBillDetails([...billDetails, childData])
+    }
+    console.log(billDetails)
+    if (billDetails.length > 0) {
+      setItem("billDetails", JSON.stringify(billDetails))
+    }
+  }
   //future use data in server
   return (
     <div>
       {roomImage.map((item, index) => {
         if (item._id.toString() === slug) {
           return (
-            <>
+            <div key={index}>
               <div
                 style={{
-                  backgroundImage: `url('${item.images.default.src}')`
+                  backgroundImage: `url('${item.images[0].default.src}')`
                 }}
                 className="bg-red-500 h-screen bg-cover bg-center relative bg-fixed "
               >
@@ -80,7 +114,8 @@ const RoomDetail = () => {
                   </button>
                 </Link>
               </div>
-              <BookNow room={item} />
+              <BookNow room={item} callback={handleCallback} />
+
               <div className="relative py-[100px] bg-black text-white border-b border-white">
                 <div className="pl-44 mt-4">
                   <div className="absolute top-36 left-24 w-14 h-[6px] bg-white"></div>
@@ -96,7 +131,7 @@ const RoomDetail = () => {
                 <Experience />
               </div>
               <Footer />
-            </>
+            </div>
           )
         }
       })}

@@ -5,9 +5,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}"
   ],
-  // variants: {
-  //   width: ["responsive", "hover", "focus"]
-  // },
+
   theme: {
     extend: {
       variants: {
