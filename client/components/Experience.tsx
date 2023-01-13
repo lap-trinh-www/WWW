@@ -38,7 +38,10 @@ export default function Experience() {
         {listExperience.map((exp, index) => {
           return (
             <SwiperSlide key={index} className="swiper-slide flex-col bg-black">
-              <Link className="pb-12 relative overflow-hidden group" href={``}>
+              <Link
+                className="pb-12 relative overflow-hidden group"
+                href={`experience/${exp._id}`}
+              >
                 <Image
                   src={exp.image}
                   alt={exp.content}
@@ -53,19 +56,17 @@ export default function Experience() {
                   {exp.title}
                 </h1>
                 <p className="text-left text-lg">{exp.content}</p>
-                <Link href={`experience/${exp._id}`}>
-                  <button
-                    className="bg-white py-2 px-5 text-black absolute bottom-48 right-4 z-20 group-hover:text-white duration-500 ease-linear group-hover:bg-[100%] group-hover:bg-black"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to right, #fff 0%, #fff 50%, transparent 50%)",
-                      transition: "all 0.5s ease",
-                      backgroundSize: "252%"
-                    }}
-                  >
-                    Read more
-                  </button>
-                </Link>
+                <button
+                  className="bg-white py-2 px-5 text-black absolute bottom-48 right-4 z-20 group-hover:text-white duration-500 ease-linear group-hover:bg-[100%] group-hover:bg-black"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, #fff 0%, #fff 50%, transparent 50%)",
+                    transition: "all 0.5s ease",
+                    backgroundSize: "252%"
+                  }}
+                >
+                  Read more
+                </button>
               </Link>
             </SwiperSlide>
           )

@@ -12,19 +12,20 @@ import {
   MdOutlineYard
 } from "react-icons/md"
 import { TbMassage } from "react-icons/tb"
-import { IRoom } from "../utils/types"
+import { IBillDetail, IRoom } from "../utils/types"
 
 import { BsBookmarkCheck, BsGiftFill } from "react-icons/bs"
 import { ImWarning } from "react-icons/im"
 
 interface IProps {
   room: IRoom
+  callback: (bill?: IBillDetail) => void
 }
 
-const BookNow = ({ room }: IProps) => {
+const BookNow = ({ room, callback }: IProps) => {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
-  const [numOfGuests, setNumOfGuests] = useState("1")
+  const [billDetail, setBillDetail] = useState<IBillDetail>()
 
   const selectionRange = {
     startDate: startDate,
@@ -41,6 +42,39 @@ const BookNow = ({ room }: IProps) => {
   const [rooms, setRooms] = useState(1)
   const [bed, setBed] = useState(1)
   const [children, setChildren] = useState(0)
+
+  const handleNumber = () => {
+    setBillDetail({
+      ...billDetail,
+      adultNum: adults,
+      childNum: children,
+      roomNum: rooms,
+      bedNum: bed
+    })
+
+    if (children > 0) {
+      alert("Đặt phòng thành công")
+      setAdults(1)
+      setChildren(0)
+      setRooms(1)
+      setBed(1)
+    }
+  }
+
+  const handleDate = () => {
+    setBillDetail({
+      ...billDetail,
+      checkIn: startDate,
+      checkOut: endDate
+    })
+
+    if (startDate != new Date() && endDate != new Date()) {
+      alert("Đặt thời gian thành công")
+      setStartDate(new Date())
+      setEndDate(new Date())
+    }
+  }
+
   return (
     <div className="grid grid-cols-10 space-x-11 p-12 bg-[#f0f0f0]">
       <div className="col-span-7">
@@ -235,8 +269,11 @@ const BookNow = ({ room }: IProps) => {
               </li>
             </ul>
             <button
-              className="mx-8 mt-[38px] w-4/5 bg-transparent hover:bg-[#028ead] text-[#028ead] font-semibold hover:text-white py-2 px-4 border border-[#028ead] hover:border-transparent rounded"
-              onClick={() => {}}
+              className={
+                "mx-8 mt-[38px] w-4/5 bg-transparent hover:bg-[#028ead] text-[#028ead] font-semibold hover:text-white py-2 px-4 border border-[#028ead] hover:border-transparent rounded" +
+                (children === 0 ? " opacity-50 cursor-not-allowed" : "")
+              }
+              onClick={handleNumber}
             >
               CONFIRM
             </button>
@@ -303,8 +340,13 @@ const BookNow = ({ room }: IProps) => {
               </div>
             </form>
             <button
-              className="mx-8 mt-[38px] w-4/5 bg-transparent hover:bg-[#028ead] text-[#028ead] font-semibold hover:text-white py-2 px-4 border border-[#028ead] hover:border-transparent rounded"
-              onClick={() => {}}
+              className={
+                "mx-8 mt-[38px] w-4/5 bg-transparent hover:bg-[#028ead] text-[#028ead] font-semibold hover:text-white py-2 px-4 border border-[#028ead] hover:border-transparent rounded" +
+                (endDate.getDay() - startDate.getDay() === 0
+                  ? " opacity-50 cursor-not-allowed"
+                  : "text-sm")
+              }
+              onClick={handleDate}
             >
               CONFIRM
             </button>
@@ -365,14 +407,14 @@ const BookNow = ({ room }: IProps) => {
         <button
           className="mx-8 mt-[38px] w-10/12 bg-[#028ead] text-white hover:bg-transparent font-semibold hover:text-[#028ead] py-2 px-4 border hover:border-[#028ead] rounded"
           onClick={() => {
-            //add new reservation
-            const newReservation = {
-              id: Math.floor(Math.random() * 100000000),
-              room: room
+            if (billDetail?.adultNum) {
+              callback(billDetail)
+            } else {
+              alert("You have already booked this room")
             }
           }}
         >
-          PAY & CONFIRM RESERVATION
+          CONFIRM RESERVATION
         </button>
       </div>
     </div>

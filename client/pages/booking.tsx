@@ -25,11 +25,15 @@ const Booking = () => {
   const genarateStar = (star: number) => {
     const stars = []
     for (let i = 0; i < star; i++) {
-      stars.push(<AiFillStar className="text-yellow-400 inline-block" />)
+      stars.push(
+        <AiFillStar className="text-yellow-400 inline-block" key={i} />
+      )
     }
     if (star < 5)
       for (let i = 0; i < 5 - star; i++) {
-        stars.push(<AiOutlineStar className="text-yellow-400 inline-block" />)
+        stars.push(
+          <AiOutlineStar className="text-yellow-400 inline-block" key={5 - i} />
+        )
       }
     return stars
   }
@@ -202,12 +206,12 @@ const Booking = () => {
         {roomImage.map((item, index) => (
           <div className="grid grid-cols-3">
             <Image
-              src={item.image}
+              src={item.images[0]}
               alt={item.description}
               className="col-span-1 h-full w-full object-cover"
             />
             <div className="col-span-2 p-8">
-              <h1 className="font-medium text-3xl">{item.title}</h1>
+              <h1 className="font-medium text-3xl">{item.name}</h1>
               <br />
               <ul className="flex flex-row space-x-6">
                 <li className="flex items-center text-[#848484] text-lg">

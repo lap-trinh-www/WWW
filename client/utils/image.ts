@@ -97,31 +97,36 @@ export const roomImage: IRoom[] = [
 export const listExperience = [
   {
     _id: 1,
-    name: "Spa & Massage",
+    image: require("../assets/images/experience/exp1.jpg"),
+    title: "Spa & Massage",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 2,
-    name: "Gourmet Trip",
+    image: require("../assets/images/experience/exp2.jpg"),
+    title: "Gourmet Trip",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 3,
-    name: "Art break and relaxation",
+    image: require("../assets/images/experience/exp3.jpg"),
+    title: "Art break and relaxation",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 4,
-    name: "Daily Clean Up",
+    image: require("../assets/images/experience/exp4.jpg"),
+    title: "Daily Clean Up",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
     _id: 5,
-    name: "Swimming Pool",
+    image: require("../assets/images/experience/exp5.jpg"),
+    title: "Swimming Pool",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   }
