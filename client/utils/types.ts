@@ -21,7 +21,7 @@ export interface IAlert {
 }
 
 export interface IUserLogin {
-  account: string
+  email: string
   password: string
 }
 export interface IUserRegister extends IUserLogin {

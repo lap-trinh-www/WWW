@@ -1,6 +1,5 @@
 package fit.se.models;
 
-import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -9,10 +8,9 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "rooms")
-public class Room implements Serializable {
+public class Room {
 	@Id
 	private String room_ID;
 	private String roomName;

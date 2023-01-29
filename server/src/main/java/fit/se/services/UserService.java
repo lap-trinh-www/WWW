@@ -8,16 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fit.se.models.User;
-import fit.se.repository.UserRepo;
+import fit.se.repository.UserRepository;
 
 @Service
 public class UserService {
   @Autowired
-  private UserRepo userRepo;
+  private UserRepository userRepo;
+
+  @Autowired
+  private PasswordService passwordService;
 
   public User addUser(User user) {
-    userRepo.save(user);
-    return user;
+    User newUser = userRepo.findById(user.getId()).orElse(null);
+    if (Objects.isNull(newUser)) {
+      user.setPassword(passwordService.passwordEncoder().encode(user.getPassword()));
+      userRepo.save(user);
+      return user;
+    }
+    return null;
   }
 
   public List<User> getUsers() {
@@ -48,4 +56,5 @@ public class UserService {
       userRepo.deleteById(id);
     }
   }
+
 }

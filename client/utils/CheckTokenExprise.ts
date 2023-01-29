@@ -17,5 +17,5 @@ export const checkTokenExpire = async (token: string, dispatch: any) => {
 
   dispatch({ type: AUTH, payload: res.data })
 
-  return res.data.access_token
+  return res.data.accessToken
 }

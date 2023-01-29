@@ -28,7 +28,9 @@ import SlideShow from "../components/SlideShow"
 
 import Loading from "../components/alter/Loading"
 import { refreshToken } from "../redux/actions/authAction"
+import { useRouter } from "next/dist/client/router"
 const Home: NextPage = () => {
+  const router = useRouter()
   useEffect(() => {
     AOS.init()
   }, [])
@@ -36,11 +38,13 @@ const Home: NextPage = () => {
   useEffect(() => {
     dispatch(refreshToken())
   }, [dispatch])
-  const { auth } = useSelector((state: RootStore) => state)
 
-  setTimeout(() => {
-    return <Loading />
-  }, 3000)
+  const { auth } = useSelector((state: RootStore) => state)
+  // useEffect(() => {
+  //   if (!auth.accessToken) {
+  //     router.push("/login")
+  //   }
+  // }, [auth.accessToken])
 
   return (
     <>

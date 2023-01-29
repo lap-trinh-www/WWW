@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app"
-import { Provider } from "react-redux"
+import { Provider, useSelector } from "react-redux"
 import { Alert } from "../components/alter/Alert"
 import store from "../redux/store"
 import "../styles/globals.css"
@@ -7,6 +7,7 @@ import "react-date-range/dist/styles.css"
 import "react-date-range/dist/theme/default.css"
 import "aos/dist/aos.css"
 import "react-day-picker/dist/style.css"
+import { RootStore } from "../utils/types"
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>

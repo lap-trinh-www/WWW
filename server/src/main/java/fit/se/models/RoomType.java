@@ -1,6 +1,5 @@
 package fit.se.models;
 
-import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -12,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @Table(name = "roomType")
-public class RoomType implements Serializable {
+public class RoomType {
 	@Id
 	private String type_ID;
 	private String typeName;

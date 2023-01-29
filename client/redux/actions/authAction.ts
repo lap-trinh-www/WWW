@@ -10,7 +10,8 @@ export const login =
     try {
       dispatch({ type: ALERT, payload: { loading: true } })
 
-      const res = await postAPI("login", userLogin)
+      const res = await postAPI("auth/login", userLogin)
+      //cast res.data to IAuthType
 
       dispatch({
         type: AUTH,
@@ -18,9 +19,9 @@ export const login =
       })
 
       window.location.href = "/"
-      localStorage.setItem("logged", "user")
+      localStorage.setItem("logged", `user-${res.data.data.refreshToken}`)
 
-      dispatch({ type: ALERT, payload: { success: res.data.msg } })
+      dispatch({ type: ALERT, payload: { success: res.data.message } })
     } catch (error: any) {
       console.log(error)
     }
@@ -29,15 +30,15 @@ export const refreshToken =
   () => async (dispatch: Dispatch<IAuthType | IAlertType>) => {
     const logged = localStorage.getItem("logged")
 
-    if (logged !== "user") return
+    if (logged?.substring(0, 4) !== "user") return
 
     try {
-      const res = await getAPI("refresh_token")
+      const res = await getAPI("auth/refresh", logged.substring(6))
       dispatch({ type: AUTH, payload: res.data })
 
       dispatch({ type: ALERT, payload: {} })
     } catch (err: any) {
-      dispatch({ type: ALERT, payload: { errors: err.response.data.msg } })
+      console.log(err)
       localStorage.removeItem("logged")
     }
   }
@@ -61,14 +62,14 @@ export const register =
     try {
       dispatch({ type: ALERT, payload: { loading: true } })
 
-      const res = await postAPI("register", user)
+      const res = await postAPI("auth/register", user)
       if (res.data.err) {
-        dispatch({ type: ALERT, payload: { errors: res.data.msg } })
+        dispatch({ type: ALERT, payload: { errors: res.data.message } })
         return
       } else window.location.href = "/"
 
-      dispatch({ type: ALERT, payload: { success: res.data.msg } })
+      dispatch({ type: ALERT, payload: { success: res.data.message } })
     } catch (err: any) {
-      dispatch({ type: ALERT, payload: { errors: err.response.data.msg } })
+      dispatch({ type: ALERT, payload: { errors: err.response.data.message } })
     }
   }

@@ -1,6 +1,5 @@
 package fit.se.models;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.*;
@@ -9,11 +8,9 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@IdClass(BillDetailPK.class)
+@Data
 @Table(name = "billDetails")
-public class BillDetail implements Serializable {
+public class BillDetail {
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "bill_ID")

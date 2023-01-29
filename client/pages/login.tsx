@@ -1,6 +1,6 @@
 import Head from "next/head"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BsFacebook } from "react-icons/bs"
 import { FcGoogle } from "react-icons/fc"
 import { useDispatch, useSelector } from "react-redux"
@@ -13,9 +13,9 @@ import {
 } from "../utils/types"
 
 const Login = () => {
-  const initalState = { account: "", password: "" }
+  const initalState = { email: "", password: "" }
   const [userLogin, setUserLogin] = useState(initalState)
-  const { account, password } = userLogin
+  const { email, password } = userLogin
 
   const dispatch = useDispatch<TypedDispatch>()
 
@@ -26,12 +26,14 @@ const Login = () => {
 
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
+    console.log(userLogin)
+
     dispatch(login(userLogin))
   }
   const { auth } = useSelector((state: RootStore) => state)
-  // useEffect(() => {
-  //   if (auth.access_token) window.location.href = "/"
-  // }, [auth.access_token])
+  useEffect(() => {
+    if (auth.accessToken) window.location.href = "/"
+  }, [auth.accessToken])
   return (
     <>
       <Head>
@@ -51,10 +53,10 @@ const Login = () => {
               <form onSubmit={handleSubmit}>
                 <div className="flex flex-row items-center justify-center lg:justify-start">
                   <p className="text-lg mb-0 mr-4">Sign in with</p>
-                  <button>
+                  <button type="button" title="button">
                     <BsFacebook className="text-2xl text-blue-600 mr-2" />
                   </button>
-                  <button>
+                  <button type="button" title="button">
                     <FcGoogle className="text-2xl" />
                   </button>
                 </div>
@@ -68,10 +70,10 @@ const Login = () => {
                     type="text"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     placeholder="Email address"
-                    name="account"
-                    value={account}
+                    name="email"
+                    value={email}
                     onChange={handleChangeInput}
-                    autoComplete="username"
+                    autoComplete="email"
                   />
                 </div>
 

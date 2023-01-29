@@ -1,6 +1,5 @@
 package fit.se.models;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +9,9 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "bills")
-public class Bill implements Serializable {
+public class Bill {
 
 	@Id
 	private String bill_ID;
