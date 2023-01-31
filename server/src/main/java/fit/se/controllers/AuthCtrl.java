@@ -16,7 +16,6 @@ import fit.se.models.User;
 import fit.se.services.AuthService;
 import fit.se.services.UserService;
 import fit.se.util.AuthenticationRequest;
-import fit.se.util.RefreshTokenRequest;
 import fit.se.util.ResponeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -77,9 +76,8 @@ public class AuthCtrl {
   }
 
   @GetMapping("/refresh")
-  public ResponseEntity<ResponeMessage> refreshToken(@RequestHeader("Authorization") RefreshTokenRequest req) {
-    System.out.println(req);
+  public ResponseEntity<ResponeMessage> refreshToken(@RequestHeader("Authorization") String token) {
     return ResponseEntity.status(HttpStatus.OK)
-        .body(new ResponeMessage("ok", "Refresh successfully", authService.refreshToken(req)));
+        .body(new ResponeMessage("ok", "Refresh token successfully", authService.refreshToken(token)));
   }
 }

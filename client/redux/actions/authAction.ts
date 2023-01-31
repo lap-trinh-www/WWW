@@ -12,6 +12,7 @@ export const login =
 
       const res = await postAPI("auth/login", userLogin)
       //cast res.data to IAuthType
+      console.log(res.data)
 
       dispatch({
         type: AUTH,
@@ -31,15 +32,17 @@ export const refreshToken =
     const logged = localStorage.getItem("logged")
 
     if (logged?.substring(0, 4) !== "user") return
-
     try {
-      const res = await getAPI("auth/refresh", logged.substring(6))
+      const res = await getAPI("auth/refresh", `${logged.substring(5)}`)
+
       dispatch({ type: AUTH, payload: res.data })
+
+      localStorage.setItem("logged", `user-${res.data.data.refreshToken}`)
 
       dispatch({ type: ALERT, payload: {} })
     } catch (err: any) {
       console.log(err)
-      localStorage.removeItem("logged")
+      // localStorage.removeItem("logged")
     }
   }
 export const logout =

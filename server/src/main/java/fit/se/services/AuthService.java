@@ -17,7 +17,6 @@ import fit.se.repository.RefreshTokenRepository;
 import fit.se.repository.UserRepository;
 import fit.se.util.AuthenticationRequest;
 import fit.se.util.AuthenticationResponse;
-import fit.se.util.RefreshTokenRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -129,7 +128,6 @@ public class AuthService {
     token.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)); // 30 days
     refreshTokenRepository.save(token);
 
-    System.out.println("User" + user);
     String accesToken = jwtService.generateAccessToken(user);
     return AuthenticationResponse.builder()
         .accessToken(accesToken)
@@ -137,11 +135,10 @@ public class AuthService {
         .build();
   }
 
-  public AuthenticationResponse refreshToken(RefreshTokenRequest request) {
+  public AuthenticationResponse refreshToken(String rfToken) {
 
-    var tokenOpt = refreshTokenRepository.findRefreshTokenByToken(request.getRefreshToken());
+    var tokenOpt = refreshTokenRepository.findRefreshTokenByToken(rfToken);
     User user = tokenOpt.get().getUser();
-
     if (user == null) {
       // refreshTokenRepository.delete(tokenOpt.get());
       // throw new IllegalArgumentException("Refresh token not found");
@@ -149,12 +146,13 @@ public class AuthService {
       return null;
     }
 
-    String token = jwtService.refreshToken(request.getRefreshToken());
+    String token = jwtService.refreshToken(rfToken);
     String accessToken = jwtService.generateAccessToken(user);
     return AuthenticationResponse.builder()
         .accessToken(accessToken)
         .refreshToken(token)
         .build();
+    // return null;
   }
 
 }
