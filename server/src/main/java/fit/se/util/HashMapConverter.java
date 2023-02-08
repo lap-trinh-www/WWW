@@ -1,7 +1,9 @@
 package fit.se.util;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class HashMapConverter {
   public static HashMap<String, Object> toHashMap(Object object) {
@@ -17,4 +19,12 @@ public abstract class HashMapConverter {
     return hashMap;
   }
 
+  public static List<HashMap<String, Object>> toListOf(List<?> list) {
+    List<HashMap<String, Object>> listOfHashMap = new ArrayList<>();
+    list.forEach(o -> {
+      HashMap<String, Object> item = toHashMap(o);
+      listOfHashMap.add(item);
+    });
+    return listOfHashMap;
+  }
 }

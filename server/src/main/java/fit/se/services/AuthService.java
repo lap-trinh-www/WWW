@@ -2,6 +2,7 @@ package fit.se.services;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,7 +22,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
-import net.bytebuddy.utility.RandomString;
 
 @Service
 @RequiredArgsConstructor
@@ -44,10 +44,11 @@ public class AuthService {
     String encodedPassword = passwordService.passwordEncoder().encode(user.getPassword());
     user.setPassword(encodedPassword);
 
-    String randomCode = RandomString.make(64);
-    user.setVerificationCode(randomCode);
+    UUID randomCode = UUID.randomUUID();
+    user.setVerificationCode(randomCode.toString());
     user.setEnabled(false);
     user.setRole(Role.USER);
+    System.out.println(user);
     userRepo.save(user);
     sendVerificationEmail(user, siteURL);
 
@@ -85,7 +86,6 @@ public class AuthService {
 
   public AuthenticationResponse verify(String verificationCode) {
     User user = userRepo.findByVerificationCode(verificationCode);
-
     if (user == null || !user.isEnabled()) {
       throw new IllegalArgumentException("Invalid code");
     } else {
@@ -113,26 +113,46 @@ public class AuthService {
     authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),
             request.getPassword()));
+    System.out.println(request);
     var user = userRepository.findByEmail(request.getEmail()).orElseThrow(
         () -> new IllegalArgumentException(
             "User with email " + request.getEmail() + " not found"));
     var tokenOpt = refreshTokenRepository.findByUser(user); // take refresh token from db
     if (!tokenOpt.isPresent()) {
-      refreshTokenRepository.delete(tokenOpt.get());
-      throw new IllegalArgumentException("Refresh token not found");
+      var refresh = RefreshToken
+          .builder()
+          .token(jwtService.generateRefreshToken(user))
+          .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+          .user(user)
+          .build();
+      refreshTokenRepository.save(refresh);
+      String accesToken = jwtService.generateAccessToken(user);
+      return AuthenticationResponse.builder()
+          .accessToken(accesToken)
+          .refreshToken(refresh.getToken())
+          .firstName(user.getFirstName())
+          .lastName(user.getLastName())
+          .avatar(user.getAvatar())
+          .email(user.getEmail())
+          .build();
+    } else {
+
+      var token = tokenOpt.get();
+      String newToken = jwtService.generateRefreshToken(user);
+      token.setToken(newToken);
+      token.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)); // 30 days
+      refreshTokenRepository.save(token);
+
+      String accesToken = jwtService.generateAccessToken(user);
+      return AuthenticationResponse.builder()
+          .accessToken(accesToken)
+          .refreshToken(newToken)
+          .firstName(user.getFirstName())
+          .lastName(user.getLastName())
+          .avatar(user.getAvatar())
+          .email(user.getEmail())
+          .build();
     }
-
-    var token = tokenOpt.get();
-    String newToken = jwtService.generateRefreshToken(user);
-    token.setToken(newToken);
-    token.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)); // 30 days
-    refreshTokenRepository.save(token);
-
-    String accesToken = jwtService.generateAccessToken(user);
-    return AuthenticationResponse.builder()
-        .accessToken(accesToken)
-        .refreshToken(newToken)
-        .build();
   }
 
   public AuthenticationResponse refreshToken(String rfToken) {
@@ -151,8 +171,17 @@ public class AuthService {
     return AuthenticationResponse.builder()
         .accessToken(accessToken)
         .refreshToken(token)
+        .firstName(user.getFirstName())
+        .lastName(user.getLastName())
+        .avatar(user.getAvatar())
+        .email(user.getEmail())
         .build();
-    // return null;
+  }
+
+  public void logout(String rfToken) {
+    var tokenOpt = refreshTokenRepository.findRefreshTokenByToken(rfToken);
+    refreshTokenRepository.delete(tokenOpt.get());
+
   }
 
 }

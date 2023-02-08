@@ -8,6 +8,12 @@ module.exports = {
 
   theme: {
     extend: {
+      dropShadow: {
+        "2xl": "0 0 50px -12px rgba(0, 0, 0, 0.25)"
+      },
+      boxShadow: {
+        "2xl": "0 0 50px -12px rgba(0, 0, 0, 0.25)"
+      },
       variants: {
         width: ["responsive", "hover", "focus"]
       },

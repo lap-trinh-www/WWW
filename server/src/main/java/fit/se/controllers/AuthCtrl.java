@@ -41,7 +41,6 @@ public class AuthCtrl {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(new ResponeMessage("error", "User already exists", null));
       }
-
       authService.register(user, getSiteURL(request));
 
       return ResponseEntity.status(HttpStatus.CREATED)
@@ -49,7 +48,7 @@ public class AuthCtrl {
 
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(new ResponeMessage("error", "Internal server error", null));
+          .body(new ResponeMessage("error", "Internal server error", e.getMessage()));
     }
   }
 
@@ -60,24 +59,44 @@ public class AuthCtrl {
 
   @GetMapping("/verify")
   public ResponseEntity<ResponeMessage> verifyUser(@Param("code") String code) {
-    if (authService.verify(code) != null) {
-      return ResponseEntity.status(HttpStatus.OK)
-          .body(new ResponeMessage("ok", "Your account has been verified", authService.verify(code)));
-    } else {
+    try {
+      if (authService.verify(code) != null) {
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(new ResponeMessage("ok", "Your account has been verified", authService.verify(code)));
+      }
+    } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(new ResponeMessage("error", "Your account has been verified", null));
+          .body(new ResponeMessage("error", "Your account has been verified", e.getMessage()));
     }
+    return null;
   }
 
   @PostMapping("/login")
   public ResponseEntity<ResponeMessage> login(@RequestBody AuthenticationRequest request) {
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(new ResponeMessage("ok", "Login successfully", authService.login(request)));
+    try {
+
+      return ResponseEntity.status(HttpStatus.OK)
+          .body(new ResponeMessage("ok", "Login successfully", authService.login(request)));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(new ResponeMessage("error", "Login failed", e.getMessage()));
+    }
   }
 
   @GetMapping("/refresh")
   public ResponseEntity<ResponeMessage> refreshToken(@RequestHeader("Authorization") String token) {
     return ResponseEntity.status(HttpStatus.OK)
         .body(new ResponeMessage("ok", "Refresh token successfully", authService.refreshToken(token)));
+  }
+
+  @GetMapping("/logout")
+  public ResponseEntity<ResponeMessage> logout(@RequestHeader("Authorization") String token) {
+    try {
+      authService.logout(token.substring(7));
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "Logout successfully", null));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Internal server error", e.getMessage()));
+    }
   }
 }

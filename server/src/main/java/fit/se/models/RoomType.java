@@ -8,8 +8,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "roomType")
 public class RoomType {
 	@Id
