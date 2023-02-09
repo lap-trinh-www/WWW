@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,39 +18,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fit.se.models.User;
-import fit.se.services.UserService;
+import fit.se.dto.RoomDTO;
+import fit.se.models.Room;
+import fit.se.services.RoomService;
 import fit.se.util.HashMapConverter;
 import fit.se.util.ResponeMessage;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("api/rooms")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class UserCtrl {
+public class RoomCtrl {
+
   @Autowired
-  private UserService userService;
+  private RoomService roomService;
 
   @GetMapping(value = {
       "", "/"
   })
-  public ResponseEntity<ResponeMessage> getUsers() throws InterruptedException, ExecutionException {
+  public ResponseEntity<ResponeMessage> getRoom() {
     try {
-      List<Map<String, Object>> usersMap = new ArrayList<>();
-      List<User> users = userService.getUsers();
-      for (User user : users) {
-        HashMap<String, Object> response = HashMapConverter.toHashMap(user);
-        System.out.println(response);
-        response.remove("password");
-        response.remove("refreshToken");
-        response.remove("verificationCode");
-        response.remove("bills");
-        response.remove("enabled");
+      List<RoomDTO> roomDTOs = roomService.getRooms();
+      List<Map<String, Object>> roomMaps = new ArrayList<>();
 
-        usersMap.add(response);
+      for (RoomDTO roomDTO : roomDTOs) {
+        HashMap<String, Object> response = HashMapConverter.toHashMap(roomDTO);
+        response.remove("bills");
+        roomMaps.add(response);
       }
 
-      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", usersMap));
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", roomMaps));
     } catch (Exception e) {
+      // TODO: handle exception
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -62,9 +59,10 @@ public class UserCtrl {
       "application/json",
       "application/x-www-form-urlencoded"
   })
-  public ResponseEntity<ResponeMessage> addUser(@RequestBody User user) {
+  public ResponseEntity<ResponeMessage> addRoom(@RequestBody Room room) {
+
     try {
-      userService.addUser(user);
+      roomService.addRoom(room);
 
       return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
     } catch (Exception e) {
@@ -73,15 +71,16 @@ public class UserCtrl {
     }
   }
 
-  @GetMapping("/{userId}")
-  public ResponseEntity<ResponeMessage> getUser(@PathVariable String userId) {
+  @GetMapping("/{roomId}")
+  public ResponseEntity<ResponeMessage> getRoomById(@PathVariable String roomId) {
     try {
-      User user = userService.getUser(userId);
-      if (user == null) {
+      RoomDTO roomDTO = roomService.getRoom(roomId);
+
+      if (roomDTO == null) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
-      HashMap<String, Object> response = HashMapConverter.toHashMap(user);
-      response.remove("password");
+      HashMap<String, Object> response = HashMapConverter.toHashMap(roomDTO);
+      response.remove("bills");
       return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", response));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -95,33 +94,33 @@ public class UserCtrl {
       "application/json",
       "application/x-www-form-urlencoded"
   })
-  public ResponseEntity<ResponeMessage> updateUser(@RequestBody User newUser) {
-
+  public ResponseEntity<ResponeMessage> updateRoom(@RequestBody Room newRoom) {
     try {
-      User user = userService.getUser(newUser.getId());
-      if (user == null) {
+      RoomDTO roomDTO = roomService.getRoom(newRoom.getRoom_ID());
+      if (roomDTO == null) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
-      userService.updateUser(user, newUser);
-      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", newUser));
-    } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(new ResponeMessage("error", "Not found", e.getMessage()));
-    }
-  }
-
-  @DeleteMapping("/{userId}")
-  public ResponseEntity<ResponeMessage> deleteUser(@PathVariable String userId) {
-    try {
-      User user = userService.getUser(userId);
-      if (user == null) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
-      userService.deleteUser(userId);
+      roomService.updateRoom(newRoom);
       return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(new ResponeMessage("error", "Not found", e.getMessage()));
     }
   }
+
+  @DeleteMapping("/{roomId}")
+  public ResponseEntity<ResponeMessage> deleteRoom(@PathVariable String roomId) {
+    try {
+      RoomDTO roomDTO = roomService.getRoom(roomId);
+      if (roomDTO == null) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+      roomService.deleteRoom(roomId);
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
+    }
+  }
+
 }

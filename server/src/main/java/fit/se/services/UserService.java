@@ -45,17 +45,13 @@ public class UserService {
     return user;
   }
 
-  public boolean updateUser(User user) {
-    User newUser = userRepo.findById(user.getId()).orElse(null);
-    if (Objects.nonNull(newUser)) {
-      if (newUser.getRole() == null) {
-        newUser.setRole(Role.USER);
-      }
-      if (user.getRole().toString() == "ADMIN") {
-        newUser.setRole(Role.ADMIN);
-      }
-      newUser.setEnabled(true);
-      userRepo.save(newUser);
+  public boolean updateUser(User oldUser, User user) {
+    if (Objects.nonNull(user)) {
+      user.setRole(oldUser.getRole());
+      user.setEnabled(true);
+      user.setPassword(passwordService.passwordEncoder().encode(user.getPassword()));
+
+      userRepo.save(user);
       return true;
     }
     return false;

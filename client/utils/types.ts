@@ -12,7 +12,7 @@ export type Handler = MouseEventHandler<HTMLHeadingElement>
 
 export type FormSubmit = FormEvent<HTMLFormElement>
 export type InputChange = ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLSelectElement
 >
 export interface IAlert {
   loading?: boolean
@@ -35,26 +35,26 @@ export interface IUser extends IUserLogin {
   avatar: string
   phone: string
   status: boolean
-  bills?: IBill[]
-  enabled?: boolean
   id: string
   role: string
 }
 
 export interface IRoom {
-  _id: number
-  name: string
+  room_ID: string
+  room_name: string
   price: number
-  limited: string
+  limitQuantity: string
   description: string
   acreage: number
   images: string[]
   star: number
-  services: IService[]
+  service?: IService[]
+  services?: string[]
+  roomType: IRoomType
 }
 
 export interface IService {
-  _id: number
+  id: string
   name: string
 }
 export interface IIMg {
@@ -77,14 +77,25 @@ export interface IBillDetail {
 }
 
 export interface IBill {
-  _id: number
+  id: string
   date: Date
   total: number
 }
 
-export interface IModal {
-  title: string
-  thumbnail?: string | File
+export interface IRoomType {
+  type_ID: string
+  name: string
+  type: string
+}
+
+interface INameTypeRoom {
+  id: string
+  name: string
+}
+export interface IRoomTypeConvert {
+  id?: string
+  type: string
+  names: INameTypeRoom[]
 }
 
 export type StorageType = "session" | "local"

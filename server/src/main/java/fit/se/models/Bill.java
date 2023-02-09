@@ -19,7 +19,7 @@ public class Bill {
 	private long total;
 
 	@ManyToOne
-	@JoinColumn(name = "user_ID", columnDefinition = "nvarchar(20)")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@OneToMany(mappedBy = "bills")
