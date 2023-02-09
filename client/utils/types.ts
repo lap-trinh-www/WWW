@@ -22,7 +22,7 @@ export interface IAlert {
 
 export interface IUserLogin {
   email: string
-  password: string
+  password?: string
 }
 export interface IUserRegister extends IUserLogin {
   name: string
@@ -30,12 +30,12 @@ export interface IUserRegister extends IUserLogin {
 }
 
 export interface IUser extends IUserLogin {
-  _id: string
-  name: string
+  firstName: string
+  lastName: string
   avatar: string
-  type: string
-  updatedAt: string
-  createdAt: string
+  email: string
+  phone: string
+  status: boolean
 }
 
 export interface IRoom {

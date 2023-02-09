@@ -1,8 +1,12 @@
+import Image from "next/image"
 import Link from "next/link"
 import React from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 import { BiUserCircle } from "react-icons/bi"
+import { useSelector } from "react-redux"
+import { RootStore } from "../utils/types"
 const Header = () => {
+  const { auth } = useSelector((state: RootStore) => state)
   return (
     <nav className="flex justify-between bg-white items-center border-gray-200 px-10 py-2.5 shadow-md">
       <Link href="/" className="flex items-center">
@@ -28,11 +32,35 @@ const Header = () => {
           />
         </div>
       </div>
-      <div className="w-10 h-10 flex items-center justify-center">
+      {auth.data?.accessToken ? (
+        <div className="w-10 h-10 flex items-center justify-center  relative group cursor-pointer">
+          <img
+            src={auth.data.avatar}
+            alt={auth.data.firstName}
+            className="w-10 h-10 rounded-full bg-contain sm:h-9"
+          />
+          <ul className="mb-8 space-y-4 group-hover:text-black hidden show group-hover:w-48 group-hover:h-fit group-hover:bg-white group-hover:-left-32 group-hover:before:left-36 group-hover:shadow-[0_0_30px_-15px_rgb(0,0,0)] group-hover:before:border-b-white group-hover:after:h-8 group-hover:after:w-28 group-hover:after:absolute group-hover:after:-top-5 group-hover:after:left-20">
+            <li className="text-lg text-gray-500 hover:text-black">
+              <span>Tài khoản của tôi</span>
+            </li>
+            <li className="text-lg text-gray-500 hover:text-black">
+              <span>Đơn đặt</span>
+            </li>
+            <li className="text-lg text-gray-500 hover:text-black">
+              <span>Đăng xuất</span>
+            </li>
+          </ul>
+        </div>
+      ) : (
         <Link href={`/login`} className="text-5xl cursor-pointer">
-          <BiUserCircle />
+          <button
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex mx-auto"
+            type="button"
+          >
+            Đăng nhập
+          </button>
         </Link>
-      </div>
+      )}
     </nav>
   )
 }

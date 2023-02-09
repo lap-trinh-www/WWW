@@ -8,7 +8,11 @@ import "react-date-range/dist/theme/default.css"
 import "aos/dist/aos.css"
 import "react-day-picker/dist/style.css"
 import { RootStore } from "../utils/types"
+import { SessionProvider } from "next-auth/react"
+import { useState } from "react"
 function MyApp({ Component, pageProps }: AppProps) {
+  const [interval, setInterval] = useState(0)
+  console.log(pageProps)
   return (
     <Provider store={store}>
       <Alert />

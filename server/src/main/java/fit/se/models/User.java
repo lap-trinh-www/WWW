@@ -19,7 +19,7 @@ import lombok.*;
 public class User implements UserDetails {
 
 	@Id
-	@Column(columnDefinition = "nvarchar(20)", name = "user_id")
+	@Column(name = "user_id")
 	private String id;
 
 	@Column(columnDefinition = "nvarchar(20)")
@@ -34,7 +34,7 @@ public class User implements UserDetails {
 	@Column(columnDefinition = "nvarchar(20)")
 	private String phone;
 
-	@Column(columnDefinition = "nvarchar(20)")
+	@Column(columnDefinition = "text")
 	private String avatar;
 
 	private boolean status;

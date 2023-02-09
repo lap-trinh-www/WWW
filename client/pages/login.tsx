@@ -26,14 +26,13 @@ const Login = () => {
 
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
-    console.log(userLogin)
 
     dispatch(login(userLogin))
   }
   const { auth } = useSelector((state: RootStore) => state)
-  useEffect(() => {
-    if (auth.accessToken) window.location.href = "/"
-  }, [auth.accessToken])
+  // useEffect(() => {
+  //   if (auth.data?.accessToken) window.location.href = "/"
+  // }, [auth.data?.accessToken])
   return (
     <>
       <Head>

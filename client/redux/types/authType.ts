@@ -1,10 +1,20 @@
+import { IUser } from "../../utils/types"
+
 export const AUTH = "AUTH"
 
+interface IData {
+  accessToken: string
+  refreshToken: string
+  firstName: string
+  lastName: string
+  avatar: string
+  email: string
+}
+
 export interface IAuth {
-  msg?: string
-  accessToken?: string
-  refreshToken?: string
-  user?: any
+  massage?: string
+  data?: IData
+  status?: string
 }
 
 export interface IAuthType {

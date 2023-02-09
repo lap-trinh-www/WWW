@@ -38,14 +38,6 @@ const Home: NextPage = () => {
   useEffect(() => {
     dispatch(refreshToken())
   }, [dispatch])
-
-  const { auth } = useSelector((state: RootStore) => state)
-  // useEffect(() => {
-  //   if (!auth.accessToken) {
-  //     router.push("/login")
-  //   }
-  // }, [auth.accessToken])
-
   return (
     <>
       <Head>
@@ -89,7 +81,10 @@ const Home: NextPage = () => {
                   <h2 className="text-4xl font-bold text-white my-2">sale</h2>
                   <h2 className="text-4xl font-bold text-white my-2">-50%</h2>
                   <Link href={`room/${item._id}`}>
-                    <button className="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 mt-8 border border-white hover:border-transparent rounded animate-bounce">
+                    <button
+                      className="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 mt-8 border border-white hover:border-transparent rounded animate-bounce"
+                      type="button"
+                    >
                       book now
                     </button>
                   </Link>

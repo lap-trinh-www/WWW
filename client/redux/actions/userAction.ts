@@ -1,16 +1,13 @@
 import { AUTH, IAuthType } from "./../types/authType"
 import { Dispatch } from "react"
-import { IUserLogin, IUserRegister } from "./../../utils/types"
+import { IUser, IUserLogin, IUserRegister } from "./../../utils/types"
 import { getAPI, postAPI } from "../../utils/fecthData"
 import { validRegister } from "../../utils/valid"
 import { ALERT, IAlertType } from "../types/alertType"
-export const login =
-  (userLogin: IUserLogin) =>
-  async (dispatch: Dispatch<IAuthType | IAlertType>) => {
+export const getUsers =
+  (userLogin: IUser) => async (dispatch: Dispatch<IAuthType | IAlertType>) => {
     try {
-      dispatch({ type: ALERT, payload: { loading: true } })
-
-      const res = await postAPI("auth/login", userLogin)
+      const res = await postAPI("users", userLogin)
       dispatch({
         type: AUTH,
         payload: res.data
@@ -67,6 +64,18 @@ export const register =
         return
       } else window.location.href = "/"
 
+      dispatch({ type: ALERT, payload: { success: res.data.message } })
+    } catch (err: any) {
+      dispatch({ type: ALERT, payload: { errors: err.response.data.message } })
+    }
+  }
+
+export const updateUser =
+  (user: IUser) => async (dispatch: Dispatch<IAuthType | IAlertType>) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } })
+
+      const res = await postAPI("auth/update", user)
       dispatch({ type: ALERT, payload: { success: res.data.message } })
     } catch (err: any) {
       dispatch({ type: ALERT, payload: { errors: err.response.data.message } })

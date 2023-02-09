@@ -1,15 +1,15 @@
-package fit.se.util;
+// package fit.se.util;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+// import lombok.AllArgsConstructor;
+// import lombok.Builder;
+// import lombok.Data;
+// import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class RefreshTokenRequest {
-  private String refreshToken;
+// @Data
+// @Builder
+// @NoArgsConstructor
+// @AllArgsConstructor
+// public class RefreshTokenRequest {
+// private String refreshToken;
 
-}
+// }
