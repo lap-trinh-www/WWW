@@ -69,3 +69,15 @@ export const register =
       dispatch({ type: ALERT, payload: { errors: err.response.data.message } })
     }
   }
+
+export const updateUser =
+  (user: IUser) => async (dispatch: Dispatch<IAuthType | IAlertType>) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } })
+
+      const res = await postAPI("auth/update", user)
+      dispatch({ type: ALERT, payload: { success: res.data.message } })
+    } catch (err: any) {
+      dispatch({ type: ALERT, payload: { errors: err.response.data.message } })
+    }
+  }

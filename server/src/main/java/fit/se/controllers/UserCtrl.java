@@ -1,6 +1,5 @@
 package fit.se.controllers;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,7 @@ public class UserCtrl {
       "", "/"
   })
   // bug: get all user but not return data for client
-  public ResponseEntity<List<Map<String, Object>>> getUsers() throws InterruptedException, ExecutionException {
+  public ResponseEntity<ResponeMessage> getUsers() throws InterruptedException, ExecutionException {
     try {
       List<Map<String, Object>> usersMap = new ArrayList<>();
       List<User> users = userService.getUsers();
@@ -46,8 +45,7 @@ public class UserCtrl {
         usersMap.add(response);
       }
 
-      System.out.println(usersMap);
-      return new ResponseEntity<>(usersMap, HttpStatus.OK);
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", usersMap));
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ import lombok.var;
 public class Jwtservice {
   // * encryption 256-bit
   private static final String SECRET_KEY = "7A25432A462D4A614E645267556B58703273357638792F423F4428472B4B6250";
-
-  private final RefreshTokenRepository refreshTokenRepository;
+  @Autowired
+  private RefreshTokenRepository refreshTokenRepository;
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
