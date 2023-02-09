@@ -204,7 +204,7 @@ const Booking = () => {
       </div>
       <div className="col-span-3 space-y-16 ">
         {roomImage.map((item, index) => (
-          <div className="grid grid-cols-3">
+          <div className="grid grid-cols-3" key={item._id}>
             <Image
               src={item.images[0]}
               alt={item.description}

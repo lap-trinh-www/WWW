@@ -22,7 +22,7 @@ export interface IAlert {
 
 export interface IUserLogin {
   email: string
-  password: string
+  password?: string
 }
 export interface IUserRegister extends IUserLogin {
   name: string
@@ -30,12 +30,15 @@ export interface IUserRegister extends IUserLogin {
 }
 
 export interface IUser extends IUserLogin {
-  _id: string
-  name: string
+  firstName: string
+  lastName: string
   avatar: string
-  type: string
-  updatedAt: string
-  createdAt: string
+  phone: string
+  status: boolean
+  bills?: IBill[]
+  enabled?: boolean
+  id: string
+  role: string
 }
 
 export interface IRoom {
@@ -48,16 +51,6 @@ export interface IRoom {
   images: string[]
   star: number
   services: IService[]
-}
-export interface IUser2 extends IUserLogin {
-  id: number
-  name: string
-  username: string
-  email: string
-  address?: object
-  phone: string
-  website: string
-  company?: object
 }
 
 export interface IService {
@@ -87,6 +80,11 @@ export interface IBill {
   _id: number
   date: Date
   total: number
+}
+
+export interface IModal {
+  title: string
+  thumbnail?: string | File
 }
 
 export type StorageType = "session" | "local"

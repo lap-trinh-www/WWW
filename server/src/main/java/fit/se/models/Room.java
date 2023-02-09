@@ -2,8 +2,18 @@ package fit.se.models;
 
 import java.util.List;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
@@ -14,12 +24,19 @@ public class Room {
 	@Id
 	private String room_ID;
 	private String roomName;
-	private String imgaes;
+	@ElementCollection
+	@CollectionTable(name = "images", joinColumns = @JoinColumn(name = "room_ID"))
+	@Column(name = "image", nullable = false)
+	private List<String> images;
 	private int limitQuantity;
-	private String vote;
+	private int vote;
 	private int acreage;
-	private String defaultService;
+	@ElementCollection
+	@CollectionTable(name = "services", joinColumns = @JoinColumn(name = "room_ID"))
+	@Column(name = "service", nullable = false)
+	private List<String> services;
 	private String description;
+	private double price;
 
 	@ManyToOne
 	@JoinColumn(name = "type_ID")
@@ -27,5 +44,14 @@ public class Room {
 
 	@OneToMany(mappedBy = "rooms")
 	private List<BillDetail> bills;
+
+	// @Override
+	// public String toString() {
+	// return "Room [room_ID=" + room_ID + ", roomName=" + roomName + ", images=" +
+	// images + ", limitQuantity="
+	// + limitQuantity + ", vote=" + vote + ", acreage=" + acreage + ", services=" +
+	// services + ", description="
+	// + description + ", price=" + price + ", roomType=" + roomType + "]";
+	// }
 
 }
