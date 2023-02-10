@@ -31,9 +31,12 @@ public class SecurityConfiguration {
         .permitAll()
         .requestMatchers("/api/users/**")
         .permitAll()
+        .requestMatchers("/api/rooms/**")
+        .permitAll()
+        .requestMatchers("/api/roomTypes/**")
+        .permitAll()
         .anyRequest()
         .authenticated()
-
         .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
