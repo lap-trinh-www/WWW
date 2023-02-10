@@ -1,4 +1,4 @@
-package fit.se.services;
+  package fit.se.services;
 
 import java.util.List;
 import java.util.Objects;
@@ -68,5 +68,14 @@ public class UserService {
     }
     return false;
   }
-
+  
+  public boolean changePassword(String id, String password) {
+    User user = userRepo.findById(id).orElse(null);
+    if (Objects.nonNull(user)) {
+      user.setPassword(passwordService.passwordEncoder().encode(password));
+      userRepo.save(user);
+      return true;
+    }
+    return false;
+  }
 }

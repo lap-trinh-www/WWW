@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fit.se.models.User;
+import fit.se.services.PasswordService;
 import fit.se.services.UserService;
 import fit.se.util.HashMapConverter;
 import fit.se.util.ResponeMessage;
@@ -31,6 +33,9 @@ import fit.se.util.ResponeMessage;
 public class UserCtrl {
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private PasswordService passwordService;
 
   @GetMapping(value = {
       "", "/"
@@ -117,6 +122,33 @@ public class UserCtrl {
       }
       userService.deleteUser(userId);
       return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
+    }
+  }
+
+  @PutMapping(value = {
+      "", "/change-password"
+  }, consumes = {
+      "application/json",
+      "application/x-www-form-urlencoded"
+  })
+  public ResponseEntity<ResponeMessage> changePassword(@Param("id") String id,
+      @Param("oldPassword") String oldPassword, @Param("password") String password) {
+    try {
+      User user = userService.getUser(id);
+
+      if (!passwordService.checkPassword(oldPassword, user.getPassword())) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ResponeMessage("error", "Not found", "Mật khẩu cũ không đúng"));
+      }
+      boolean result = userService.changePassword(id, password);
+      if (result == false) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok",
+          "success", null));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(new ResponeMessage("error", "Not found", e.getMessage()));
