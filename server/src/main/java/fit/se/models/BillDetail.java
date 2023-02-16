@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Data
 @Table(name = "billDetails")
+@IdClass(BillDetailPK.class)
 public class BillDetail {
 	@Id
 	@ManyToOne

@@ -67,7 +67,7 @@ public class BillDetailCtrl {
         }
     }
 
-    @GetMapping("/{roomId}")
+    @GetMapping("/{billId}")
   public ResponseEntity<ResponeMessage> getRoomById(@PathVariable String billId) {
     try {
       List<BillDetailDTO> billDetailDTOs = billDetailService.getBillDetailByBillId(billId);
