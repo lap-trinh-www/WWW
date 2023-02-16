@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -14,7 +16,7 @@ public class RoomType {
 	@Id
 	private String type_ID;
 	private String typeName;
-	private int quantityBed;
+	private String type;
 
 	@OneToMany(mappedBy = "roomType")
 	private List<Room> rooms;

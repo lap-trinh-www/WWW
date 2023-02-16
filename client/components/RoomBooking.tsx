@@ -61,7 +61,7 @@ const RoomBooking = ({ room, position }: Props) => {
       <br />
       <br />
       <p className="w-[22rem] text-lg mr-96">{room.description}</p>
-      <Link href={`room/${room._id}`}>
+      <Link href={`room/${room.id}`}>
         <button className="bg-black text-white font-semibold  py-4 px-16 mt-8 border  hover:-translate-y-2 transition-transform duration-200 ease-linear uppercase block mb-3">
           see details
         </button>

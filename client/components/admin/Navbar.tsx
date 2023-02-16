@@ -21,6 +21,7 @@ const Navbar = () => {
             required
           />
           <button
+            title="Search"
             type="submit"
             className="text-black absolute top-1/2 -translate-y-1/2 right-2 text-xl rounded-lg px-4 py"
           >
