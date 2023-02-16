@@ -39,6 +39,7 @@ public class Room {
 	@CollectionTable(name = "services", joinColumns = @JoinColumn(name = "room_ID"))
 	@Column(name = "service", nullable = false)
 	private List<String> services;
+	@Column(columnDefinition = "text")
 	private String description;
 	private double price;
 

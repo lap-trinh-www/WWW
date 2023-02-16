@@ -33,7 +33,7 @@ public class BillDetailService {
         return billDetailDTOs;
     }
     public BillDetailDTO addBillDetail(BillDetail newBillDetail){
-        BillDetail billDetail = billDetailRepository.findById(newBillDetail.getBills().getBill_ID()).orElse(null);
+        BillDetail billDetail = billDetailRepository.getBillDetail(newBillDetail.getBills().getBill_ID(), newBillDetail.getRooms().getRoom_ID());
         if(billDetail != null){
             billDetailRepository.save(billDetail);
             return convertEntityToDTO(newBillDetail);

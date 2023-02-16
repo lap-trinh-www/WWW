@@ -12,10 +12,10 @@ export const checkImage = (file: File) => {
 export const imageUpload = async (file: File) => {
   const formData = new FormData()
   formData.append("file", file)
-  formData.append("upload_preset", "o8jh14k9")
-  formData.append("cloud_name", "kuga")
+  formData.append("upload_preset", "lectmgy1")
+  formData.append("cloud_name", "dkh1ozkvt")
 
-  const res = await fetch("https://api.cloudinary.com/v1_1/kuga/upload", {
+  const res = await fetch("https://api.cloudinary.com/v1_1/dkh1ozkvt/upload", {
     method: "POST",
     body: formData
   })
