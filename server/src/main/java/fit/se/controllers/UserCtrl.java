@@ -34,16 +34,18 @@ public class UserCtrl {
   @GetMapping(value = {
       "", "/"
   })
-  // bug: get all user but not return data for client
   public ResponseEntity<ResponeMessage> getUsers() throws InterruptedException, ExecutionException {
     try {
       List<Map<String, Object>> usersMap = new ArrayList<>();
       List<User> users = userService.getUsers();
       for (User user : users) {
         HashMap<String, Object> response = HashMapConverter.toHashMap(user);
+        System.out.println(response);
         response.remove("password");
         response.remove("refreshToken");
         response.remove("verificationCode");
+        response.remove("bills");
+        response.remove("enabled");
 
         usersMap.add(response);
       }
@@ -94,13 +96,14 @@ public class UserCtrl {
       "application/x-www-form-urlencoded"
   })
   public ResponseEntity<ResponeMessage> updateUser(@RequestBody User newUser) {
+
     try {
       User user = userService.getUser(newUser.getId());
       if (user == null) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
-      userService.updateUser(newUser);
-      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
+      userService.updateUser(user, newUser);
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", newUser));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(new ResponeMessage("error", "Not found", e.getMessage()));

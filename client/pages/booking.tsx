@@ -204,14 +204,14 @@ const Booking = () => {
       </div>
       <div className="col-span-3 space-y-16 ">
         {roomImage.map((item, index) => (
-          <div className="grid grid-cols-3" key={item._id}>
+          <div className="grid grid-cols-3" key={item.room_ID}>
             <Image
               src={item.images[0]}
               alt={item.description}
               className="col-span-1 h-full w-full object-cover"
             />
             <div className="col-span-2 p-8">
-              <h1 className="font-medium text-3xl">{item.name}</h1>
+              <h1 className="font-medium text-3xl">{item.roomName}</h1>
               <br />
               <ul className="flex flex-row space-x-6">
                 <li className="flex items-center text-[#848484] text-lg">
@@ -221,7 +221,7 @@ const Booking = () => {
                 <li className="flex items-center text-[#848484] text-lg">
                   <HiOutlineUsers className="text-2xl mr-2" />
                   <span className="text-sm font-semibold">
-                    {item.limited} Guest
+                    {item.limitQuantity} Guest
                   </span>
                 </li>
                 <li className="flex items-center text-[#848484] text-lg">

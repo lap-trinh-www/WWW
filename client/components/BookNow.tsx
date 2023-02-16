@@ -89,7 +89,7 @@ const BookNow = ({ room, callback }: IProps) => {
               <ul className="flex justify-between w-full">
                 <li className="relative group cursor-pointer">
                   <div className="hidden show">A</div>
-                  <p className="text-xl font-semibold mb-2">{room.name}</p>
+                  <p className="text-xl font-semibold mb-2">{room.roomName}</p>
                   <div className="flex space-x-2">
                     <div className="bg-[#D2EEE1] text-green-500 flex items-center px-2 py-1 rounded-md font-bold text-xs">
                       <BsBookmarkCheck className="mr-1" /> Special Rate
@@ -366,9 +366,9 @@ const BookNow = ({ room, callback }: IProps) => {
             <div className="flex justify-between">
               <div>
                 <p className="flex items-center">
-                  {room.name} <ImWarning className="ml-1 text-cyan-400" />
+                  {room.roomName} <ImWarning className="ml-1 text-cyan-400" />
                 </p>
-                <span>{room.limited}</span>
+                <span>{room.limitQuantity}</span>
               </div>
               <div className="text-right">
                 <p>$ 1,462.93</p>

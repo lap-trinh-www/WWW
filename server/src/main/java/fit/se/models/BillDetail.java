@@ -9,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "billDetails")
 @IdClass(BillDetailPK.class)
+@Table(name = "billDetails")
 public class BillDetail {
 	@Id
 	@ManyToOne

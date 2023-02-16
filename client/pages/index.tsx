@@ -2,7 +2,7 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { CgShapeZigzag } from "react-icons/cg"
@@ -20,7 +20,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import AOS from "aos"
 
 import { roomImage, serviceImage } from "../utils/image"
-import { RootStore, TypedDispatch } from "../utils/types"
+import { IUser, RootStore, TypedDispatch } from "../utils/types"
 
 import Footer from "../components/Footer"
 import Header from "../components/Header"
@@ -29,7 +29,11 @@ import SlideShow from "../components/SlideShow"
 import Loading from "../components/alter/Loading"
 import { refreshToken } from "../redux/actions/authAction"
 import { useRouter } from "next/dist/client/router"
+import { getUsers } from "../redux/actions/userAction"
+import { useStorage } from "../utils/hooks"
+import { stringify } from "querystring"
 const Home: NextPage = () => {
+  const session = useStorage()
   const router = useRouter()
   useEffect(() => {
     AOS.init()
@@ -38,6 +42,18 @@ const Home: NextPage = () => {
   useEffect(() => {
     dispatch(refreshToken())
   }, [dispatch])
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(getUsers())
+    }, 5000)
+  }, [dispatch])
+
+  const { users } = useSelector((state: RootStore) => state)
+
+  const userString = JSON.stringify(users)
+  session.setItem("users", userString)
+
   return (
     <>
       <Head>
@@ -80,7 +96,7 @@ const Home: NextPage = () => {
                   </h2>
                   <h2 className="text-4xl font-bold text-white my-2">sale</h2>
                   <h2 className="text-4xl font-bold text-white my-2">-50%</h2>
-                  <Link href={`room/${item._id}`}>
+                  <Link href={`room/${item.room_ID}`}>
                     <button
                       className="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 mt-8 border border-white hover:border-transparent rounded animate-bounce"
                       type="button"
@@ -302,10 +318,10 @@ const Home: NextPage = () => {
             {roomImage.map((room) => {
               return (
                 <SwiperSlide
-                  key={room._id}
+                  key={room.room_ID}
                   className="swiper-slide flex-col bg-[#f0f0f0]"
                 >
-                  <Link href={`room/${room._id}`}>
+                  <Link href={`room/${room.room_ID}`}>
                     <Image
                       src={room.images[0]}
                       alt={room.description}
@@ -314,10 +330,10 @@ const Home: NextPage = () => {
                     <ul className="flex justify-between w-[95%] mt-4">
                       <li className="text-left">
                         <h1 className="font-semibold text-4xl mb-1">
-                          {room.name}
+                          {room.roomName}
                         </h1>
                         <span>
-                          {room.acreage} m2 / {room.limited}
+                          {room.acreage} m2 / {room.limitQuantity}
                         </span>
                       </li>
                       <li className="text-right">

@@ -1,12 +1,24 @@
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 import { BiUserCircle } from "react-icons/bi"
+import { BsCart3 } from "react-icons/bs"
 import { useSelector } from "react-redux"
 import { RootStore } from "../utils/types"
+import Cart from "./Cart"
 const Header = () => {
   const { auth } = useSelector((state: RootStore) => state)
+
+  const [openSlidebar, setOpenSlidebar] = useState(false)
+  useEffect(() => {
+    if (openSlidebar) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+  }, [openSlidebar])
+
   return (
     <nav className="flex justify-between bg-white items-center border-gray-200 px-10 py-2.5 shadow-md">
       <Link href="/" className="flex items-center">
@@ -50,17 +62,28 @@ const Header = () => {
               <span>Đăng xuất</span>
             </li>
           </ul>
+          <BsCart3 className="text-3xl cursor-pointer" />
         </div>
       ) : (
-        <Link href={`/login`} className="text-5xl cursor-pointer">
-          <button
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex mx-auto"
-            type="button"
-          >
-            Đăng nhập
-          </button>
-        </Link>
+        <div className="flex items-center space-x-4 relative">
+          <Link href={`/login`} className="text-5xl cursor-pointer">
+            <button
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex mx-auto"
+              type="button"
+            >
+              Đăng nhập
+            </button>
+          </Link>
+
+          <BsCart3
+            className="text-3xl cursor-pointer"
+            onClick={() => {
+              setOpenSlidebar(true)
+            }}
+          />
+        </div>
       )}
+      <Cart open={openSlidebar} setOpen={setOpenSlidebar} />
     </nav>
   )
 }

@@ -40,7 +40,7 @@ export default function Experience() {
             <SwiperSlide key={index} className="swiper-slide flex-col bg-black">
               <Link
                 className="pb-12 relative overflow-hidden group"
-                href={`experience/${exp._id}`}
+                href={`experience/${exp.id}`}
               >
                 <Image
                   src={exp.image}

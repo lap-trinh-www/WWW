@@ -50,5 +50,13 @@ public class Room {
 	@OneToMany(mappedBy = "rooms")
 	private List<BillDetail> bills;
 
+	// @Override
+	// public String toString() {
+	// return "Room [room_ID=" + room_ID + ", roomName=" + roomName + ", images=" +
+	// images + ", limitQuantity="
+	// + limitQuantity + ", vote=" + vote + ", acreage=" + acreage + ", services=" +
+	// services + ", description="
+	// + description + ", price=" + price + ", roomType=" + roomType + "]";
+	// }
 
 }

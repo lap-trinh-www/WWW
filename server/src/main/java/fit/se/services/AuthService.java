@@ -96,7 +96,6 @@ public class AuthService {
       user.setVerificationCode(null);
       user.setEnabled(true);
       userRepo.save(user);
-
       return AuthenticationResponse.builder().accessToken(token).refreshToken(refreshToken).build();
     }
   }

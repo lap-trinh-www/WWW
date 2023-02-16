@@ -1,4 +1,5 @@
-import { IRoom } from "./types"
+import { IRoom, IRoomType, IRoomTypeConvert } from "./types"
+import { v4 as uuidv4 } from "uuid"
 //init list image from assets
 export const listImage = [
   require("../assets/images/room1.jpg"),
@@ -22,10 +23,10 @@ export const BANNER_BOOKING = require("../assets/images/roomBooking/banner.jpg")
 
 export const roomImage: IRoom[] = [
   {
-    _id: 1,
-    name: "Superior Room",
+    room_ID: "1",
+    roomName: "Superior room",
     price: 199,
-    limited: "2 adults 1 children",
+    limitQuantity: "2 adults 1 children",
     description:
       "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
     acreage: 30,
@@ -37,13 +38,18 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room14.jpg")
     ],
     star: 5,
-    services: []
+    services: [],
+    roomType: {
+      type_ID: uuidv4(),
+      typeName: "Deluxe room",
+      type: "Deluxe"
+    }
   },
   {
-    _id: 2,
-    name: "Signature Room",
+    room_ID: "2",
+    roomName: "Signature room",
     price: 399,
-    limited: "3 adults 2 children",
+    limitQuantity: "3 adults 2 children",
     description:
       "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
     acreage: 70,
@@ -55,13 +61,18 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room24.jpg")
     ],
     star: 4,
-    services: []
+    services: [],
+    roomType: {
+      type_ID: uuidv4(),
+      typeName: "Deluxe room",
+      type: "Deluxe"
+    }
   },
   {
-    _id: 3,
-    name: "Deluxe Room",
+    room_ID: "3",
+    roomName: "Deluxe room",
     price: 299,
-    limited: "3 adults 1 children",
+    limitQuantity: "3 adults 1 children",
     description:
       "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
     acreage: 55,
@@ -73,13 +84,18 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room34.jpg")
     ],
     star: 4,
-    services: []
+    services: [],
+    roomType: {
+      type_ID: uuidv4(),
+      typeName: "Deluxe room",
+      type: "Deluxe"
+    }
   },
   {
-    _id: 4,
-    name: "Luxury Suite Room",
+    room_ID: "4",
+    roomName: "Luxury Suite room",
     price: 499,
-    limited: "4 adults 2 children",
+    limitQuantity: "4 adults 2 children",
     description:
       "Exercitation photo booth stumptown tote bag Banksy, elit small batch freegan sed. Craft beer elit seitan exercitation, photo booth et 8-bit kale chips proident chillwave deep v laborum. ",
     acreage: 120,
@@ -91,40 +107,45 @@ export const roomImage: IRoom[] = [
       require("../assets/images/roomBooking/room44.jpg")
     ],
     star: 2,
-    services: []
+    services: [],
+    roomType: {
+      type_ID: uuidv4(),
+      typeName: "Deluxe room",
+      type: "Deluxe"
+    }
   }
 ]
 export const listExperience = [
   {
-    _id: 1,
+    id: "1",
     image: require("../assets/images/experience/exp1.jpg"),
     title: "Spa & Massage",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
-    _id: 2,
+    id: "2",
     image: require("../assets/images/experience/exp2.jpg"),
     title: "Gourmet Trip",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
-    _id: 3,
+    id: "3",
     image: require("../assets/images/experience/exp3.jpg"),
     title: "Art break and relaxation",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
-    _id: 4,
+    id: "4",
     image: require("../assets/images/experience/exp4.jpg"),
     title: "Daily Clean Up",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo."
   },
   {
-    _id: 5,
+    id: "5",
     image: require("../assets/images/experience/exp5.jpg"),
     title: "Swimming Pool",
     content:
@@ -132,95 +153,54 @@ export const listExperience = [
   }
 ]
 
-export const listService = [
+export const listRoomType2: IRoomType[] = [
   {
-    _id: 1,
-    name: "Spa & Massage",
-    status: false
+    type_ID: "1",
+    typeName: "Single room",
+    type: "Occupancy"
   },
   {
-    _id: 2,
-    name: "Gourmet Trip",
-    status: false
+    type_ID: "2",
+    typeName: "Double room",
+    type: "Occupancy"
+  },
+
+  {
+    type_ID: "3",
+    typeName: "King",
+
+    type: "Bed"
+  },
+
+  {
+    type_ID: "4",
+    typeName: "Standard room",
+    type: "Layout"
   },
   {
-    _id: 3,
-    name: "Art break and relaxation",
-    status: false
+    type_ID: "5",
+    typeName: "Deluxe room",
+
+    type: "Layout"
   },
+
   {
-    _id: 4,
-    name: "Daily Clean Up",
-    status: false
-  },
-  {
-    _id: 5,
-    name: "Swimming Pool",
-    status: false
-  },
-  {
-    _id: 6,
-    name: "Spa & Massage",
-    status: false
-  },
-  {
-    _id: 7,
-    name: "Gourmet Trip",
-    status: false
-  },
-  {
-    _id: 8,
-    name: "Art break and relaxation",
-    status: false
-  },
-  {
-    _id: 9,
-    name: "Daily Clean Up",
-    status: false
-  },
-  {
-    _id: 10,
-    name: "Swimming Pool",
-    status: false
-  },
-  {
-    _id: 11,
-    name: "Spa & Massage",
-    status: false
-  },
-  {
-    _id: 12,
-    name: "Gourmet Trip",
-    status: false
-  },
-  {
-    _id: 13,
-    name: "Art break and relaxation",
-    status: false
-  },
-  {
-    _id: 14,
-    name: "Daily Clean Up",
-    status: false
-  },
-  {
-    _id: 15,
-    name: "Swimming Pool",
-    status: false
-  },
-  {
-    _id: 16,
-    name: "Spa & Massage",
-    status: false
-  },
-  {
-    _id: 17,
-    name: "Gourmet Trip",
-    status: false
-  },
-  {
-    _id: 18,
-    name: "Art break and relaxation",
-    status: false
+    type_ID: "6",
+    typeName: "Penhouse",
+    type: "Amenities"
   }
 ]
+
+export const output: IRoomTypeConvert[] = listRoomType2.reduce((acc, curr) => {
+  const existingType = acc.find((x) => x.type === curr.type)
+  if (existingType) {
+    existingType.names.push({ id: curr.type_ID, name: curr.typeName })
+  } else {
+    acc.push({
+      id: uuidv4(),
+      type: curr.type,
+      names: [{ id: curr.type_ID, name: curr.typeName }]
+    })
+  }
+  return acc
+}, [] as IRoomTypeConvert[])

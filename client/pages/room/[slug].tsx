@@ -19,7 +19,7 @@ const RoomDetail = () => {
   let scroll = 0
 
   const initialBillState: IBill = {
-    _id: 0,
+    id: "",
     date: new Date(),
     total: 0
   }
@@ -59,11 +59,9 @@ const RoomDetail = () => {
   }, 3000)
 
   const handleCallback = (childData?: IBillDetail) => {
-    console.log(childData)
     if (childData) {
       setBillDetails([...billDetails, childData])
     }
-    console.log(billDetails)
     if (billDetails.length > 0) {
       setItem("billDetails", JSON.stringify(billDetails))
     }
@@ -72,7 +70,7 @@ const RoomDetail = () => {
   return (
     <div>
       {roomImage.map((item, index) => {
-        if (item._id.toString() === slug) {
+        if (item.room_ID.toString() === slug) {
           return (
             <div key={index}>
               <div
