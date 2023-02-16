@@ -13,9 +13,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -45,13 +49,5 @@ public class Room {
 	@OneToMany(mappedBy = "rooms")
 	private List<BillDetail> bills;
 
-	// @Override
-	// public String toString() {
-	// return "Room [room_ID=" + room_ID + ", roomName=" + roomName + ", images=" +
-	// images + ", limitQuantity="
-	// + limitQuantity + ", vote=" + vote + ", acreage=" + acreage + ", services=" +
-	// services + ", description="
-	// + description + ", price=" + price + ", roomType=" + roomType + "]";
-	// }
 
 }

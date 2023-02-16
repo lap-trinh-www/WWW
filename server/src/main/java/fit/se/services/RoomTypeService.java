@@ -1,7 +1,6 @@
     package fit.se.services;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,11 @@ public class RoomTypeService {
 
     public RoomType addRoomType(RoomType newRoom) {
         RoomType roomType = roomTypeRepository.findById(newRoom.getType_ID()).orElse(null);
-        if(Objects.isNull(roomType)){
+        System.out.println(newRoom.getType_ID());
+        System.out.println(newRoom);
+        System.out.println(roomType);
+        if(roomType == null){
+          
             roomTypeRepository.save(newRoom);
             return newRoom;
         }

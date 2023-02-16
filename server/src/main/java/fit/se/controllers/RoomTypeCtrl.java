@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fit.se.models.RoomType;
-import fit.se.repository.RoomTypeRepository;
 import fit.se.services.RoomTypeService;
 import fit.se.util.HashMapConverter;
 import fit.se.util.ResponeMessage;

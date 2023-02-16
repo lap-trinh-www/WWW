@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -18,5 +20,6 @@ public class RoomType {
 
 	@OneToMany(mappedBy = "roomType")
 	private List<Room> rooms;
+
 
 }
