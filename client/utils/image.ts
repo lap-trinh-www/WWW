@@ -24,7 +24,7 @@ export const BANNER_BOOKING = require("../assets/images/roomBooking/banner.jpg")
 export const roomImage: IRoom[] = [
   {
     room_ID: "1",
-    room_name: "Superior room",
+    roomName: "Superior room",
     price: 199,
     limitQuantity: "2 adults 1 children",
     description:
@@ -41,13 +41,13 @@ export const roomImage: IRoom[] = [
     services: [],
     roomType: {
       type_ID: uuidv4(),
-      name: "Deluxe room",
+      typeName: "Deluxe room",
       type: "Deluxe"
     }
   },
   {
     room_ID: "2",
-    room_name: "Signature room",
+    roomName: "Signature room",
     price: 399,
     limitQuantity: "3 adults 2 children",
     description:
@@ -64,13 +64,13 @@ export const roomImage: IRoom[] = [
     services: [],
     roomType: {
       type_ID: uuidv4(),
-      name: "Deluxe room",
+      typeName: "Deluxe room",
       type: "Deluxe"
     }
   },
   {
     room_ID: "3",
-    room_name: "Deluxe room",
+    roomName: "Deluxe room",
     price: 299,
     limitQuantity: "3 adults 1 children",
     description:
@@ -87,13 +87,13 @@ export const roomImage: IRoom[] = [
     services: [],
     roomType: {
       type_ID: uuidv4(),
-      name: "Deluxe room",
+      typeName: "Deluxe room",
       type: "Deluxe"
     }
   },
   {
     room_ID: "4",
-    room_name: "Luxury Suite room",
+    roomName: "Luxury Suite room",
     price: 499,
     limitQuantity: "4 adults 2 children",
     description:
@@ -110,7 +110,7 @@ export const roomImage: IRoom[] = [
     services: [],
     roomType: {
       type_ID: uuidv4(),
-      name: "Deluxe room",
+      typeName: "Deluxe room",
       type: "Deluxe"
     }
   }
@@ -156,37 +156,37 @@ export const listExperience = [
 export const listRoomType2: IRoomType[] = [
   {
     type_ID: "1",
-    name: "Single room",
+    typeName: "Single room",
     type: "Occupancy"
   },
   {
     type_ID: "2",
-    name: "Double room",
+    typeName: "Double room",
     type: "Occupancy"
   },
 
   {
     type_ID: "3",
-    name: "King",
+    typeName: "King",
 
     type: "Bed"
   },
 
   {
     type_ID: "4",
-    name: "Standard room",
+    typeName: "Standard room",
     type: "Layout"
   },
   {
     type_ID: "5",
-    name: "Deluxe room",
+    typeName: "Deluxe room",
 
     type: "Layout"
   },
 
   {
     type_ID: "6",
-    name: "Penhouse",
+    typeName: "Penhouse",
     type: "Amenities"
   }
 ]
@@ -194,12 +194,12 @@ export const listRoomType2: IRoomType[] = [
 export const output: IRoomTypeConvert[] = listRoomType2.reduce((acc, curr) => {
   const existingType = acc.find((x) => x.type === curr.type)
   if (existingType) {
-    existingType.names.push({ id: curr.type_ID, name: curr.name })
+    existingType.names.push({ id: curr.type_ID, name: curr.typeName })
   } else {
     acc.push({
       id: uuidv4(),
       type: curr.type,
-      names: [{ id: curr.type_ID, name: curr.name }]
+      names: [{ id: curr.type_ID, name: curr.typeName }]
     })
   }
   return acc

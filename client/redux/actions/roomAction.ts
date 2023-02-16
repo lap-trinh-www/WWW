@@ -14,13 +14,13 @@ import { v4 as uuidv4 } from "uuid"
 export const getRooms =
   () => async (dispatch: Dispatch<IRoomType | IAlertType>) => {
     try {
-      // dispatch({ type: ALERT, payload: { loading: true } })
-      // const res = await getAPI("rooms")
-      // dispatch({
-      //   type: GET_ROOM,
-      //   payload: res.data.data
-      // })
-      // dispatch({ type: ALERT, payload: {} })
+      dispatch({ type: ALERT, payload: { loading: true } })
+      const res = await getAPI("rooms")
+      dispatch({
+        type: GET_ROOM,
+        payload: res.data.data
+      })
+      dispatch({ type: ALERT, payload: {} })
     } catch (error: any) {
       console.log(error)
     }

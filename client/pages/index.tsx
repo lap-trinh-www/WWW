@@ -330,7 +330,7 @@ const Home: NextPage = () => {
                     <ul className="flex justify-between w-[95%] mt-4">
                       <li className="text-left">
                         <h1 className="font-semibold text-4xl mb-1">
-                          {room.room_name}
+                          {room.roomName}
                         </h1>
                         <span>
                           {room.acreage} m2 / {room.limitQuantity}

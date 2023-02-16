@@ -48,8 +48,8 @@ public class RoomCtrl {
 
       return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", roomMaps));
     } catch (Exception e) {
-      // TODO: handle exception
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
     }
   }
 

@@ -211,7 +211,7 @@ const Booking = () => {
               className="col-span-1 h-full w-full object-cover"
             />
             <div className="col-span-2 p-8">
-              <h1 className="font-medium text-3xl">{item.room_name}</h1>
+              <h1 className="font-medium text-3xl">{item.roomName}</h1>
               <br />
               <ul className="flex flex-row space-x-6">
                 <li className="flex items-center text-[#848484] text-lg">

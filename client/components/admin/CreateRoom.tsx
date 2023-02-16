@@ -29,7 +29,7 @@ const CreateRoom = () => {
   )
   const initialState: IRoom = {
     room_ID: "",
-    room_name: "",
+    roomName: "",
     price: 0,
     limitQuantity: "",
     description: "",
@@ -40,7 +40,7 @@ const CreateRoom = () => {
 
     roomType: {
       type_ID: "",
-      name: "",
+      typeName: "",
       type: ""
     }
   }
@@ -77,7 +77,7 @@ const CreateRoom = () => {
     setNameRoomType(event.target.value)
     const roomTypeObj: IRoomType = {
       type_ID: event.target.value.split("-")[0],
-      name: event.target.value.split("-")[1],
+      typeName: event.target.value.split("-")[1],
       type: roomType
     }
     setRoom({ ...room, roomType: roomTypeObj })
@@ -107,7 +107,7 @@ const CreateRoom = () => {
   const handleSubmit = () => {
     const roomTypeObj: IRoomType = {
       type_ID: nameRoomType.split("-")[0],
-      name: nameRoomType.split("-")[1],
+      typeName: nameRoomType.split("-")[1],
       type: roomType
     }
     room.roomType = roomTypeObj
@@ -129,14 +129,14 @@ const CreateRoom = () => {
               className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
-              name="room_name"
-              value={room.room_name}
+              name="roomName"
+              value={room.roomName}
               onChange={handleChangeInput}
-              id="room_name"
+              id="roomName"
             />
             <label
               className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              htmlFor="room_name"
+              htmlFor="roomName"
             >
               Room name
             </label>

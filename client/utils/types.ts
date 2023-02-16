@@ -41,7 +41,7 @@ export interface IUser extends IUserLogin {
 
 export interface IRoom {
   room_ID: string
-  room_name: string
+  roomName: string
   price: number
   limitQuantity: string
   description: string
@@ -84,7 +84,7 @@ export interface IBill {
 
 export interface IRoomType {
   type_ID: string
-  name: string
+  typeName: string
   type: string
 }
 
