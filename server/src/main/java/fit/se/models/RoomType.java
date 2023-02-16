@@ -21,4 +21,5 @@ public class RoomType {
 	@OneToMany(mappedBy = "roomType")
 	private List<Room> rooms;
 
+
 }
