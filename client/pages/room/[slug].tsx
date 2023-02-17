@@ -10,8 +10,10 @@ import Loading from "../../components/alter/Loading"
 import BookNow from "../../components/BookNow"
 import Experience from "../../components/Experience"
 import Footer from "../../components/Footer"
-import { IBill, IBillDetail } from "../../utils/types"
+import { IBill, IBillDetail, RootStore, TypedDispatch } from "../../utils/types"
 import { useStorage } from "../../utils/hooks"
+import { useDispatch, useSelector } from "react-redux"
+import { getRooms } from "../../redux/actions/roomAction"
 
 const RoomDetail = () => {
   const { slug } = useRouter().query
@@ -66,19 +68,22 @@ const RoomDetail = () => {
       setItem("billDetails", JSON.stringify(billDetails))
     }
   }
-  //future use data in server
+  const dispatch = useDispatch<TypedDispatch>()
+
+  const { rooms } = useSelector((state: RootStore) => state)
+  console.log(rooms)
   return (
     <div>
-      {roomImage.map((item, index) => {
+      {rooms.map((item, index) => {
         if (item.room_ID.toString() === slug) {
           return (
             <div key={index}>
-              <div
-                style={{
-                  backgroundImage: `url('${item.images[0].default.src}')`
-                }}
-                className="bg-red-500 h-screen bg-cover bg-center relative bg-fixed "
-              >
+              <div className="h-screen bg-cover bg-center relative bg-fixed">
+                <img
+                  src={item.images[0]}
+                  alt=""
+                  className="absolute w-full h-full object-cover"
+                />
                 <div
                   className={`absolute text-white top-[247px] left-[170px]`}
                   style={{

@@ -2,7 +2,7 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { CgShapeZigzag } from "react-icons/cg"
@@ -20,21 +20,18 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import AOS from "aos"
 
 import { roomImage, serviceImage } from "../utils/image"
-import { IUser, RootStore, TypedDispatch } from "../utils/types"
+import { RootStore, TypedDispatch } from "../utils/types"
 
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import SlideShow from "../components/SlideShow"
 
-import Loading from "../components/alter/Loading"
 import { refreshToken } from "../redux/actions/authAction"
-import { useRouter } from "next/dist/client/router"
+import { getRooms } from "../redux/actions/roomAction"
 import { getUsers } from "../redux/actions/userAction"
 import { useStorage } from "../utils/hooks"
-import { stringify } from "querystring"
 const Home: NextPage = () => {
   const session = useStorage()
-  const router = useRouter()
   useEffect(() => {
     AOS.init()
   }, [])
@@ -53,6 +50,12 @@ const Home: NextPage = () => {
 
   const userString = JSON.stringify(users)
   session.setItem("users", userString)
+
+  useEffect(() => {
+    dispatch(getRooms())
+  }, [dispatch])
+
+  const { rooms } = useSelector((state: RootStore) => state)
 
   return (
     <>
@@ -315,17 +318,17 @@ const Home: NextPage = () => {
             modules={[FreeMode]}
             className="mySwiper mt-16"
           >
-            {roomImage.map((room) => {
+            {rooms.map((room) => {
               return (
                 <SwiperSlide
                   key={room.room_ID}
                   className="swiper-slide flex-col bg-[#f0f0f0]"
                 >
                   <Link href={`room/${room.room_ID}`}>
-                    <Image
+                    <img
                       src={room.images[0]}
                       alt={room.description}
-                      className="bg-fixed"
+                      className=" h-10 w-10 bg-cover"
                     />
                     <ul className="flex justify-between w-[95%] mt-4">
                       <li className="text-left">

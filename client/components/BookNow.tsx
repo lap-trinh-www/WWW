@@ -80,10 +80,10 @@ const BookNow = ({ room, callback }: IProps) => {
       <div className="col-span-7">
         <div className="grid grid-cols-6 space-x-10">
           <div className="col-span-4 grid grid-cols-5 bg-white border-2 shadow-lg rounded-xl overflow-hidden">
-            <Image
+            <img
               src={room.images[0]}
               alt={room.description}
-              className="bg-cover col-span-2 h-full"
+              className="col-span-2 h-full object-cover"
             />
             <div className="col-span-3 p-4">
               <ul className="flex justify-between w-full">

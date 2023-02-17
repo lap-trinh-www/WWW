@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class RoomDTO {
-  private String roomID;
+  private String room_ID;
   private String roomName;
   private List<String> images;
   private int limitQuantity;
@@ -26,7 +26,7 @@ public class RoomDTO {
 
   @Override
   public String toString() {
-    return "RoomDTO [roomID=" + roomID + ", roomName=" + roomName + ", images=" + images
+    return "RoomDTO [room_ID=" + room_ID + ", roomName=" + roomName + ", images=" + images
         + ", limitQuantity=" + limitQuantity + ", vote=" + vote + ", acreage=" + acreage + ", services="
         + services + ", description=" + description + ", price=" + price + ", roomType=" + type_ID + "]";
   }

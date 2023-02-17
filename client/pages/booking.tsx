@@ -7,18 +7,20 @@ import { FaTimes } from "react-icons/fa"
 import { HiOutlineUsers } from "react-icons/hi2"
 import { IoMdArrowDropdown } from "react-icons/io"
 import { SlSizeActual } from "react-icons/sl"
+import { useDispatch, useSelector } from "react-redux"
 import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
 import { useDate } from "../utils/hooks"
 import { roomImage } from "../utils/image"
+import { RootStore, TypedDispatch } from "../utils/types"
 
 const Booking = () => {
   const [checkin, setCheckin] = useState<Date>()
   const [toggleCheckIn, setToggleCheckIn] = useState(false)
   const [checkOut, setCheckOut] = useState<Date>()
   const [toggleCheckOut, setToggleCheckOut] = useState(false)
-  const [rooms, setRooms] = useState(1)
+  const [room, setRoom] = useState(1)
   const [adults, setAdults] = useState(1)
   const [children, setChildren] = useState(0)
 
@@ -38,8 +40,12 @@ const Booking = () => {
     return stars
   }
 
+  const dispatch = useDispatch<TypedDispatch>()
+  const { rooms } = useSelector((state: RootStore) => state)
+  console.log(rooms)
+
   return (
-    <div className="mx-52 grid grid-cols-4 h-32 space-x-4">
+    <div className="ml-40 mr-20 grid grid-cols-5 h-32 space-x-8">
       <div className="col-span-1 space-y-5">
         <h1 className="text-2xl text-[#0c0c0c] font-medium">
           Check Availability
@@ -111,27 +117,27 @@ const Booking = () => {
         </div>
         <ul className="h-[86x] w-64 bg-[#F5F5F5] p-4 rounded-lg space-y-4">
           <li className="flex justify-between items-center">
-            <span className="font-semibold">Rooms</span>
+            <span className="font-semibold">Room</span>
             <div>
               <button
                 className={
                   "text-black px-[10px] pb-[1px] text-lg rounded-full border-cyan-400 border-2" +
-                  (rooms === 1 ? " opacity-50 cursor-not-allowed" : "")
+                  (room === 1 ? " opacity-50 cursor-not-allowed" : "")
                 }
                 onClick={() => {
-                  if (rooms > 1) {
-                    setRooms(rooms - 1)
+                  if (room > 1) {
+                    setRoom(room - 1)
                   }
                 }}
               >
                 -
               </button>
-              <span className="px-2 mx-2">{rooms}</span>
+              <span className="px-2 mx-2">{room}</span>
               <button
                 className="text-black px-[8px] pb-[1px] text-lg rounded-full border-cyan-400 border-2"
                 onClick={() => {
-                  if (rooms < 5) {
-                    setRooms(rooms + 1)
+                  if (room < 5) {
+                    setRoom(room + 1)
                   }
                 }}
               >
@@ -202,13 +208,13 @@ const Booking = () => {
           SEARCH ROOM
         </button>
       </div>
-      <div className="col-span-3 space-y-16 ">
-        {roomImage.map((item, index) => (
+      <div className="col-span-4 space-y-16 ">
+        {rooms.map((item) => (
           <div className="grid grid-cols-3" key={item.room_ID}>
-            <Image
+            <img
               src={item.images[0]}
               alt={item.description}
-              className="col-span-1 h-full w-full object-cover"
+              className="col-span-1 h-full w-full bg-cover"
             />
             <div className="col-span-2 p-8">
               <h1 className="font-medium text-3xl">{item.roomName}</h1>

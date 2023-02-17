@@ -8,17 +8,24 @@ export const checkImage = (file: File) => {
     err = "Image type should be either png or jpeg"
   return err
 }
+export const imageUpload = async (files: File[]) => {
+  const images: string[] = []
 
-export const imageUpload = async (file: File) => {
-  const formData = new FormData()
-  formData.append("file", file)
-  formData.append("upload_preset", "lectmgy1")
-  formData.append("cloud_name", "dkh1ozkvt")
+  for (const file of files) {
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("upload_preset", "lectmgy1")
+    formData.append("cloud_name", "dkh1ozkvt")
 
-  const res = await fetch("https://api.cloudinary.com/v1_1/dkh1ozkvt/upload", {
-    method: "POST",
-    body: formData
-  })
-  const data = await res.json()
-  return { public_id: data.public_id, url: data.secure_url }
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dkh1ozkvt/upload",
+      {
+        method: "POST",
+        body: formData
+      }
+    )
+    const data = await res.json()
+    images.push(data.secure_url)
+  }
+  return images
 }

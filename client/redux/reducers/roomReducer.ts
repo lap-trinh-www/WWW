@@ -1,13 +1,11 @@
+import { IRoom } from "../../utils/types"
 import {
-  IRoomType,
-  GET_ROOM,
-  UPDATE_ROOM,
+  CREATE_ROOM,
   DELETE_ROOM,
-  CREATE_ROOM
+  GET_ROOM,
+  IRoomType,
+  UPDATE_ROOM
 } from "./../types/roomType"
-import { IRoom, IUser } from "../../utils/types"
-import { GET_USER, IUserType } from "../types/userType"
-import { DELETE_USER, UPDATE_USER } from "./../types/userType"
 
 const roomReducer = (state: IRoom[] = [], action: IRoomType): IRoom[] => {
   switch (action.type) {
@@ -17,7 +15,7 @@ const roomReducer = (state: IRoom[] = [], action: IRoomType): IRoom[] => {
       return [...state, action.payload]
     case UPDATE_ROOM:
       return state.map((room) =>
-        room.id === action.payload.id
+        room.room_ID === action.payload.room_ID
           ? {
               ...room,
               ...action.payload
@@ -25,7 +23,8 @@ const roomReducer = (state: IRoom[] = [], action: IRoomType): IRoom[] => {
           : room
       )
     case DELETE_ROOM:
-      return state.filter((user) => user.id !== action.payload.id)
+      console.log(action.payload)
+      return state.filter((room) => room.room_ID !== action.payload.room_ID)
     default:
       return state
   }

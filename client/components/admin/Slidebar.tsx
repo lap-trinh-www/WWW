@@ -35,13 +35,17 @@ const Slidebar = () => {
   return (
     <aside className="w-64 bg-black text-white h-[92vh] overflow-auto no-scrollbar pb-10 fixed top-[8%] z-20 xl:h-screen xl:top-14">
       <div className="py-4">
-        <ul className="space-y-2">
+        <ul className="">
           <li className={pathname === "/admin" ? "bg-[#FF0000]" : ""}>
             <Link
               href="/admin"
               className="pl-7 flex items-center p-2 text-xl font-normal group  hover:bg-[#FF0000] cursor-pointer]"
             >
-              <AiTwotoneHome className="text-[#ff0000] group-hover:text-white" />
+              <AiTwotoneHome
+                className={`${
+                  slug === "/admin" && "text-white "
+                } "text-[#ff0000] group-hover:text-white"`}
+              />
               <span className="ml-3">Dashboard</span>
             </Link>
           </li>
@@ -54,7 +58,11 @@ const Slidebar = () => {
                 href="/admin/users"
                 className="p-2 font-normal pl-7 flex items-center text-lg"
               >
-                <FaUserTie className="text-[#ff0000] group-hover:text-white" />
+                <FaUserTie
+                  className={`${
+                    slug === "users" && "text-white "
+                  } "text-[#ff0000] group-hover:text-white"`}
+                />
                 <span
                   className="flex-1 ml-3 text-left whitespace-nowrap"
                   sidebar-toggle-item="true"
@@ -75,7 +83,12 @@ const Slidebar = () => {
               aria-controls="dropdown-example"
               data-collapse-toggle="dropdown-example"
             >
-              <FaHotel className="text-[#ff0000] group-hover:text-white" />
+              <FaHotel
+                className={`${
+                  slug === "create-room" ||
+                  (slug === "list-room" && "text-white ")
+                } "text-[#ff0000] group-hover:text-white"`}
+              />
               <span
                 className="flex-1 ml-3 text-left whitespace-nowrap"
                 sidebar-toggle-item="true"
@@ -122,7 +135,11 @@ const Slidebar = () => {
               aria-controls="dropdown-example"
               data-collapse-toggle="dropdown-example"
             >
-              <TbBrandBooking className="text-[#ff0000] group-hover:text-white" />
+              <TbBrandBooking
+                className={`${
+                  slug === "bookings" && "text-white "
+                } "text-[#ff0000] group-hover:text-white"`}
+              />
               <span
                 className="flex-1 ml-3 text-left whitespace-nowrap"
                 sidebar-toggle-item="true"
@@ -161,7 +178,13 @@ const Slidebar = () => {
               aria-controls="dropdown-example"
               data-collapse-toggle="dropdown-example"
             >
-              <ImProfile className="text-[#ff0000] group-hover:text-white" />
+              <ImProfile
+                className={`${
+                  slug === "profile" ||
+                  slug === "edit-profile" ||
+                  (slug === "change-password" && "text-white ")
+                } "text-[#ff0000] group-hover:text-white"`}
+              />
               <span
                 className="flex-1 ml-3 text-left whitespace-nowrap"
                 sidebar-toggle-item="true"

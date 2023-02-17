@@ -70,15 +70,15 @@ export const updateRoom =
   }
 
 export const deleteRoom =
-  (Room: IRoom) => async (dispatch: Dispatch<IRoomType | IAlertType>) => {
+  (room: IRoom) => async (dispatch: Dispatch<IRoomType | IAlertType>) => {
     try {
       dispatch({ type: ALERT, payload: { loading: true } })
-
+      console.log(room)
       // const res = await postAPI("auth/update", Room)
 
       dispatch({
         type: DELETE_ROOM,
-        payload: Room
+        payload: room
       })
 
       dispatch({ type: ALERT, payload: { success: "Delete successfully" } })

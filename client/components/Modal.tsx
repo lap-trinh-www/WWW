@@ -43,7 +43,7 @@ export default function Modal({
   const CardInfo = ({ user }: { user: IUser }) => (
     <div className="flex items-center h-screen w-full justify-center">
       <div className="max-w-xs">
-        <div className="bg-white shadow-xl rounded-lg py-3 px-8 relative">
+        <div className="bg-white shadow-xl rounded-lg py-3 px-8 relative w-fit">
           <GrClose
             className="absolute right-3 text-2xl hover:bg-red-600 rounded-full cursor-pointer p-1"
             onClick={() => {

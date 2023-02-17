@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useDropzone } from "react-dropzone"
 import { AiOutlineCloseCircle, AiOutlineCloudUpload } from "react-icons/ai"
 import { useDispatch } from "react-redux"
-import { createRoom } from "../../redux/actions/roomAction"
 import { useStorage } from "../../utils/hooks"
 import { output } from "../../utils/image"
 import { imageUpload } from "../../utils/ImageUpload"
@@ -87,21 +87,44 @@ const CreateRoom = () => {
     const { name, value } = e.target
     setRoom({ ...room, [name]: value })
   }
-  const handleChangeThumbnail = (e: InputChange) => {
-    const target = e.target as HTMLInputElement
-    const files = target.files as FileList
-    const file = files[0]
-    if (file) setLoading(false)
-    imageUpload(file)
+  // const handleChangeThumbnail = (e: InputChange) => {
+  //   const target = e.target as HTMLInputElement
+  //   const files = target.files as FileList
+  //   const file = files[0]
+  //   if (file) setLoading(false)
+  //   imageUpload(file)
+  //     .then((res) => {
+  //       setRoom({ ...room, images: [...room.images, res.url] })
+  //       setLoading(true)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //       setLoading(false)
+  //     })
+  // }
+
+  const [success, setSuccess] = useState(true)
+  const [img, setImg] = useState<string[]>([])
+  const [files, setFiles] = useState<File[]>([])
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    imageUpload(acceptedFiles)
       .then((res) => {
-        setRoom({ ...room, images: [...room.images, res.url] })
+        setRoom({ ...room, images: [...room.images, ...res] })
         setLoading(true)
       })
       .catch((err) => {
         console.log(err)
         setLoading(false)
       })
-  }
+  }, [])
+  console.log(room)
+
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+    noClick: true,
+    noKeyboard: true,
+    onDrop
+  })
   const { setItem, getItem } = useStorage()
 
   const handleSubmit = () => {
@@ -113,10 +136,10 @@ const CreateRoom = () => {
     room.roomType = roomTypeObj
 
     setRoom(room)
-    if (room) {
-      dispatch(createRoom(room))
-      setRoom(initialState)
-    }
+    // if (room) {
+    //   dispatch(createRoom(room))
+    //   setRoom(initialState)
+    // }
   }
 
   return (
@@ -282,24 +305,38 @@ const CreateRoom = () => {
             })}
           </ul>
         </div>
-        <div className="w-[76rem] flex mt-4">
-          <div className="flex items-center justify-start">
-            <label className="flex flex-col items-center justify-center h-48 border-dashed border-2 border-sky-500 rounded-xl  cursor-pointer bg-gray-50 px-4">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <AiOutlineCloudUpload className="text-black text-9xl mx-auto" />
-                <p className="mb-2 text-sm text-gray-500">
-                  <span className="font-semibold">Click to upload</span>
-                </p>
-                <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF</p>
-              </div>
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleChangeThumbnail}
-              />
-            </label>
-          </div>
 
+        <br />
+        <br />
+        <div className="w-[76rem]">
+          <button
+            title="Upload"
+            className="border-2 rounded-xl border-dashed border-black w-full drag_drop_wrapper"
+            onClick={open}
+            type="button"
+            {...getRootProps()}
+          >
+            <div className="flex justify-center my-2">
+              <div>
+                <AiOutlineCloudUpload className="text-black text-9xl mx-auto" />
+                <div>
+                  <input {...getInputProps()} />
+                  {isDragActive ? (
+                    <p className="text-2xl font-semibold">
+                      Drop the photo here...
+                    </p>
+                  ) : (
+                    <p className="text-2xl font-semibold">
+                      Drop file here or click to upload
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </button>
+          {!loading && <LoadingSpin />}
+        </div>
+        <div className="w-[76rem] flex mt-4">
           <div className="space-x-4 ml-4 flex overflow-x-auto">
             {room.images?.map((image, index) => {
               return (
@@ -312,7 +349,7 @@ const CreateRoom = () => {
               )
             })}
           </div>
-          {!loading && <LoadingSpin />}
+          {/* {!loading && <LoadingSpin />} */}
         </div>
 
         <br />

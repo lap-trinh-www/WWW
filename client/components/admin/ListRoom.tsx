@@ -1,16 +1,10 @@
-import Image from "next/image"
-import { useState, useEffect } from "react"
-import { AiOutlineGift } from "react-icons/ai"
-import { BsBookmarkCheck } from "react-icons/bs"
-import { FaCity, FaSwimmer } from "react-icons/fa"
-import { IoIosFitness } from "react-icons/io"
-import { MdChair, MdOutlineYard } from "react-icons/md"
-import { TbMassage } from "react-icons/tb"
+import { useEffect, useState } from "react"
+import { AiOutlineEdit, AiOutlineGift } from "react-icons/ai"
+import { BsBookmarkCheck, BsFillTrashFill } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux"
-import { getRooms } from "../../redux/actions/roomAction"
-import { getUsers } from "../../redux/actions/userAction"
-import { roomImage } from "../../utils/image"
-import { IRoom, RootStore, TypedDispatch } from "../../utils/types"
+import { deleteRoom, getRooms } from "../../redux/actions/roomAction"
+import { RootStore, TypedDispatch } from "../../utils/types"
+import { listServices } from "../Services"
 
 const ListRoom = () => {
   // const [room, setRoom] = useState<IRoom>()
@@ -25,22 +19,16 @@ const ListRoom = () => {
 
   return (
     <div className="space-y-4">
-      {rooms.map((room, index) => {
+      {rooms.map((room) => {
         return (
           <div
-            key={index}
-            className="col-span-4 grid grid-cols-5 bg-white border-2 shadow-lg rounded-xl overflow-hidden"
+            key={room.room_ID}
+            className=" bg-white border-2 shadow-lg rounded-xl overflow-hidden flex"
           >
-            {/* <Image
-              src={room.images[0]}
-              alt={room.description}
-              className="bg-cover col-span-2 h-full w-10"
-            />
-             */}
             <img src={room.images[0]} alt="" className="w-64 h-64 bg-cover" />
-            <div className="col-span-3 p-4">
-              <ul className="flex justify-between w-full">
-                <li className="relative group cursor-pointer">
+            <div className="p-4 pl-12 w-[55rem]">
+              <ul className="flex justify-between">
+                <li className="relative group cursor-pointer mr-96">
                   <div className="hidden show">A</div>
                   <p className="text-xl font-semibold mb-2">{room.roomName}</p>
                   <div className="flex space-x-2">
@@ -52,7 +40,7 @@ const ListRoom = () => {
                     </div>
                   </div>
                 </li>
-                <li className="text-right">
+                <li className="text-right flex-1">
                   <p>
                     <span className="text-gray-400 line-through text-lg">
                       ${room.price + 100}
@@ -62,43 +50,48 @@ const ListRoom = () => {
                       ${room.price}
                     </span>
                   </p>
-                  <p className="text-gray-400 text-xs">1 Night, 2 Persons</p>
+                  <p className="text-gray-400 text-xs">
+                    {room.limitQuantity} persons
+                  </p>
                 </li>
               </ul>
               <br />
               <p>{room.description}</p>
               <br />
               <ul className="flex space-x-6 text-2xl text-gray-600 items-center">
-                <li className="relative group cursor-pointer">
-                  <div className="hidden show">A</div>
-                  <IoIosFitness />
-                </li>
-                <li className="relative group cursor-pointer">
-                  <div className="hidden show">A</div>
-                  <MdChair />
-                </li>
-                <li className="relative group cursor-pointer">
-                  <div className="hidden show">A</div>
-                  <FaSwimmer />
-                </li>
-                <li className="relative group cursor-pointer">
-                  <div className="hidden show">A</div>
-                  <TbMassage />
-                </li>
-                <li className="relative group cursor-pointer">
-                  <div className="hidden show">A</div>
-                  <MdOutlineYard />
-                </li>
-                <li className="relative group cursor-pointer">
-                  <div className="hidden show">A</div>
-                  <FaCity />
-                </li>
-                <li className="text-xs">+11 Amenities</li>
+                {listServices.map((service) => {
+                  return (
+                    room.services?.find((item) => service.name === item) && (
+                      <li className="relative group cursor-pointer">
+                        <div className="hidden show">{service.name}</div>
+                        {service.icon}
+                      </li>
+                    )
+                  )
+                })}
               </ul>
               <br />
-              <button className="float-right mb-2 md:mb-0 text-white bg-[#01A3C7] hover:bg-[#028ead] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-8 py-3 text-center">
-                RESERVE
-              </button>
+              <div className="">
+                <button
+                  className="float-right mb-2 md:mb-0 text-white bg-[#01A3C7] hover:bg-[#028ead] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm p-2 flex items-center"
+                  title="edit"
+                  type="button"
+                >
+                  <AiOutlineEdit className="text-white mr-1" />
+                  Edit
+                </button>
+                <button
+                  className="float-right mb-2 md:mb-0 text-white bg-[#c70101] hover:bg-[#e20303] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm p-2 flex items-center mr-4"
+                  title="edit"
+                  type="button"
+                  onClick={() => {
+                    dispatch(deleteRoom(room))
+                  }}
+                >
+                  <BsFillTrashFill className="text-white mr-1" />
+                  Remove
+                </button>
+              </div>
             </div>
           </div>
         )

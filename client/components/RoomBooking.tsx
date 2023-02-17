@@ -57,11 +57,13 @@ const RoomBooking = ({ room, position }: Props) => {
   const Info = () => (
     <div className="pl-24 mt-4">
       <div className="absolute top-12 left-24 w-14 h-[6px] bg-black"></div>
-      <h1 className="font-semibold text-[55px] leading-none">{room.name}</h1>
+      <h1 className="font-semibold text-[55px] leading-none">
+        {room.roomName}
+      </h1>
       <br />
       <br />
       <p className="w-[22rem] text-lg mr-96">{room.description}</p>
-      <Link href={`room/${room.id}`}>
+      <Link href={`room/${room.room_ID}`}>
         <button className="bg-black text-white font-semibold  py-4 px-16 mt-8 border  hover:-translate-y-2 transition-transform duration-200 ease-linear uppercase block mb-3">
           see details
         </button>
