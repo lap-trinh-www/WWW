@@ -12,6 +12,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { IRoom } from "../utils/types"
 import AOS from "aos"
 import { useEffect } from "react"
+import { listServices } from "./Services"
 interface Props {
   room: IRoom
   position: number
@@ -41,13 +42,13 @@ const RoomBooking = ({ room, position }: Props) => {
         if (index % 2 === 0) {
           return (
             <SwiperSlide key={index} style={{ width: "80%" }}>
-              <Image src={item} alt={item} />
+              <img src={item} alt={item} />
             </SwiperSlide>
           )
         } else
           return (
             <SwiperSlide key={index} style={{ width: "40%" }}>
-              <Image src={item} alt={item} />
+              <img src={item} alt={item} />
             </SwiperSlide>
           )
       })}
@@ -95,30 +96,16 @@ const RoomBooking = ({ room, position }: Props) => {
       </div>
 
       <ul className="flex flex-row space-x-28 justify-center pb-20">
-        <li className="flex flex-col items-center mb-6 ml-10">
-          <TfiHome className="text-5xl" />
-          <span className="text-sm font-semibold">{room.acreage} M2</span>
-        </li>
-        <li className="flex flex-col items-center mb-6">
-          <BiBed className="text-5xl" />
-          <span className="text-sm font-semibold">1 TWINS BED</span>
-        </li>
-        <li className="flex flex-col items-center mb-6">
-          <FaCity className="text-5xl" />
-          <span className="text-sm font-semibold">CITY NEW</span>
-        </li>
-        <li className="flex flex-col items-center mb-6">
-          <FaShower className="text-5xl" />
-          <span className="text-sm font-semibold">RAIN SHOWER</span>
-        </li>
-        <li className="flex flex-col items-center mb-6">
-          <ImDisplay className="text-5xl" />
-          <span className="text-sm font-semibold">TV + VOD</span>
-        </li>
-        <li className="flex flex-col items-center mb-6">
-          <BiWifi className="text-5xl" />
-          <span className="text-sm font-semibold">WIFI</span>
-        </li>
+        {listServices.map((service) => {
+          if (room.services?.includes(service.name)) {
+            return (
+              <li className="flex flex-col items-center mb-6 ml-10">
+                <span className="text-8xl text-gray-500">{service.icon}</span>
+                <span className="text-sm font-semibold">{service.name}</span>
+              </li>
+            )
+          }
+        })}
       </ul>
     </div>
   )

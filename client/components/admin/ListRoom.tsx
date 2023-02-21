@@ -25,7 +25,11 @@ const ListRoom = () => {
             key={room.room_ID}
             className=" bg-white border-2 shadow-lg rounded-xl overflow-hidden flex"
           >
-            <img src={room.images[0]} alt="" className="w-64 h-64 bg-cover" />
+            <img
+              src={room.images[0]}
+              alt=""
+              className="w-80 h-64 object-cover"
+            />
             <div className="p-4 pl-12 w-[55rem]">
               <ul className="flex justify-between">
                 <li className="relative group cursor-pointer mr-96">
@@ -40,7 +44,7 @@ const ListRoom = () => {
                     </div>
                   </div>
                 </li>
-                <li className="text-right flex-1">
+                <li className="">
                   <p>
                     <span className="text-gray-400 line-through text-lg">
                       ${room.price + 100}
@@ -71,7 +75,7 @@ const ListRoom = () => {
                 })}
               </ul>
               <br />
-              <div className="">
+              <div>
                 <button
                   className="float-right mb-2 md:mb-0 text-white bg-[#01A3C7] hover:bg-[#028ead] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm p-2 flex items-center"
                   title="edit"

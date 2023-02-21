@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios"
 import Link from "next/link"
-import React, { MouseEventHandler, useEffect, useState } from "react"
-import { AiOutlineCloseCircle } from "react-icons/ai"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { postAPI } from "../utils/fecthData"
 import { useStorage } from "../utils/hooks"
-import { IUser, RootStore } from "../utils/types"
+import { ICart, IRoom, RootStore } from "../utils/types"
 
 const API = "IklDGdI-QyOhnknSIY6w3ejoHuVBhNAWcqqHV9hmM2w"
 
@@ -17,31 +16,51 @@ interface IProps {
 const Cart = ({ open, setOpen }: IProps) => {
   const session = useStorage()
 
-  const [user, setUser] = useState<IUser[]>([])
+  const [cart, setCart] = useState<ICart[]>([])
 
   useEffect(() => {
-    if (session.getItem("users") !== null) {
-      setUser(JSON.parse(session.getItem("users")!))
+    if (session.getItem("carts") !== null) {
+      const carts = JSON.parse(session.getItem("carts")!)
+      setCart(carts)
     }
-  }, [session.getItem("users")])
+  }, [open])
 
   const { auth } = useSelector((state: RootStore) => state)
 
   const handleRemoveCartItemInSession = (id: string) => {
-    const users = JSON.parse(session.getItem("users")!)
-    const newUsers = users.filter((item: IUser) => item.id !== id)
-    session.setItem("users", JSON.stringify(newUsers))
-    setUser(newUsers)
+    const newCart = cart.map((item) => {
+      if (item.room_ID === id) {
+        item.quantity = item.quantity - 1
+      }
+      return item
+    })
+
+    const cartSave = newCart.filter((item) => item.quantity > 0)
+
+    session.setItem("carts", JSON.stringify(cartSave))
+    setCart(cartSave)
   }
+
+  const checkout = async () => {
+    // const carts = JSON.parse(session.getItem("carts")!)
+    // const res = await postAPI("order", { carts }, auth.data?.accessToken)
+    // if (res.data) {
+    //   session.removeItem("carts")
+    //   setCart([])
+    // }
+    session.removeItem("carts")
+    setCart([])
+  }
+
   return (
     <>
       <div
-        className={`fixed z-50 outline-none focus:outline-none bg-white h-screen right-0 top-0 overflow-y-auto p-4 w-[25vw] ease-linear duration-300 ${
+        className={`fixed z-50 outline-none focus:outline-none bg-white h-screen right-0 top-0 overflow-y-auto w-[25vw] ease-linear duration-300 ${
           open ? "translate-x-0 " : "translate-x-full"
         }`}
       >
         <div
-          className={`flex ${
+          className={`flex p-4 ${
             auth.data?.accessToken ? "justify-end" : "justify-between"
           }`}
         >
@@ -60,36 +79,39 @@ const Cart = ({ open, setOpen }: IProps) => {
             close
           </p>
         </div>
-        {user.map((item, index) => {
-          return (
-            <div className="grid grid-cols-5 border-t-gray-400 border-solid border-t mb-2 ">
-              <img
-                src={item.avatar}
-                alt=""
-                className="w-10 h-10 rounded-full bg-contain col-span-1 my-auto"
-              />
-              <div className="col-span-3">
-                <p>
-                  {item.firstName} {item.lastName}
-                </p>
-                <p>{item.phone} x 3</p>
+        <div className="h-[74%] overflow-y-auto p-4 pt-0 z-20">
+          {cart.map((item, index) => {
+            return (
+              <div className="grid grid-cols-5 border-t-gray-400 border-solid border-t mb-2 ">
+                <img
+                  src={item.images[0]}
+                  alt=""
+                  className="w-10 h-10 rounded-full bg-contain col-span-1 my-auto"
+                />
+                <div className="col-span-3">
+                  <p>{item.roomName}</p>
+                  <p>
+                    {item.price} x {item.quantity}
+                  </p>
+                </div>
+                <button
+                  className="col-span-1 my-auto ml-4 cursor-pointer p-2"
+                  onClick={() => handleRemoveCartItemInSession(item.room_ID)}
+                >
+                  X
+                </button>
               </div>
-              <button
-                className="col-span-1 my-auto ml-4 cursor-pointer p-2"
-                onClick={() => handleRemoveCartItemInSession(item.id)}
-              >
-                X
-              </button>
-            </div>
-          )
-        })}
-        <div className="absolute bottom-4 w-[22rem]">
-          <div className="flex justify-between border-t border-solid border-t-green-400 py-4 px-1">
+            )
+          })}
+        </div>
+
+        <div className="absolute bottom-4 w-full px-2 z-40 shadow-cart">
+          <div className="flex justify-between py-4 px-1">
             <span className="">Subtotal: </span>
             <p className="">
               $
-              {user.reduce((acc, item) => {
-                return acc + Number(item.phone)
+              {cart.reduce((acc, item) => {
+                return acc + Number(item.price) * Number(item.quantity)
               }, 0)}
             </p>
           </div>
@@ -100,6 +122,7 @@ const Cart = ({ open, setOpen }: IProps) => {
                 : "cursor-not-allowed opacity-50"
             }`}
             type="button"
+            onClick={checkout}
           >
             Checkout
           </button>

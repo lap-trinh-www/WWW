@@ -1,23 +1,77 @@
 import { useCallback, useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { AiOutlineCloseCircle, AiOutlineCloudUpload } from "react-icons/ai"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { createRoom, getRooms } from "../../redux/actions/roomAction"
 import { useStorage } from "../../utils/hooks"
-import { output } from "../../utils/image"
 import { imageUpload } from "../../utils/ImageUpload"
 import {
   FormSubmit,
   InputChange,
   IRoom,
   IRoomType,
+  IRoomTypeConvert,
+  RootStore,
   TypedDispatch
 } from "../../utils/types"
 import LoadingSpin from "../alter/LoadingSpin"
 import { listServices } from "../Services"
+import { v4 as uuidv4 } from "uuid"
+const listRoomType2: IRoomType[] = [
+  {
+    type_ID: "1",
+    typeName: "Single room",
+    type: "Occupancy"
+  },
+  {
+    type_ID: "2",
+    typeName: "Double room",
+    type: "Occupancy"
+  },
+
+  {
+    type_ID: "3",
+    typeName: "King",
+
+    type: "Bed"
+  },
+
+  {
+    type_ID: "4",
+    typeName: "Standard room",
+    type: "Layout"
+  },
+  {
+    type_ID: "5",
+    typeName: "Deluxe room",
+
+    type: "Layout"
+  },
+
+  {
+    type_ID: "6",
+    typeName: "Penhouse",
+    type: "Amenities"
+  }
+]
+
+export const output: IRoomTypeConvert[] = listRoomType2.reduce((acc, curr) => {
+  const existingType = acc.find((x) => x.type === curr.type)
+  if (existingType) {
+    existingType.names.push({ id: curr.type_ID, name: curr.typeName })
+  } else {
+    acc.push({
+      id: uuidv4(),
+      type: curr.type,
+      names: [{ id: curr.type_ID, name: curr.typeName }]
+    })
+  }
+  return acc
+}, [] as IRoomTypeConvert[])
 
 const CreateRoom = () => {
   const dispatch = useDispatch<TypedDispatch>()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [roomType, setRoomType] = useState<string>("")
   const [nameRoomType, setNameRoomType] = useState<string>("")
@@ -87,45 +141,31 @@ const CreateRoom = () => {
     const { name, value } = e.target
     setRoom({ ...room, [name]: value })
   }
-  // const handleChangeThumbnail = (e: InputChange) => {
-  //   const target = e.target as HTMLInputElement
-  //   const files = target.files as FileList
-  //   const file = files[0]
-  //   if (file) setLoading(false)
-  //   imageUpload(file)
-  //     .then((res) => {
-  //       setRoom({ ...room, images: [...room.images, res.url] })
-  //       setLoading(true)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //       setLoading(false)
-  //     })
-  // }
 
-  const [success, setSuccess] = useState(true)
-  const [img, setImg] = useState<string[]>([])
-  const [files, setFiles] = useState<File[]>([])
+  const [files, setFiles] = useState<string[]>([])
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    setLoading(true)
     imageUpload(acceptedFiles)
       .then((res) => {
-        setRoom({ ...room, images: [...room.images, ...res] })
-        setLoading(true)
+        setFiles([...files, ...res])
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
-        setLoading(false)
+        setLoading(true)
       })
   }, [])
-  console.log(room)
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     noClick: true,
     noKeyboard: true,
     onDrop
   })
-  const { setItem, getItem } = useStorage()
+  useEffect(() => {
+    if (files.length === 0)
+      setRoom({ ...room, images: [...room.images, ...files] })
+  }, [files])
 
   const handleSubmit = () => {
     const roomTypeObj: IRoomType = {
@@ -134,12 +174,13 @@ const CreateRoom = () => {
       type: roomType
     }
     room.roomType = roomTypeObj
-
+    room.images = files
     setRoom(room)
-    // if (room) {
-    //   dispatch(createRoom(room))
-    //   setRoom(initialState)
-    // }
+    if (room) {
+      dispatch(createRoom(room))
+      setRoom(initialState)
+      setFiles([])
+    }
   }
 
   return (
@@ -311,45 +352,61 @@ const CreateRoom = () => {
         <div className="w-[76rem]">
           <button
             title="Upload"
-            className="border-2 rounded-xl border-dashed border-black w-full drag_drop_wrapper"
+            className="border-2 rounded-xl border-dashed border-black w-full"
             onClick={open}
             type="button"
-            {...getRootProps()}
           >
-            <div className="flex justify-center my-2">
+            <div
+              className="flex justify-center my-2 drag_drop_wrapper"
+              {...getRootProps()}
+            >
               <div>
                 <AiOutlineCloudUpload className="text-black text-9xl mx-auto" />
                 <div>
                   <input {...getInputProps()} />
-                  {isDragActive ? (
-                    <p className="text-2xl font-semibold">
-                      Drop the photo here...
-                    </p>
+                  {loading ? (
+                    <LoadingSpin title="uploading" />
                   ) : (
-                    <p className="text-2xl font-semibold">
-                      Drop file here or click to upload
-                    </p>
+                    <>
+                      {isDragActive ? (
+                        <p className="text-2xl font-semibold">
+                          Drop the photo here...
+                        </p>
+                      ) : (
+                        <p className="text-2xl font-semibold">
+                          Drop file here or click to upload
+                        </p>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
             </div>
           </button>
-          {!loading && <LoadingSpin />}
         </div>
         <div className="w-[76rem] flex mt-4">
           <div className="space-x-4 ml-4 flex overflow-x-auto">
-            {room.images?.map((image, index) => {
+            {files.map((image, index) => {
               return (
-                <img
-                  src={image}
-                  alt=""
-                  key={index}
-                  className="h-full w-56 bg-cover"
-                />
+                <div className="relative">
+                  <img
+                    src={image}
+                    alt=""
+                    key={index}
+                    className="h-full w-56 bg-cover"
+                  />
+                  <AiOutlineCloseCircle
+                    className="absolute -right-1 -top-1 text-xl bg-white rounded-full cursor-pointer"
+                    onClick={() => {
+                      const newImages = [...files]
+                      newImages.splice(index, 1)
+                      setFiles(newImages)
+                    }}
+                  />
+                </div>
               )
             })}
           </div>
-          {/* {!loading && <LoadingSpin />} */}
         </div>
 
         <br />

@@ -67,12 +67,9 @@ export interface IIMg {
 }
 
 export interface IBillDetail {
-  childNum?: number
-  adultNum?: number
   checkIn?: Date
   checkOut?: Date
-  roomNum?: number
-  bedNum?: number
+  quantity?: number
   user?: IUser
 }
 
@@ -88,6 +85,10 @@ export interface IRoomType {
   type: string
 }
 
+export interface ICart extends IRoom {
+  quantity: number
+}
+
 interface INameTypeRoom {
   id: string
   name: string
@@ -96,6 +97,13 @@ export interface IRoomTypeConvert {
   id?: string
   type: string
   names: INameTypeRoom[]
+}
+
+export interface ICmt {
+  email: string
+  room_id: string
+  comment: string
+  createdAt: Date
 }
 
 export type StorageType = "session" | "local"

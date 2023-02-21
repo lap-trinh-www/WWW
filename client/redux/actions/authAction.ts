@@ -11,6 +11,7 @@ export const login =
       dispatch({ type: ALERT, payload: { loading: true } })
 
       const res = await postAPI("auth/login", userLogin)
+      console.log(res.data)
       dispatch({
         type: AUTH,
         payload: res.data
@@ -31,7 +32,7 @@ export const refreshToken =
     if (logged?.substring(0, 4) !== "user") return
     try {
       const res = await getAPI("auth/refresh", `${logged.substring(5)}`)
-
+      console.log(res)
       dispatch({ type: AUTH, payload: res.data })
 
       localStorage.setItem("logged", `user-${res.data.data.refreshToken}`)
@@ -42,11 +43,11 @@ export const refreshToken =
     }
   }
 export const logout =
-  (token: string) => async (dispatch: Dispatch<IAuthType>) => {
+  (accessToken: string) => async (dispatch: Dispatch<IAuthType>) => {
     try {
       localStorage.removeItem("logged")
 
-      await getAPI("logout", token)
+      await getAPI("logout", accessToken)
       window.location.href = "/"
     } catch (err: any) {
       console.log(err)

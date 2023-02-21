@@ -9,6 +9,7 @@ interface IData {
   lastName: string
   avatar: string
   email: string
+  role: string
 }
 
 export interface IAuth {

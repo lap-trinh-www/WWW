@@ -7,7 +7,7 @@ import "swiper/css/navigation"
 import "swiper/css/thumbs"
 
 import Link from "next/link"
-import { listExperience } from "../utils/image"
+import { listExperience } from "../utils/dataSample"
 import AOS from "aos"
 import { useEffect } from "react"
 
@@ -40,7 +40,7 @@ export default function Experience() {
             <SwiperSlide key={index} className="swiper-slide flex-col bg-black">
               <Link
                 className="pb-12 relative overflow-hidden group"
-                href={`experience/${exp.id}`}
+                href={`/experience/${exp.id}`}
               >
                 <Image
                   src={exp.image}

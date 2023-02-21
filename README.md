@@ -26,6 +26,10 @@ yarn dev
 
 add css in file with path: client\node_modules\react-date-range\dist\styles.css
 
+.rdrCalendarWrapper {
+width: 62rem !important;
+}
+
 .calendarWrap {
 display: inline-block;
 position: relative;

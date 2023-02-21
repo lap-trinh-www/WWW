@@ -30,13 +30,17 @@ const Login = () => {
   const handleSubmit = (e: FormSubmit) => {
     e.preventDefault()
 
-    // dispatch(login(userLogin))
+    dispatch(login(userLogin))
     if (checked) {
       storage.setItem("userLogin", JSON.stringify(userLogin), "local")
     }
   }
   const { auth } = useSelector((state: RootStore) => state)
   const storage = useStorage()
+
+  if (auth.data?.accessToken || storage.getItem("logged", "local")) {
+    window.location.href = "/"
+  }
 
   return (
     <>

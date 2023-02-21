@@ -37,6 +37,34 @@ public class UserService {
     return userRepo.findAll();
   }
 
+  public User getUserByEmail(String email) {
+    User user = userRepo.findByEmail(email).orElse(null);
+    if (Objects.isNull(user)) {
+      return null;
+    }
+    return user;
+  }
+
+  public boolean changePassword(String id, String password) {
+    User user = userRepo.findById(id).orElse(null);
+    if (Objects.nonNull(user)) {
+      user.setPassword(passwordService.passwordEncoder().encode(password));
+      userRepo.save(user);
+      return true;
+    }
+    return false;
+  }
+
+  public boolean forgetPassword(String email, String password) {
+    User user = userRepo.findByEmail(email).orElse(null);
+    if (Objects.nonNull(user)) {
+      user.setPassword(passwordService.passwordEncoder().encode(password));
+      userRepo.save(user);
+      return true;
+    }
+    return false;
+  }
+
   public User getUser(String id) {
     User user = userRepo.findById(id).orElse(null);
     if (Objects.isNull(user)) {
