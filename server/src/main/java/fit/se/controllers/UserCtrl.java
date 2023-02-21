@@ -141,14 +141,14 @@ public class UserCtrl {
 
       if (!passwordService.checkPassword(oldPassword, user.getPassword())) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(new ResponeMessage("error", "Not found", "Mật khẩu cũ không đúng"));
+            .body(new ResponeMessage("error", "Password not match", "Old password did not math"));
       }
       boolean result = userService.changePassword(id, password);
       if (result == false) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
       return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok",
-          "success", null));
+          "success", "Password changed successfully"));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(new ResponeMessage("error", "Not found", e.getMessage()));

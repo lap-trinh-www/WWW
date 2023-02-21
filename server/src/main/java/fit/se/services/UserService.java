@@ -1,4 +1,4 @@
-  package fit.se.services;
+package fit.se.services;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,6 +45,15 @@ public class UserService {
     return user;
   }
 
+  // create funtion find user by email
+  public User getUserByEmail(String email) {
+    User user = userRepo.findByEmail(email).orElse(null);
+    if (Objects.isNull(user)) {
+      return null;
+    }
+    return user;
+  }
+
   public boolean updateUser(User user) {
     User newUser = userRepo.findById(user.getId()).orElse(null);
     if (Objects.nonNull(newUser)) {
@@ -68,9 +77,19 @@ public class UserService {
     }
     return false;
   }
-  
+
   public boolean changePassword(String id, String password) {
     User user = userRepo.findById(id).orElse(null);
+    if (Objects.nonNull(user)) {
+      user.setPassword(passwordService.passwordEncoder().encode(password));
+      userRepo.save(user);
+      return true;
+    }
+    return false;
+  }
+
+  public boolean forgetPassword(String email, String password) {
+    User user = userRepo.findByEmail(email).orElse(null);
     if (Objects.nonNull(user)) {
       user.setPassword(passwordService.passwordEncoder().encode(password));
       userRepo.save(user);
