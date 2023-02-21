@@ -50,7 +50,6 @@ public class AuthService {
     user.setVerificationCode(randomCode.toString());
     user.setEnabled(false);
     user.setRole(Role.USER);
-    System.out.println(user);
     userRepo.save(user);
     sendVerificationEmail(user, siteURL);
 
@@ -103,7 +102,6 @@ public class AuthService {
   public AuthenticationResponse login(AuthenticationRequest request) {
     authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-    System.out.println(request);
     var user = userRepository.findByEmail(request.getEmail()).orElseThrow(
         () -> new IllegalArgumentException("User with email " + request.getEmail() + " not found"));
     var tokenOpt = refreshTokenRepository.findByUser(user); // take refresh token from db
@@ -124,9 +122,10 @@ public class AuthService {
       refreshTokenRepository.save(token);
 
       String accesToken = jwtService.generateAccessToken(user);
+
       return AuthenticationResponse.builder().accessToken(accesToken).refreshToken(newToken)
           .firstName(user.getFirstName()).lastName(user.getLastName()).avatar(user.getAvatar())
-          .email(user.getEmail()).build();
+          .email(user.getEmail()).role(user.getRole().toString()).build();
     }
   }
 

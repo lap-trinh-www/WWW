@@ -1,6 +1,6 @@
 import React from "react"
 
-const LoadingSpin = () => {
+const LoadingSpin = ({ title }: { title: string }) => {
   return (
     <div role="status" className="flex items-center">
       <svg
@@ -19,7 +19,7 @@ const LoadingSpin = () => {
           fill="currentFill"
         />
       </svg>
-      <p>loading...</p>
+      <p>{title}...</p>
     </div>
   )
 }

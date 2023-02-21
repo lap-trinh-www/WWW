@@ -9,23 +9,59 @@ import Experience from "../components/Experience"
 import Footer from "../components/Footer"
 import RoomBooking from "../components/RoomBooking"
 
-import { useEffect } from "react"
-import { BANNER_BOOKING, roomImage } from "../utils/image"
+import BANNER_BOOKING from "../assets/images/roomBooking/banner.jpg"
+
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { RootStore, TypedDispatch } from "../utils/types"
+import { getRooms } from "../redux/actions/roomAction"
+import { getUsers } from "../redux/actions/userAction"
 const OurRoom = () => {
   useEffect(() => {
     AOS.init()
   }, [])
+
+  const dispatch = useDispatch<TypedDispatch>()
+  useEffect(() => {
+    dispatch(getRooms())
+  }, [dispatch])
+
+  const { rooms } = useSelector((state: RootStore) => state)
+  const [scrollPosition, setScrollPosition] = useState(0)
+
+  let scroll = 0
+  const handleScroll = () => {
+    const position = window.pageYOffset
+    setScrollPosition(position)
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+  scroll = scrollPosition / 400
+  let opc = 1 - scroll < 0 ? 0 : 1 - scroll
   return (
     <>
       <Head>
         <title>room</title>
       </Head>
       <main>
-        <div
-          style={{ backgroundImage: `url('${BANNER_BOOKING.default.src}')` }}
-          className="bg-red-500 h-screen bg-cover bg-center relative bg-fixed"
-        >
-          <div className="absolute text-white top-[247px] left-[170px]">
+        <div className="h-screen bg-cover bg-center relative bg-fixed">
+          <img
+            src={BANNER_BOOKING.src}
+            alt=""
+            className="absolute w-full h-full object-cover"
+          />
+          <div
+            className="absolute text-white top-[247px] left-[170px]"
+            style={{
+              opacity: `${opc}`
+            }}
+          >
             <h1 className="text-lg font-bold">EXCLUSIVE ENVIRONMENT</h1>
             <p className="font-bold text-7xl w-[450px]">
               DISCOVER OUR ROOMS AND SUITES
@@ -50,54 +86,9 @@ const OurRoom = () => {
             </button>
           </Link>
         </div>
-        <div
-          className="flex justify-center relative mt-24 mb-20 items-center space-x-28"
-          data-aos="fade-up"
-        >
-          <div className="pl-10 mt-4">
-            <div className="absolute top-12 left-48 w-14 h-[6px] bg-black"></div>
-            <h1 className="font-semibold text-[55px] leading-none">
-              OUR ROOMS
-            </h1>
-            <h1 className="font-semibold text-[55px] leading-none">
-              AND SUITES
-            </h1>
-            <br />
-            <br />
-            <p className="w-[25rem] text-lg">
-              On the present site of our hotel feet in the water, there used to
-              be an establishment composed of a restaurant and dormitories.
-            </p>
-          </div>
-          <ul className="grid grid-cols-3  space-x-10">
-            <li className="flex flex-col items-center mb-6 ml-10">
-              <IoIosFitness className="text-4xl" />
-              <span className="text-sm font-semibold">FINESS CENTE</span>
-            </li>
-            <li className="flex flex-col items-center mb-6">
-              <MdChair className="text-4xl" />
-              <span className="text-sm font-semibold">JACUZZI</span>
-            </li>
-            <li className="flex flex-col items-center mb-6">
-              <FaSwimmer className="text-4xl" />
-              <span className="text-sm font-semibold">SWIMMING POOL</span>
-            </li>
-            <li className="flex flex-col items-center mb-6">
-              <TbMassage className="text-4xl" />
-              <span className="text-sm font-semibold">SPA TREATMENT</span>
-            </li>
-            <li className="flex flex-col items-center mb-6">
-              <MdOutlineYard className="text-4xl" />
-              <span className="text-sm font-semibold">GARDEN</span>
-            </li>
-            <li className="flex flex-col items-center mb-6">
-              <FaCity className="text-4xl" />
-              <span className="text-sm font-semibold">CITY VIEW</span>
-            </li>
-          </ul>
-        </div>
-        {roomImage.map((room, index) => {
-          return <RoomBooking key={index} room={room} position={index} />
+
+        {rooms.map((room, index) => {
+          return <RoomBooking key={room.room_ID} room={room} position={index} />
         })}
         <div className="relative py-[100px] bg-black text-white border-b border-white">
           <div className="pl-44 mt-4">

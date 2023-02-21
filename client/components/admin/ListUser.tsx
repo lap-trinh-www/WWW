@@ -30,7 +30,7 @@ const ListUser = () => {
   const handleUpdateUser = (user: IUser) => {
     dispatch(updateUser(user))
   }
-  if (!users.length) return <LoadingSpin />
+  if (!users.length) return <LoadingSpin title="Loading" />
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

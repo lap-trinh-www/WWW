@@ -67,12 +67,9 @@ export interface IIMg {
 }
 
 export interface IBillDetail {
-  childNum?: number
-  adultNum?: number
   checkIn?: Date
   checkOut?: Date
-  roomNum?: number
-  bedNum?: number
+  quantity?: number
   user?: IUser
 }
 
@@ -86,6 +83,10 @@ export interface IRoomType {
   type_ID: string
   typeName: string
   type: string
+}
+
+export interface ICart extends IRoom {
+  quantity: number
 }
 
 interface INameTypeRoom {

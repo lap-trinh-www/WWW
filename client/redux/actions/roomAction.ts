@@ -26,6 +26,21 @@ export const getRooms =
     }
   }
 
+export const getRoom =
+  (id: string) => async (dispatch: Dispatch<IRoomType | IAlertType>) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } })
+      const res = await getAPI(`rooms/${id}`)
+      dispatch({
+        type: GET_ROOM,
+        payload: res.data.data
+      })
+      dispatch({ type: ALERT, payload: {} })
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
 export const createRoom =
   (newRoom: IRoom) => async (dispatch: Dispatch<IRoomType | IAlertType>) => {
     try {

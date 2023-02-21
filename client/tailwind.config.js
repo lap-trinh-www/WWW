@@ -12,7 +12,8 @@ module.exports = {
         "2xl": "0 0 50px -12px rgba(0, 0, 0, 0.25)"
       },
       boxShadow: {
-        "2xl": "0 0 50px -12px rgba(0, 0, 0, 0.25)"
+        "2xl": "0 0 50px -12px rgba(0, 0, 0, 0.25)",
+        cart: "0 -2px 4px black"
       },
       variants: {
         width: ["responsive", "hover", "focus"]

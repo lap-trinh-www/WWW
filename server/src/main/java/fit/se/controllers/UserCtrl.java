@@ -40,7 +40,6 @@ public class UserCtrl {
       List<User> users = userService.getUsers();
       for (User user : users) {
         HashMap<String, Object> response = HashMapConverter.toHashMap(user);
-        System.out.println(response);
         response.remove("password");
         response.remove("refreshToken");
         response.remove("verificationCode");
