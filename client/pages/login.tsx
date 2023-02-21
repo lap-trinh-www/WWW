@@ -1,10 +1,11 @@
 import Head from "next/head"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { BsFacebook } from "react-icons/bs"
 import { FcGoogle } from "react-icons/fc"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../redux/actions/authAction"
+import { useStorage } from "../utils/hooks"
 import {
   FormSubmit,
   InputChange,
@@ -17,6 +18,8 @@ const Login = () => {
   const [userLogin, setUserLogin] = useState(initalState)
   const { email, password } = userLogin
 
+  const [checked, setChecked] = useState(false)
+
   const dispatch = useDispatch<TypedDispatch>()
 
   const handleChangeInput = (e: InputChange) => {
@@ -28,11 +31,17 @@ const Login = () => {
     e.preventDefault()
 
     dispatch(login(userLogin))
+    if (checked) {
+      storage.setItem("userLogin", JSON.stringify(userLogin), "local")
+    }
   }
   const { auth } = useSelector((state: RootStore) => state)
-  // useEffect(() => {
-  //   if (auth.data?.accessToken) window.location.href = "/"
-  // }, [auth.data?.accessToken])
+  const storage = useStorage()
+
+  if (auth.data?.accessToken || storage.getItem("logged", "local")) {
+    window.location.href = "/"
+  }
+
   return (
     <>
       <Head>
@@ -90,21 +99,42 @@ const Login = () => {
 
                 <div className="flex justify-between items-center mb-6">
                   <div className="form-group form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                      id="exampleCheck2"
-                    />
-                    <label
-                      className="form-check-label inline-block text-gray-800"
-                      htmlFor="exampleCheck2"
-                    >
-                      Remember me
-                    </label>
+                    <div className="p-4">
+                      <div className="flex items-center mr-4 mb-2">
+                        <input
+                          type="checkbox"
+                          id="A3-yes"
+                          name="A3-confirmation"
+                          value="yes"
+                          className="opacity-0 absolute h-8 w-8"
+                          checked={checked}
+                          onChange={() => setChecked(!checked)}
+                        />
+                        <div className="bg-white border-2 rounded-md border-blue-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+                          <svg
+                            className="fill-current hidden w-3 h-3 text-blue-600 pointer-events-none"
+                            version="1.1"
+                            viewBox="0 0 17 12"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g fill="none" fill-rule="evenodd">
+                              <g
+                                transform="translate(-9 -11)"
+                                fill="#1F73F1"
+                                fill-rule="nonzero"
+                              >
+                                <path d="m25.576 11.414c0.56558 0.55188 0.56558 1.4439 0 1.9961l-9.404 9.176c-0.28213 0.27529-0.65247 0.41385-1.0228 0.41385-0.37034 0-0.74068-0.13855-1.0228-0.41385l-4.7019-4.588c-0.56584-0.55188-0.56584-1.4442 0-1.9961 0.56558-0.55214 1.4798-0.55214 2.0456 0l3.679 3.5899 8.3812-8.1779c0.56558-0.55214 1.4798-0.55214 2.0456 0z" />
+                              </g>
+                            </g>
+                          </svg>
+                        </div>
+                        <label htmlFor="A3-yes" className="select-none">
+                          Remeber me
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                  <a href="#!" className="text-gray-800">
-                    Forgot password?
-                  </a>
+                  <Link href={`/forgot-password`}>Forgot password?</Link>
                 </div>
 
                 <div className="text-center lg:text-left">

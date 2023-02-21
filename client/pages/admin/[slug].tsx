@@ -1,20 +1,14 @@
 import Head from "next/head"
 import { useRouter } from "next/router"
-import React from "react"
 import Navbar from "../../components//admin/Navbar"
 import Slidebar from "../../components//admin/Slidebar"
 import CreateRoom from "../../components/admin/CreateRoom"
-import CreateUser from "../../components/admin/CreateUser"
 import ListRoom from "../../components/admin/ListRoom"
 import ListUser from "../../components/admin/ListUser"
 const routes = [
   {
     path: "",
     component: "Dashboard"
-  },
-  {
-    path: "create-user",
-    component: <CreateUser />
   },
   {
     path: "users",

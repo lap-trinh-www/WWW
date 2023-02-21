@@ -1,27 +1,37 @@
 import { useEffect, useState } from "react"
 import { AiOutlineEdit } from "react-icons/ai"
 import { BsFillTrashFill } from "react-icons/bs"
+import { CgDetailsMore } from "react-icons/cg"
 import { useDispatch, useSelector } from "react-redux"
-import { getUsers } from "../../redux/actions/userAction"
-import { getAPIFecth } from "../../utils/fecthData"
+import {
+  deleteUser,
+  getUsers,
+  updateUser
+} from "../../redux/actions/userAction"
 import { IUser, RootStore, TypedDispatch } from "../../utils/types"
+import LoadingSpin from "../alter/LoadingSpin"
 import Modal from "../Modal"
 
 const ListUser = () => {
   const [user, setUser] = useState<IUser>()
+  const [type, setType] = useState<boolean>(false)
 
   const dispatch = useDispatch<TypedDispatch>()
 
   useEffect(() => {
-    dispatch(getUsers())
+    setTimeout(() => {
+      dispatch(getUsers())
+    }, 5000)
   }, [dispatch])
 
   const { users } = useSelector((state: RootStore) => state)
 
   const [showModal, setShowModal] = useState(false)
-  const updateUser = async (id: any, body: any) => {
-    console.log(id, body)
+  const handleUpdateUser = (user: IUser) => {
+    dispatch(updateUser(user))
   }
+  if (!users.length) return <LoadingSpin title="Loading" />
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left">
@@ -41,44 +51,61 @@ const ListUser = () => {
               role
             </th>
             <th scope="col" className="px-6 py-3">
-              Status
+              status
             </th>
             <th scope="col" className="px-6 py-3">
-              Action
+              action
             </th>
           </tr>
         </thead>
         <tbody>
-          {users?.map((user, index) => {
+          {users?.map((item, index) => {
             return (
-              <tr className="bg-white border-b text-center" key={user.id}>
+              <tr className="bg-white border-b text-center" key={item.id}>
                 <td className="px-6 py-4">{index + 1}</td>
                 <td className="px-6 py-4">
-                  {user.firstName} {user.lastName}
+                  {item.firstName} {item.lastName}
                 </td>
-                <td className="px-6 py-4">{user.email}</td>
-                <td className="px-6 py-4">{user.phone}</td>
-                <td className="px-6 py-4">{user.role}</td>
+                <td className="px-6 py-4">{item.email}</td>
+                <td className="px-6 py-4">{item.phone}</td>
+                <td className="px-6 py-4">{item.role}</td>
                 <td className="px-6 py-4">
-                  {user.status ? "Hoạt động" : "Hết thời hạn"}
+                  {item.status ? "Hoạt động" : "Hết thời hạn"}
                 </td>
                 <td className="space-x-3 flex justify-center items-end pt-3">
                   <button
                     className="bg-red-700 rounded-full p-2 hover:bg-red-500"
                     type="button"
                     title="remove"
+                    onClick={() => {
+                      dispatch(deleteUser(item))
+                    }}
                   >
                     <BsFillTrashFill className="text-white" />
                   </button>
                   <button
-                    className="bg-gray-700 rounded-full p-2
-                    hover:bg-gray-500
-                    "
+                    className="bg-gray-700 rounded-full p-2 hover:bg-gray-500"
                     type="button"
                     title="edit"
-                    onClick={() => setShowModal(true)}
+                    onClick={() => {
+                      setShowModal(true)
+                      setType(true)
+                      setUser(item)
+                    }}
                   >
                     <AiOutlineEdit className="text-white" />
+                  </button>
+                  <button
+                    className="bg-[#829c57] rounded-full p-2 hover:bg-[#AACB73]"
+                    type="button"
+                    title="details"
+                    onClick={() => {
+                      setShowModal(true)
+                      setType(false)
+                      setUser(item)
+                    }}
+                  >
+                    <CgDetailsMore className="text-white" />
                   </button>
                 </td>
               </tr>
@@ -86,13 +113,15 @@ const ListUser = () => {
           })}
         </tbody>
       </table>
-      <Modal
-        callback={updateUser}
-        showModal={showModal}
-        setShowModal={setShowModal}
-        body={user}
-        setBody={setUser}
-      />
+      {user && (
+        <Modal
+          type={type}
+          callback={handleUpdateUser}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          body={user}
+        />
+      )}
     </div>
   )
 }

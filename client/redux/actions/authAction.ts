@@ -42,11 +42,11 @@ export const refreshToken =
     }
   }
 export const logout =
-  (token: string) => async (dispatch: Dispatch<IAuthType>) => {
+  (accessToken: string) => async (dispatch: Dispatch<IAuthType>) => {
     try {
       localStorage.removeItem("logged")
 
-      await getAPI("logout", token)
+      await getAPI("logout", accessToken)
       window.location.href = "/"
     } catch (err: any) {
       console.log(err)

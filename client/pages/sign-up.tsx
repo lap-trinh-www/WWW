@@ -3,18 +3,23 @@ import Link from "next/link"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { register } from "../redux/actions/authAction"
-import { FormSubmit, InputChange, TypedDispatch } from "../utils/types"
+import {
+  FormSubmit,
+  InputChange,
+  IUserRegister,
+  TypedDispatch
+} from "../utils/types"
 
 const Register = () => {
-  const initalState = {
+  const initalState: IUserRegister = {
     name: "",
-    account: "",
+    email: "",
     password: "",
     cf_password: ""
   }
 
   const [userRegister, setUserRegister] = useState(initalState)
-  const { name, account, password, cf_password } = userRegister
+  const { name, password, cf_password, email } = userRegister
 
   const dispatch = useDispatch<TypedDispatch>()
 
@@ -68,10 +73,10 @@ const Register = () => {
                   <input
                     type="text"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    autoComplete="username"
+                    autoComplete="email"
                     onChange={handleChangeInput}
-                    value={account}
-                    name="account"
+                    value={email}
+                    name="email"
                   />
                 </div>
 

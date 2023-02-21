@@ -1,8 +1,7 @@
 import type { NextPage } from "next"
 import Head from "next/head"
-import Image from "next/image"
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { CgShapeZigzag } from "react-icons/cg"
@@ -19,18 +18,17 @@ import { Swiper, SwiperSlide } from "swiper/react"
 
 import AOS from "aos"
 
-import { roomImage, serviceImage } from "../utils/image"
 import { RootStore, TypedDispatch } from "../utils/types"
 
 import Footer from "../components/Footer"
 import Header from "../components/Header"
-import SlideShow from "../components/SlideShow"
 
-import Loading from "../components/alter/Loading"
 import { refreshToken } from "../redux/actions/authAction"
-import { useRouter } from "next/dist/client/router"
+import { getRooms } from "../redux/actions/roomAction"
+import { getUsers } from "../redux/actions/userAction"
+import { useStorage } from "../utils/hooks"
 const Home: NextPage = () => {
-  const router = useRouter()
+  const session = useStorage()
   useEffect(() => {
     AOS.init()
   }, [])
@@ -38,6 +36,29 @@ const Home: NextPage = () => {
   useEffect(() => {
     dispatch(refreshToken())
   }, [dispatch])
+
+  useEffect(() => {
+    dispatch(getRooms())
+    dispatch(getUsers())
+  }, [dispatch])
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null)
+
+  const { rooms } = useSelector((state: RootStore) => state)
+  const cartSession = session.getItem("carts")
+  if (!cartSession) {
+    const carts = []
+    for (const room of rooms) {
+      const cart = {
+        ...room,
+        quantity: 1
+      }
+      carts.push(cart)
+    }
+    const cartsSession = JSON.stringify(carts)
+
+    session.setItem("carts", cartsSession)
+  }
+
   return (
     <>
       <Head>
@@ -70,7 +91,7 @@ const Home: NextPage = () => {
           grabCursor={true}
           slidesPerView={"auto"}
         >
-          {roomImage.map((item, index) => {
+          {rooms.map((item, index) => {
             return (
               <SwiperSlide key={index} className="swiper-slide relative">
                 <div className="absolute w-96 h-96 bg-red-200/40  top-12 right-64 rounded-full flex flex-col items-center justify-center">
@@ -80,7 +101,7 @@ const Home: NextPage = () => {
                   </h2>
                   <h2 className="text-4xl font-bold text-white my-2">sale</h2>
                   <h2 className="text-4xl font-bold text-white my-2">-50%</h2>
-                  <Link href={`room/${item._id}`}>
+                  <Link href={`room/${item.room_ID}`}>
                     <button
                       className="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 mt-8 border border-white hover:border-transparent rounded animate-bounce"
                       type="button"
@@ -92,7 +113,7 @@ const Home: NextPage = () => {
                 <div className="w-32 h-32 rounded-full bg-white absolute top-12 right-56 animate-ping shadow-lg shadow-black/50 flex items-center">
                   ONLY UNTIL 10.01.18
                 </div>
-                <Image
+                <img
                   src={item.images[0]}
                   alt="banner"
                   className="bg-fixed bg-cover"
@@ -127,8 +148,8 @@ const Home: NextPage = () => {
             className="bg-[#f0f0f0] flex flex-col justify-center py-32 px-24 z-10"
             data-aos="fade-right"
           >
-            <Image
-              src={`https://hotellerv5.b-cdn.net/modern/wp-content/uploads/sites/5/2021/08/two-laughing-guests-checking-in-together-at-a-hote-MUXSSNK.jpg`}
+            <img
+              src="https://res.cloudinary.com/dkh1ozkvt/image/upload/v1676814066/www/two-laughing-guests-checking-in-together-at-a-hote-MUXSSNK_iwkeey.jpg"
               alt=""
               width={900}
               height={1000}
@@ -166,7 +187,60 @@ const Home: NextPage = () => {
               <h1 className="text-white text-5xl font-bold mb-2">THE GRAND</h1>
               <h1 className="text-white text-5xl font-bold">REGIONS</h1>
             </div>
-            <SlideShow />
+            {/* {
+              rooms && (
+
+              )
+            } */}
+            {/* <div>
+              <Swiper
+                loop={true}
+                zoom={true}
+                spaceBetween={10}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false
+                }}
+                thumbs={{
+                  swiper:
+                    thumbsSwiper && !thumbsSwiper.destroyed
+                      ? thumbsSwiper
+                      : null
+                }}
+                modules={[FreeMode, Navigation, Thumbs, Zoom, Autoplay]}
+                className="mySwiper2-1"
+              >
+                {rooms[2].images.map((item, index) => {
+                  return (
+                    <SwiperSlide key={item}>
+                      <img src={item} alt={item} />
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
+              <Swiper
+                onSwiper={setThumbsSwiper as any}
+                loop={true}
+                spaceBetween={10}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false
+                }}
+                slidesPerView={rooms.length}
+                freeMode={true}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Navigation, Thumbs, Autoplay]}
+                className="mySwiper-1"
+              >
+                {rooms[2].images.map((item) => {
+                  return (
+                    <SwiperSlide key={item}>
+                      <img src={item} alt={item} />
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
+            </div> */}
           </div>
           <div
             className="h-96 p-12 pt-8 relative pl-18 col-span-4 w-11/12"
@@ -212,15 +286,15 @@ const Home: NextPage = () => {
             <br />
             <br />
             <div className="relative">
-              <Image
-                src={serviceImage[0]}
+              <img
+                src={rooms[2]?.images[0]}
                 alt=""
                 width={900}
                 height={1000}
                 className="object-cover -mt-48 w-full"
               />
-              <Image
-                src={serviceImage[0]}
+              <img
+                src={rooms[2]?.images[1]}
                 alt=""
                 width={300}
                 height={400}
@@ -299,25 +373,25 @@ const Home: NextPage = () => {
             modules={[FreeMode]}
             className="mySwiper mt-16"
           >
-            {roomImage.map((room) => {
+            {rooms.map((room) => {
               return (
                 <SwiperSlide
-                  key={room._id}
+                  key={room.room_ID}
                   className="swiper-slide flex-col bg-[#f0f0f0]"
                 >
-                  <Link href={`room/${room._id}`}>
-                    <Image
+                  <Link href={`room/${room.room_ID}`}>
+                    <img
                       src={room.images[0]}
                       alt={room.description}
-                      className="bg-fixed"
+                      className=" h-10 w-10 bg-cover"
                     />
                     <ul className="flex justify-between w-[95%] mt-4">
                       <li className="text-left">
                         <h1 className="font-semibold text-4xl mb-1">
-                          {room.name}
+                          {room.roomName}
                         </h1>
                         <span>
-                          {room.acreage} m2 / {room.limited}
+                          {room.acreage} m2 / {room.limitQuantity}
                         </span>
                       </li>
                       <li className="text-right">

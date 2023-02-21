@@ -12,7 +12,8 @@ module.exports = {
         "2xl": "0 0 50px -12px rgba(0, 0, 0, 0.25)"
       },
       boxShadow: {
-        "2xl": "0 0 50px -12px rgba(0, 0, 0, 0.25)"
+        "2xl": "0 0 50px -12px rgba(0, 0, 0, 0.25)",
+        cart: "0 -2px 4px black"
       },
       variants: {
         width: ["responsive", "hover", "focus"]
@@ -33,7 +34,7 @@ module.exports = {
         "fade-down": "fade-down linear",
         "fade-up": "fade-up 0.3s linear",
         dropDown: "dropDown 1s linear",
-        spin: "spin 0.4s linear",
+        // spin: "spin 0.4s linear",
         "un-spin": "un-spin 0.4s linear"
       },
       transformOrigin: {
@@ -42,10 +43,10 @@ module.exports = {
       },
 
       keyframes: (theme) => ({
-        spin: {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" }
-        },
+        // spin: {
+        //   "0%": { transform: "rotate(0deg)" },
+        //   "100%": { transform: "rotate(360deg)" }
+        // },
         "un-spin": {
           "0%": { transform: "rotate(360deg)" },
           "100%": { transform: "rotate(0deg)" }

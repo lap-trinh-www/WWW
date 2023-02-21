@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { FormSubmit, InputChange, IUser } from "../utils/types"
+import { FormSubmit, InputChange, IUser } from "../../utils/types"
 import { GrClose } from "react-icons/gr"
 interface IProps {
   type: boolean
@@ -9,7 +9,7 @@ interface IProps {
   callback: (body: IUser) => void
 }
 
-export default function Modal({
+export default function ModalRoom({
   type,
   callback,
   showModal,
