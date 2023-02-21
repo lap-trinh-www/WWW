@@ -39,7 +39,7 @@ public class Room {
 	@CollectionTable(name = "services", joinColumns = @JoinColumn(name = "room_ID"))
 	@Column(name = "service", nullable = false)
 	private List<String> services;
-	@Column(columnDefinition = "text")
+	@Column(columnDefinition = "text" )
 	private String description;
 	private double price;
 
@@ -50,13 +50,7 @@ public class Room {
 	@OneToMany(mappedBy = "rooms")
 	private List<BillDetail> bills;
 
-	// @Override
-	// public String toString() {
-	// return "Room [room_ID=" + room_ID + ", roomName=" + roomName + ", images=" +
-	// images + ", limitQuantity="
-	// + limitQuantity + ", vote=" + vote + ", acreage=" + acreage + ", services=" +
-	// services + ", description="
-	// + description + ", price=" + price + ", roomType=" + roomType + "]";
-	// }
+	@OneToMany(mappedBy = "rooms")
+	private List<Comment> users;
 
 }

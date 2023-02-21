@@ -39,8 +39,11 @@ public class SecurityConfiguration {
         .permitAll()
         .requestMatchers("/api/billDetails/**")
         .permitAll()
+        .requestMatchers("/api/comments/**")
+        .permitAll()
         .anyRequest()
         .authenticated()
+
         .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

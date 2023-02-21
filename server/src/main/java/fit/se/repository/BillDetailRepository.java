@@ -17,4 +17,5 @@ public interface BillDetailRepository extends JpaRepository<BillDetail, BillDeta
 
     @Query(value = "Select * from bill_details b where b.bill_id = ?1 and b.room_id = ?2",nativeQuery = true)
     BillDetail getBillDetail(String billId, String roomID);
+
 }

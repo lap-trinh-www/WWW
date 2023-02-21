@@ -11,6 +11,7 @@ import lombok.*;
 @Data
 @IdClass(BillDetailPK.class)
 @Table(name = "billDetails")
+
 public class BillDetail {
 	@Id
 	@ManyToOne
