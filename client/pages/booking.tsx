@@ -15,6 +15,9 @@ import { useDate } from "../utils/hooks"
 import { IRoom, RootStore, TypedDispatch } from "../utils/types"
 
 import { motion, AnimatePresence } from "framer-motion"
+import Head from "next/head"
+import Header from "../components/Header"
+import Footer from "../components/Footer"
 
 const Booking = () => {
   const [checkin, setCheckin] = useState<Date>()
@@ -59,29 +62,12 @@ const Booking = () => {
   }, [active])
   return (
     <>
-      {/* <div>
-        <ul className="flex space-x-4">
-          <li
-            className="rounded-lg bg-green-400 p-4 cursor-pointer"
-            onClick={() => setActive(100000)}
-          >
-            100000
-          </li>
-          <li
-            className="rounded-lg bg-green-400 p-4 cursor-pointer"
-            onClick={() => setActive(3234)}
-          >
-            3234
-          </li>
-          <li
-            className="rounded-lg bg-green-400 p-4 cursor-pointer"
-            onClick={() => setActive(123)}
-          >
-            123
-          </li>
-        </ul>
-      </div> */}
-      <div className="ml-40 mr-20 flex space-x-8">
+      <Head>
+        <title>Booking</title>
+      </Head>
+
+      <Header />
+      <div className="ml-40 mr-20 flex space-x-8 pt-24">
         <div className="space-y-5 w-1/4">
           <h1 className="text-2xl text-[#0c0c0c] font-medium">
             Check Availability
@@ -244,48 +230,78 @@ const Booking = () => {
             SEARCH ROOM
           </button>
         </div>
-
-        <motion.div layout className="w-3/4 grid grid-cols-2 h-fit gap-4">
-          {fillterRoom.length !== 0 &&
-            fillterRoom.map((item) => (
-              <motion.div
-                layout
-                animate={{ opacity: 1 }}
-                initial={{ opacity: 0 }}
-                exit={{ opacity: 0 }}
-                className="rounded-lg flex shadow-md border pr-1 overflow-hidden"
+        <div className="w-3/4">
+          <div className="flex">
+            <h1>Fillter</h1>
+            <ul className="flex space-x-4 ml-4">
+              <li
+                className="rounded-lg border border-gray-500 hover:bg-black transition-colors hover:text-white px-4 mb-6 cursor-pointer"
+                onClick={() => setActive(100000)}
               >
-                <img
-                  src={item.images[0]}
-                  alt={item.description}
-                  className="h-full w-28 object-cover mr-3"
-                />
-                <div className="w-full">
-                  <h1 className="font-medium ">{item.roomName}</h1>
-                  {genarateStar(item.star)}
-                  <span className="ml-2">{item.star} reviews</span>
-                  <div className="mt-4 py-4 flex justify-between">
-                    <button className="bg-transparent font-medium relative group">
-                      BOOK NOW
-                      <div
-                        className="w-0 group-hover:w-full h-[2px] bg-gray-400 absolute top-full"
-                        style={{ transition: "all 0.3s ease-in-out" }}
-                      ></div>
-                    </button>
-                    <p className="">
-                      <span className="line-through text-sm font-semibold">
-                        ${item.price - 100}
-                      </span>
-                      {"  "}
-                      <span className="font-medium ">${item.price}</span>
-                      <span className="text-[#949494] text-base">/ night</span>
-                    </p>
+                Sale
+              </li>
+              <li
+                className="rounded-lg border border-gray-500 hover:bg-black transition-colors hover:text-white px-4 mb-6 cursor-pointer"
+                onClick={() => setActive(3234)}
+              >
+                Expensive
+              </li>
+              <li
+                className="rounded-lg border border-gray-500 hover:bg-black transition-colors hover:text-white px-4 mb-6 cursor-pointer"
+                onClick={() => setActive(123)}
+              >
+                Cheap
+              </li>
+            </ul>
+          </div>
+          <motion.div layout className="grid grid-cols-2 h-fit gap-4">
+            {fillterRoom.length !== 0 &&
+              fillterRoom.map((item) => (
+                <motion.div
+                  layout
+                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="rounded-lg flex shadow-md border pr-1 overflow-hidden"
+                >
+                  <img
+                    src={item.images[0]}
+                    alt={item.description}
+                    className="h-full w-28 object-cover mr-3"
+                  />
+                  <div className="w-full">
+                    <h1 className="font-medium ">{item.roomName}</h1>
+                    {genarateStar(item.star)}
+                    <span className="ml-2">{item.star} reviews</span>
+                    <div className="mt-4 py-4 flex justify-between">
+                      <button className="bg-transparent font-medium relative group">
+                        BOOK NOW
+                        <div
+                          className="w-0 group-hover:w-full h-[2px] bg-gray-400 absolute top-full"
+                          style={{ transition: "all 0.3s ease-in-out" }}
+                        ></div>
+                      </button>
+                      <p className="">
+                        <span className="line-through text-sm font-semibold">
+                          ${item.price - 100}
+                        </span>
+                        {"  "}
+                        <span className="font-medium ">${item.price}</span>
+                        <span className="text-[#949494] text-base">
+                          / night
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-        </motion.div>
+                </motion.div>
+              ))}
+          </motion.div>
+        </div>
       </div>
+      <br />
+      <br />
+      <br />
+      <Footer />
     </>
   )
 }

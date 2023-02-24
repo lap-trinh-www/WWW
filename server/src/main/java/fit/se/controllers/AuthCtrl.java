@@ -1,7 +1,6 @@
 package fit.se.controllers;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fit.se.models.User;
 import fit.se.services.AuthService;
+import fit.se.services.PasswordService;
 import fit.se.services.UserService;
 import fit.se.util.AuthenticationRequest;
 import fit.se.util.ResponeMessage;
@@ -37,7 +37,12 @@ public class AuthCtrl {
   private AuthService authService;
   @Autowired
   HttpServletRequest request;
+
+  @Autowired
+  PasswordService passwordService;
+
   private String emailUser;
+
   private Map<String, Integer> resetUrlUsageCount = new HashMap<>();
 
   @PostMapping("/register")
@@ -62,6 +67,8 @@ public class AuthCtrl {
 
   private String getSiteURL(HttpServletRequest request) {
     String siteURL = request.getRequestURL().toString();
+    String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+    System.out.println(baseUrl + " baseURI");
     return siteURL.replace(request.getServletPath(), "");
   }
 
@@ -82,7 +89,6 @@ public class AuthCtrl {
   @PostMapping("/login")
   public ResponseEntity<ResponeMessage> login(@RequestBody AuthenticationRequest request) {
     try {
-
       return ResponseEntity.status(HttpStatus.OK)
           .body(new ResponeMessage("ok", "Login successfully", authService.login(request)));
     } catch (Exception e) {
@@ -108,32 +114,24 @@ public class AuthCtrl {
     }
   }
 
-  @PostMapping("/forget-password")
-  public ResponseEntity<ResponeMessage> sendEmailResetPassword(@Param("email") String email,
-      HttpServletRequest request) {
+  @PostMapping("/forgot-password")
+  public ResponseEntity<ResponeMessage> sendEmailResetPassword(@RequestBody Map<String, String> email) {
     try {
-      emailUser = email;
-      List<User> existingUser = userService.getUsers();
-      for (User user : existingUser) {
-        if (user.getEmail().equals(email)) {
-          authService.resetPassword(email, getSiteURL(request));
-          resetUrlUsageCount.put(authService.link, 0);
-          return ResponseEntity.status(HttpStatus.CREATED)
-              .body(new ResponeMessage("ok", "Please check your email", null));
 
-        } else {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-              .body(new ResponeMessage("error", "User not exists", null));
-        }
-      }
-      return null;
+      emailUser = email.get("email");
+      User user = userService.getUserByEmail(emailUser);
+      authService.resetPassword(user.getEmail(), user.getFirstName());
+      resetUrlUsageCount.put(authService.link, 0);
+      return ResponseEntity.status(HttpStatus.OK)
+          .body(new ResponeMessage("ok", "Please check your email", null));
+
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(new ResponeMessage("error", "Internal server error", e.getMessage()));
     }
   }
 
-  @GetMapping("/forget-password/{forgetUrl}")
+  @GetMapping("/forgot-password/{forgetUrl}")
   public ResponseEntity<ResponeMessage> resetPassword(@PathVariable String forgetUrl) {
     try {
       if (resetUrlUsageCount.containsKey(authService.link) && resetUrlUsageCount.get(authService.link) < 1) {
@@ -151,18 +149,20 @@ public class AuthCtrl {
     }
   }
 
-  @PutMapping("/forget-password/{forgetUrl}")
-  public ResponseEntity<ResponeMessage> setPassword(@Param("password") String password) {
+  @PutMapping("/forgot-password")
+  public ResponseEntity<ResponeMessage> setPassword(@RequestBody Map<String, String> objPass) {
     try {
-      User user = userService.getUserByEmail(emailUser);
-      if (user == null) {
+      String email = objPass.get("email");
+      String password = objPass.get("password");
+      String cf_password = objPass.get("cfPassword");
+      User user = userService.getUserByEmail(email);
+      if (passwordService.checkPassword(password, user.getPassword()))
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(new ResponeMessage("eror", "user not exist", null));
-      } else {
-        userService.forgetPassword(emailUser, password);
-        return ResponseEntity.status(HttpStatus.OK)
-            .body(new ResponeMessage("ok", "password have change", null));
-      }
+            .body(new ResponeMessage("error", "password is used. Please change new password", null));
+
+      userService.forgetPassword(emailUser, cf_password);
+      return ResponseEntity.status(HttpStatus.OK)
+          .body(new ResponeMessage("ok", "password have change", null));
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(new ResponeMessage("error", "Login failed", e.getMessage()));

@@ -2,13 +2,12 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-
 import { CgShapeZigzag } from "react-icons/cg"
 import { FaCity, FaSwimmer } from "react-icons/fa"
 import { IoIosFitness } from "react-icons/io"
 import { MdChair, MdOutlineYard } from "react-icons/md"
 import { TbMassage } from "react-icons/tb"
+import { useDispatch, useSelector } from "react-redux"
 
 import { Autoplay, EffectCoverflow, FreeMode, Navigation } from "swiper"
 import "swiper/css"
@@ -44,20 +43,6 @@ const Home: NextPage = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null)
 
   const { rooms } = useSelector((state: RootStore) => state)
-  const cartSession = session.getItem("carts")
-  if (cartSession === "[]") {
-    const carts = []
-    for (const room of rooms) {
-      const cart = {
-        ...room,
-        quantity: 1
-      }
-      carts.push(cart)
-    }
-    const cartsSession = JSON.stringify(carts)
-
-    session.setItem("carts", cartsSession)
-  }
 
   return (
     <>
@@ -90,6 +75,7 @@ const Home: NextPage = () => {
           effect={"coverflow"}
           grabCursor={true}
           slidesPerView={"auto"}
+          style={{ paddingTop: "81px" }}
         >
           {rooms.map((item, index) => {
             return (

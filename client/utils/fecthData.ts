@@ -29,8 +29,8 @@ export const getAPI = async (url: string, token?: string) => {
   })
   return res
 }
-export const getAPIFecth = async (url: string, token?: string) => {
-  const res = await axios.get(`${url}`, {
+export const getID = async (url: string, slug: string, token?: string) => {
+  const res = await axios.get(`http://localhost:9000/api/${url}/${slug}`, {
     headers: { Authorization: token as string }
   })
   return res

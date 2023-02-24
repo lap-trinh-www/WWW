@@ -2,9 +2,10 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 import { BsCart3 } from "react-icons/bs"
+import { CgClose } from "react-icons/cg"
 import { useSelector } from "react-redux"
 import { useStorage } from "../utils/hooks"
-import { IRoom, RootStore } from "../utils/types"
+import { ICart, InputChange, RootStore } from "../utils/types"
 import Cart from "./Cart"
 const Header = () => {
   const { auth } = useSelector((state: RootStore) => state)
@@ -17,16 +18,30 @@ const Header = () => {
     }
   }, [openSlidebar])
 
+  const [search, setSearch] = useState("")
+
   const session = useStorage()
-  const [room, setRoom] = useState<IRoom[]>([])
+  const [cart, setCart] = useState<ICart[]>([])
+  const [result, setResult] = useState<ICart[]>([])
+  const [toggleResult, setToggleResult] = useState(false)
 
   useEffect(() => {
-    if (session.getItem("carts") !== null) {
-      setRoom(JSON.parse(session.getItem("carts")!))
+    if (session.getItem("carts", "local") !== undefined) {
+      setCart(JSON.parse(session.getItem("carts", "local")))
     }
-  }, [session.getItem("carts")])
+  }, [session.getItem("carts", "local")])
+
+  useEffect(() => {
+    if (!search) return setResult([])
+    cart.map((item) => {
+      item.roomName.includes(search) && setResult((prev) => [...prev, item])
+    })
+
+    return () => setResult([])
+  }, [search])
+
   return (
-    <nav className="flex justify-between bg-white items-center border-gray-200 px-10 py-2.5 shadow-md">
+    <nav className=" h-20 w-full flex justify-between bg-white items-center border-gray-200 px-10 py-2.5 shadow-md z-50 fixed ">
       <Link href="/" className="flex items-center">
         <img
           src="https://flowbite.com/docs/images/logo.svg"
@@ -47,9 +62,40 @@ const Header = () => {
             id="search-navbar"
             className="block w-full outline-none bg-gray-50"
             placeholder="Search..."
+            value={search}
+            onChange={(e: InputChange) => {
+              setSearch(e.target.value)
+              setToggleResult(true)
+            }}
+            onBlur={() => setToggleResult(false)}
+            onFocus={() => setToggleResult(true)}
           />
         </div>
+        {toggleResult && (
+          <div className="h-fit bg-white fixed z-50 w-[40rem] mt-2 rounded-lg shadow-md shadow-gray-600 overflow-hidden">
+            <ul className="space-y-2">
+              {result.map((item) => (
+                <li className="flex items-center justify-between px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src={item.images[0]}
+                      alt={item.roomName}
+                      className="w-10 h-10 rounded-full bg-contain sm:h-9"
+                    />
+                    <span className="text-lg font-semibold">
+                      {item.roomName}
+                    </span>
+                  </div>
+                  <span>
+                    <AiOutlineSearch className="text-xl" />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
+
       {auth.data?.accessToken ? (
         <div className="space-x-4 flex items-center justify-center ">
           <div className="relative group cursor-pointer">
@@ -63,12 +109,6 @@ const Header = () => {
                 <span>Tài khoản của tôi</span>
               </li>
               <li className="text-lg text-gray-500 hover:text-black">
-                <span>Đơn đặt</span>
-              </li>
-              <li
-                className="text-lg text-gray-500 hover:text-black"
-                // onClick={() => handleLogout(auth.data.accessToken)}
-              >
                 <span>Đăng xuất</span>
               </li>
             </ul>
@@ -80,9 +120,11 @@ const Header = () => {
                 setOpenSlidebar(true)
               }}
             />
-            <span className="absolute -top-3 -right-2 bg-cyan-600 rounded-full w-3 h-3 flex items-center justify-center p-3 text-lg font-bold text-white">
-              {room.length}
-            </span>
+            {cart.length !== 0 && (
+              <span className="absolute -top-3 -right-2 bg-cyan-600 rounded-full w-3 h-3 flex items-center justify-center p-3 text-lg font-bold text-white">
+                {cart.length}
+              </span>
+            )}
           </div>
         </div>
       ) : (
@@ -102,6 +144,11 @@ const Header = () => {
                 setOpenSlidebar(true)
               }}
             />
+            {cart.length !== 0 && (
+              <span className="absolute -top-3 -right-2 bg-cyan-600 rounded-full w-3 h-3 flex items-center justify-center p-3 text-lg font-bold text-white">
+                {cart.length}
+              </span>
+            )}
           </>
         </div>
       )}

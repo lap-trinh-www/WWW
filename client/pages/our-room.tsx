@@ -1,10 +1,6 @@
 import AOS from "aos"
 import Head from "next/head"
 import Link from "next/link"
-import { FaCity, FaSwimmer } from "react-icons/fa"
-import { IoIosFitness } from "react-icons/io"
-import { MdChair, MdOutlineYard } from "react-icons/md"
-import { TbMassage } from "react-icons/tb"
 import Experience from "../components/Experience"
 import Footer from "../components/Footer"
 import RoomBooking from "../components/RoomBooking"
@@ -12,21 +8,14 @@ import RoomBooking from "../components/RoomBooking"
 import BANNER_BOOKING from "../assets/images/roomBooking/banner.jpg"
 
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { RootStore, TypedDispatch } from "../utils/types"
-import { getRooms } from "../redux/actions/roomAction"
-import { getUsers } from "../redux/actions/userAction"
-const OurRoom = () => {
+import { getAPI } from "../utils/fecthData"
+import { IRoom } from "../utils/types"
+const OurRoom = ({ rooms }: { rooms: IRoom[] }) => {
   useEffect(() => {
     AOS.init()
   }, [])
 
-  const dispatch = useDispatch<TypedDispatch>()
-  useEffect(() => {
-    dispatch(getRooms())
-  }, [dispatch])
-
-  const { rooms } = useSelector((state: RootStore) => state)
+  // const { rooms } = useSelector((state: RootStore) => state)
   const [scrollPosition, setScrollPosition] = useState(0)
 
   let scroll = 0
@@ -108,6 +97,16 @@ const OurRoom = () => {
       <Footer />
     </>
   )
+}
+
+export const getStaticProps = async () => {
+  const res = await getAPI("rooms")
+  const rooms: IRoom[] = res.data.data
+  return {
+    props: {
+      rooms
+    }
+  }
 }
 
 export default OurRoom

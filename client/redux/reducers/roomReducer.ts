@@ -23,7 +23,7 @@ const roomReducer = (state: IRoom[] = [], action: IRoomType): IRoom[] => {
           : room
       )
     case DELETE_ROOM:
-      return state.filter((room) => room.room_ID !== action.payload.room_ID)
+      return state.filter((room) => room.room_ID !== action.payload)
     default:
       return state
   }

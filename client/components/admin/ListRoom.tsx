@@ -7,7 +7,6 @@ import { RootStore, TypedDispatch } from "../../utils/types"
 import { listServices } from "../Services"
 
 const ListRoom = () => {
-  // const [room, setRoom] = useState<IRoom>()
   const [type, setType] = useState<boolean>(false)
 
   const dispatch = useDispatch<TypedDispatch>()
@@ -89,7 +88,7 @@ const ListRoom = () => {
                   title="edit"
                   type="button"
                   onClick={() => {
-                    dispatch(deleteRoom(room))
+                    dispatch(deleteRoom(room.room_ID))
                   }}
                 >
                   <BsFillTrashFill className="text-white mr-1" />

@@ -38,7 +38,7 @@ const Login = () => {
   const { auth } = useSelector((state: RootStore) => state)
   const storage = useStorage()
 
-  if (auth.data?.accessToken || storage.getItem("logged", "local")) {
+  if (auth.data?.accessToken) {
     window.location.href = "/"
   }
 

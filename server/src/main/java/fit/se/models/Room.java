@@ -13,9 +13,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -35,6 +39,7 @@ public class Room {
 	@CollectionTable(name = "services", joinColumns = @JoinColumn(name = "room_ID"))
 	@Column(name = "service", nullable = false)
 	private List<String> services;
+	@Column(columnDefinition = "text")
 	private String description;
 	private double price;
 
@@ -44,5 +49,8 @@ public class Room {
 
 	@OneToMany(mappedBy = "rooms")
 	private List<BillDetail> bills;
+
+	@OneToMany(mappedBy = "rooms")
+	private List<Comment> users;
 
 }

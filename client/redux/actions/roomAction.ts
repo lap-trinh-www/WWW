@@ -54,7 +54,6 @@ export const createRoom =
       })
       delete newRoom.service
       await postAPI("rooms/add", newRoom)
-
       dispatch({
         type: CREATE_ROOM,
         payload: newRoom
@@ -85,15 +84,14 @@ export const updateRoom =
   }
 
 export const deleteRoom =
-  (room: IRoom) => async (dispatch: Dispatch<IRoomType | IAlertType>) => {
+  (id: string) => async (dispatch: Dispatch<IRoomType | IAlertType>) => {
     try {
       dispatch({ type: ALERT, payload: { loading: true } })
-      console.log(room)
       // const res = await postAPI("auth/update", Room)
 
       dispatch({
         type: DELETE_ROOM,
-        payload: room
+        payload: id
       })
 
       dispatch({ type: ALERT, payload: { success: "Delete successfully" } })

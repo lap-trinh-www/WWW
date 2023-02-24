@@ -17,57 +17,7 @@ import {
 import LoadingSpin from "../alter/LoadingSpin"
 import { listServices } from "../Services"
 import { v4 as uuidv4 } from "uuid"
-const listRoomType2: IRoomType[] = [
-  {
-    type_ID: "1",
-    typeName: "Single room",
-    type: "Occupancy"
-  },
-  {
-    type_ID: "2",
-    typeName: "Double room",
-    type: "Occupancy"
-  },
-
-  {
-    type_ID: "3",
-    typeName: "King",
-
-    type: "Bed"
-  },
-
-  {
-    type_ID: "4",
-    typeName: "Standard room",
-    type: "Layout"
-  },
-  {
-    type_ID: "5",
-    typeName: "Deluxe room",
-
-    type: "Layout"
-  },
-
-  {
-    type_ID: "6",
-    typeName: "Penhouse",
-    type: "Amenities"
-  }
-]
-
-export const output: IRoomTypeConvert[] = listRoomType2.reduce((acc, curr) => {
-  const existingType = acc.find((x) => x.type === curr.type)
-  if (existingType) {
-    existingType.names.push({ id: curr.type_ID, name: curr.typeName })
-  } else {
-    acc.push({
-      id: uuidv4(),
-      type: curr.type,
-      names: [{ id: curr.type_ID, name: curr.typeName }]
-    })
-  }
-  return acc
-}, [] as IRoomTypeConvert[])
+import { getAPI } from "../../utils/fecthData"
 
 const CreateRoom = () => {
   const dispatch = useDispatch<TypedDispatch>()
@@ -81,6 +31,30 @@ const CreateRoom = () => {
   const [newListNameOfRoomType, setNewListNameOfRoomType] = useState<string[]>(
     []
   )
+  const [roomTypes, setRoomTypes] = useState<IRoomType[]>([])
+
+  useEffect(() => {
+    getAPI("roomTypes")
+      .then((res) => {
+        setRoomTypes(res.data.data)
+      })
+      .catch((err) => console.log(err))
+  }, [dispatch])
+
+  const output: IRoomTypeConvert[] = roomTypes.reduce((acc, curr) => {
+    const existingType = acc.find((x) => x.type === curr.type)
+    if (existingType) {
+      existingType.names.push({ id: curr.type_ID, name: curr.typeName })
+    } else {
+      acc.push({
+        id: uuidv4(),
+        type: curr.type,
+        names: [{ id: curr.type_ID, name: curr.typeName }]
+      })
+    }
+    return acc
+  }, [] as IRoomTypeConvert[])
+
   const initialState: IRoom = {
     room_ID: "",
     roomName: "",
@@ -88,7 +62,7 @@ const CreateRoom = () => {
     limitQuantity: "",
     description: "",
     acreage: 0,
-    star: 0,
+    vote: 0,
     images: [],
     service: [],
 

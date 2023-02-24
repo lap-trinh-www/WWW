@@ -22,7 +22,7 @@ export interface IAlert {
 
 export interface IUserLogin {
   email: string
-  password?: string
+  password: string
 }
 export interface IUserRegister extends IUserLogin {
   name: string
@@ -47,10 +47,11 @@ export interface IRoom {
   description: string
   acreage: number
   images: string[]
-  star: number
+  vote: number
   service?: IService[]
   services?: string[]
-  roomType: IRoomType
+  type_ID?: string
+  roomType?: IRoomType
 }
 
 export interface IService {
@@ -66,10 +67,10 @@ export interface IIMg {
   download_url: string
 }
 
-export interface IBillDetail {
+export interface ICart extends IRoom {
   checkIn?: Date
   checkOut?: Date
-  quantity?: number
+  quantity: number
   user?: IUser
 }
 
@@ -77,16 +78,14 @@ export interface IBill {
   id: string
   date: Date
   total: number
+  user?: IUser
+  billDetails?: ICart[]
 }
 
 export interface IRoomType {
   type_ID: string
   typeName: string
   type: string
-}
-
-export interface ICart extends IRoom {
-  quantity: number
 }
 
 interface INameTypeRoom {

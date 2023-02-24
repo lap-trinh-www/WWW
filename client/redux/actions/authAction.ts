@@ -1,7 +1,7 @@
 import { AUTH, IAuthType } from "./../types/authType"
 import { Dispatch } from "react"
 import { IUserLogin, IUserRegister } from "./../../utils/types"
-import { getAPI, postAPI } from "../../utils/fecthData"
+import { getAPI, postAPI, putAPI } from "../../utils/fecthData"
 import { validRegister } from "../../utils/valid"
 import { ALERT, IAlertType } from "../types/alertType"
 export const login =
@@ -11,7 +11,6 @@ export const login =
       dispatch({ type: ALERT, payload: { loading: true } })
 
       const res = await postAPI("auth/login", userLogin)
-      console.log(res.data)
       dispatch({
         type: AUTH,
         payload: res.data
@@ -32,7 +31,6 @@ export const refreshToken =
     if (logged?.substring(0, 4) !== "user") return
     try {
       const res = await getAPI("auth/refresh", `${logged.substring(5)}`)
-      console.log(res)
       dispatch({ type: AUTH, payload: res.data })
 
       localStorage.setItem("logged", `user-${res.data.data.refreshToken}`)
@@ -69,6 +67,41 @@ export const register =
       } else window.location.href = "/"
 
       dispatch({ type: ALERT, payload: { success: res.data.message } })
+    } catch (err: any) {
+      dispatch({ type: ALERT, payload: { errors: err.response.data.message } })
+    }
+  }
+
+export const forgotPassword =
+  (email: string) => async (dispatch: Dispatch<IAlertType>) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } })
+
+      const res = await postAPI("auth/forgot-password", { email })
+      dispatch({ type: ALERT, payload: { success: "Please check your email" } })
+    } catch (err: any) {
+      dispatch({ type: ALERT, payload: { errors: err.response.data.message } })
+    }
+  }
+
+export const resetPassword =
+  (password: string, cfPassword: string) =>
+  async (dispatch: Dispatch<IAlertType>) => {
+    try {
+      const email = localStorage.getItem("email")
+
+      dispatch({ type: ALERT, payload: { loading: true } })
+
+      const res = await putAPI("auth/forgot-password", {
+        password,
+        cfPassword,
+        email
+      })
+      if (res) {
+        localStorage.removeItem("email")
+        window.location.href = "/login"
+      }
+      dispatch({ type: ALERT, payload: { success: "Password changed" } })
     } catch (err: any) {
       dispatch({ type: ALERT, payload: { errors: err.response.data.message } })
     }

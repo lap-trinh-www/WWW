@@ -3,22 +3,20 @@ import { useEffect, useState } from "react"
 import { DateRange } from "react-date-range"
 
 import { AiOutlineGift } from "react-icons/ai"
-import { IBillDetail, ICart, IRoom } from "../utils/types"
+import { ICart, IRoom, TypedDispatch } from "../utils/types"
 
 import { BsBookmarkCheck } from "react-icons/bs"
-import { ImWarning } from "react-icons/im"
-import { listServices } from "./Services"
+import { useDispatch } from "react-redux"
 import { useStorage } from "../utils/hooks"
+import { listServices } from "./Services"
 
 interface IProps {
   room: IRoom
-  callback: (bill?: IBillDetail) => void
 }
 
-const BookNow = ({ room, callback }: IProps) => {
+const BookNow = ({ room }: IProps) => {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
-  const [billDetail, setBillDetail] = useState<IBillDetail>()
 
   const selectionRange = {
     startDate: startDate,
@@ -35,28 +33,49 @@ const BookNow = ({ room, callback }: IProps) => {
   const [quantity, setQuantity] = useState(1)
 
   const session = useStorage()
-
+  const dispatch = useDispatch<TypedDispatch>()
   useEffect(() => {
-    if (session.getItem("carts") !== null) {
-      const carts = JSON.parse(session.getItem("carts")!)
+    if (session.getItem("carts", "local") !== undefined) {
+      const carts = JSON.parse(session.getItem("carts", "local"))
       setCart(carts)
     }
-  }, [session.getItem("carts")])
+  }, [session.getItem("carts", "local")])
+
   const handleAddCart = () => {
+    if (startDate >= endDate) {
+      alert("Please select checkout date")
+      return
+    }
+
+    if (cart.length == 0) {
+      const newCart: ICart = {
+        ...room,
+        quantity: 1,
+        checkIn: startDate,
+        checkOut: endDate
+      }
+      cart.push(newCart)
+    }
+    cart.forEach((item) => {
+      if (item.room_ID !== room.room_ID) {
+        console.log("not equal")
+        const newCart: ICart = {
+          ...room,
+          quantity: 1,
+          checkIn: startDate,
+          checkOut: endDate
+        }
+        setCart([...cart, newCart])
+      }
+    })
+
     cart.map((item) => {
       if (item.room_ID === room.room_ID) {
-        item.quantity = item.quantity + quantity
+        item.quantity += quantity
       }
       return item
     })
-    session.setItem("carts", JSON.stringify(cart))
-
-    setBillDetail({
-      ...billDetail,
-      quantity: quantity,
-      checkIn: startDate,
-      checkOut: endDate
-    })
+    session.setItem("carts", JSON.stringify(cart), "local")
   }
 
   return (

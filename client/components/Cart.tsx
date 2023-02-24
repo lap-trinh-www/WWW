@@ -1,10 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { postAPI } from "../utils/fecthData"
+import { useDispatch, useSelector } from "react-redux"
+import { getAPI, postAPI } from "../utils/fecthData"
 import { useStorage } from "../utils/hooks"
-import { ICart, IRoom, RootStore } from "../utils/types"
+
+import { v4 as uuidv4 } from "uuid"
+
+import {
+  ICart,
+  IRoom,
+  IRoomType,
+  IUser,
+  RootStore,
+  TypedDispatch
+} from "../utils/types"
 
 const API = "IklDGdI-QyOhnknSIY6w3ejoHuVBhNAWcqqHV9hmM2w"
 
@@ -15,41 +25,61 @@ interface IProps {
 
 const Cart = ({ open, setOpen }: IProps) => {
   const session = useStorage()
+  const dispatch = useDispatch<TypedDispatch>()
 
-  const [cart, setCart] = useState<ICart[]>([])
+  const [roomTypes, setRoomTypes] = useState<IRoomType[]>([])
 
   useEffect(() => {
-    if (session.getItem("carts") !== null) {
-      const carts = JSON.parse(session.getItem("carts")!)
+    getAPI("roomTypes")
+      .then((res) => {
+        setRoomTypes(res.data.data)
+      })
+      .catch((err) => console.log(err))
+  }, [dispatch])
+  const [cart, setCart] = useState<ICart[]>([])
+  useEffect(() => {
+    if (session.getItem("carts", "local") !== undefined) {
+      const carts = JSON.parse(session.getItem("carts", "local"))
       setCart(carts)
     }
   }, [open])
 
-  const { auth } = useSelector((state: RootStore) => state)
+  const { auth, users } = useSelector((state: RootStore) => state)
 
-  const handleRemoveCartItemInSession = (id: string) => {
+  const handleRemoveCartItemInSession = (id: string, type: string) => {
     const newCart = cart.map((item) => {
       if (item.room_ID === id) {
-        item.quantity = item.quantity - 1
+        type === "decrease" ? item.quantity-- : item.quantity++
       }
       return item
     })
 
     const cartSave = newCart.filter((item) => item.quantity > 0)
 
-    session.setItem("carts", JSON.stringify(cartSave))
+    session.setItem("carts", JSON.stringify(cartSave), "local")
     setCart(cartSave)
   }
 
   const checkout = async () => {
-    // const carts = JSON.parse(session.getItem("carts")!)
-    // const res = await postAPI("order", { carts }, auth.data?.accessToken)
-    // if (res.data) {
-    //   session.removeItem("carts")
-    //   setCart([])
-    // }
-    session.removeItem("carts")
-    setCart([])
+    let total = cart.reduce((prev, item) => {
+      return prev + item.price * item.quantity
+    }, 0)
+
+    const checkoutCart = {
+      bill_ID: uuidv4(),
+      date: new Date(),
+      total,
+      user: users.find((user) => user.email === auth.data?.email && user),
+      billDetails: cart
+    }
+
+    const res = await postAPI(
+      "bills/checkout",
+      checkoutCart,
+      auth.data?.accessToken
+    )
+    // session.removeItem("carts")
+    // setCart([])
   }
 
   return (
@@ -66,7 +96,7 @@ const Cart = ({ open, setOpen }: IProps) => {
         >
           {!auth.data?.accessToken && (
             <Link
-              href={`.login`}
+              href={`/login`}
               className="text-red-500 font-semibold italic underline"
             >
               You need to login to pay{" "}
@@ -88,18 +118,46 @@ const Cart = ({ open, setOpen }: IProps) => {
                   alt=""
                   className="w-10 h-10 rounded-full bg-contain col-span-1 my-auto"
                 />
-                <div className="col-span-3">
+                <div className="col-span-2">
                   <p>{item.roomName}</p>
-                  <p>
-                    {item.price} x {item.quantity}
-                  </p>
+                  <p>{item.price}</p>
                 </div>
-                <button
-                  className="col-span-1 my-auto ml-4 cursor-pointer p-2"
-                  onClick={() => handleRemoveCartItemInSession(item.room_ID)}
-                >
-                  X
-                </button>
+                <div className="col-span-2 flex items-center">
+                  <button
+                    className={
+                      "text-black px-[10px] pb-[1px] text-lg rounded-full border-cyan-400 border-2 " +
+                      (item.quantity === 1
+                        ? " opacity-50 cursor-not-allowed"
+                        : "")
+                    }
+                    onClick={() =>
+                      handleRemoveCartItemInSession(item.room_ID, "decrease")
+                    }
+                  >
+                    -
+                  </button>
+                  <span className="px-2 mx-2">{item.quantity}</span>
+                  <button
+                    className="text-black px-[8px] pb-[1px] text-lg rounded-full border-cyan-400 border-2"
+                    onClick={() =>
+                      handleRemoveCartItemInSession(item.room_ID, "increase")
+                    }
+                  >
+                    +
+                  </button>
+                  <button
+                    className="ml-4 cursor-pointer p-2"
+                    onClick={() => {
+                      const newCart = cart.filter(
+                        (a) => a.room_ID !== item.room_ID
+                      )
+                      session.setItem("carts", JSON.stringify(newCart), "local")
+                      setCart(newCart)
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
               </div>
             )
           })}
@@ -117,9 +175,7 @@ const Cart = ({ open, setOpen }: IProps) => {
           </div>
           <button
             className={`text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center ${
-              auth.data?.accessToken
-                ? "hover:bg-blue-800"
-                : "cursor-not-allowed opacity-50"
+              auth.data?.accessToken ? "hover:bg-blue-800" : "opacity-50"
             }`}
             type="button"
             onClick={checkout}
@@ -128,7 +184,12 @@ const Cart = ({ open, setOpen }: IProps) => {
           </button>
         </div>
       </div>
-      {open && <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>}
+      {open && (
+        <div
+          className="opacity-25 fixed inset-0 z-40 bg-black"
+          onClick={() => setOpen(false)}
+        ></div>
+      )}
     </>
   )
 }

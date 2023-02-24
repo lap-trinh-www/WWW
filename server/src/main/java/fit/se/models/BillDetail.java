@@ -23,9 +23,8 @@ public class BillDetail {
 	@JoinColumn(name = "room_ID")
 	private Room rooms;
 
-	private int childrenNum;
-	private int adultNum;
 	private Date checkIn;
 	private Date checkOut;
+	private int quantity;
 
 }

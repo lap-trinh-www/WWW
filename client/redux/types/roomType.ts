@@ -22,7 +22,7 @@ export interface IGetRooms {
 
 export interface IDeleteRoomType {
   type: typeof DELETE_ROOM
-  payload: IRoom
+  payload: string
 }
 
 export interface IUpdateRoomType {

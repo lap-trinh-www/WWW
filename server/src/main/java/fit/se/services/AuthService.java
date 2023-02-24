@@ -87,26 +87,30 @@ public class AuthService {
 
   }
 
-  public void resetPassword(String email, String siteURL) throws UnsupportedEncodingException, MessagingException {
+  public void resetPassword(String email, String userName)
+      throws UnsupportedEncodingException, MessagingException {
     String toAddress = email;
+    String pathClient = "http://localhost:3000";
     String fromAddress = "alexbanjaman87@gmail.com";
     String senderName = "StarlightHotel";
     String subject = "Please verify your registration";
-    String content = "<p>Hello [[name]],</p>"
+    link = pathClient + "/forgot-password/" + UUID.randomUUID().toString();
+
+    String content = "<p>Hello " + userName
+        + ",</p>"
         + "<p>You have requested to reset your password.</p>"
         + "<p>Click the link below to change your password:</p>"
         + "<p><a href=\"[[URL]]\" target=\"_self\">Change my password</a></p>"
         + "<br>"
         + "<p>Ignore this email if you do remember your password, "
         + "or you have not made the request.</p>";
+
     MimeMessage message = mailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message);
 
     helper.setFrom(fromAddress, senderName);
     helper.setTo(toAddress);
     helper.setSubject(subject);
-
-    link = siteURL + "/api/auth/forget-password/" + UUID.randomUUID().toString();
 
     content = content.replace("[[URL]]", link);
 
@@ -158,6 +162,7 @@ public class AuthService {
 
       return AuthenticationResponse.builder().accessToken(accesToken).refreshToken(newToken)
           .firstName(user.getFirstName()).lastName(user.getLastName()).avatar(user.getAvatar())
+          .phone(user.getPhone())
           .email(user.getEmail()).role(user.getRole().toString()).build();
     }
   }

@@ -1,15 +1,15 @@
 import { IUserRegister } from "./types"
 
 export const validRegister = (user: IUserRegister) => {
-  const { name, account, password, cf_password } = user
+  const { name, email, password, cf_password } = user
 
   const errors: string[] = []
 
   if (!name) errors.push("Please add your name.")
   else if (name.length > 20) errors.push("Your name is up to 20 chars long.")
 
-  if (!account) errors.push("Pleas add your email.")
-  else if (!vallidEmail(account)) errors.push("Email format is incorrect.")
+  if (!email) errors.push("Pleas add your email.")
+  else if (!vallidEmail(email)) errors.push("Email format is incorrect.")
 
   const msg = checkPass(password, cf_password)
 
