@@ -19,7 +19,7 @@ import lombok.*;
 public class User implements UserDetails {
 
 	@Id
-	@Column(name = "user_id")
+	@Column(name = "user_ID")
 	private String id;
 
 	@Column(columnDefinition = "nvarchar(20)")
@@ -49,14 +49,15 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "user")
 	private List<Bill> bills;
 
-	@OneToMany(mappedBy = "users")
-	private List<Comment> rooms;
-
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
 	@OneToOne(mappedBy = "user")
 	private RefreshToken refreshToken;
+	
+	public User(String id) {
+		this.id = id;
+	}
 
 	public User(String id, String password) {
 		this.id = id;

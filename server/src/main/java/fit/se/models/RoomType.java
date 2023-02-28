@@ -21,4 +21,8 @@ public class RoomType {
 	@OneToMany(mappedBy = "roomType")
 	private List<Room> rooms;
 
+	public RoomType(String type_ID) {
+		this.type_ID = type_ID;
+	}
+	
 }

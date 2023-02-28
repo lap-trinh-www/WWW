@@ -44,8 +44,6 @@ public class RoomTypeCtrl {
       }
       return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", roomTypesMap));
     } catch (Exception e) {
-      // TODO: handle exception
-      // return ResponseEntity
       return null;
     }
   }

@@ -15,9 +15,7 @@ public class RoomTypeService {
 
   public RoomType addRoomType(RoomType newRoom) {
     RoomType roomType = roomTypeRepository.findById(newRoom.getType_ID()).orElse(null);
-    System.out.println(newRoom.getType_ID());
-    System.out.println(newRoom);
-    System.out.println(roomType);
+
     if (roomType == null) {
 
       roomTypeRepository.save(newRoom);
@@ -36,8 +34,7 @@ public class RoomTypeService {
 
   public boolean updateRoomType(RoomType newRoom) {
     RoomType roomType = roomTypeRepository.findById(newRoom.getType_ID()).orElse(null);
-    System.out.println(roomType);
-    System.out.println(newRoom);
+
     if (roomType != null) {
       roomTypeRepository.save(newRoom);
       return true;

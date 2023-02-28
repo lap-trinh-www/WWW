@@ -18,56 +18,138 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fit.se.dto.BillDTO;
 import fit.se.models.Bill;
+import fit.se.models.Room;
 import fit.se.services.BillService;
 import fit.se.util.HashMapConverter;
 import fit.se.util.ResponeMessage;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/bills")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BillCtrl {
 
-    @Autowired
-    private BillService billService;
+  HttpSession session;
 
-    @GetMapping(value = { "", "/" })
-    public ResponseEntity<ResponeMessage> getBills() {
-        try {
-            List<BillDTO> billDTOs = billService.getBills();
-            List<Map<String, Object>> billMaps = new ArrayList<>();
+  @Autowired
+  private BillService billService;
 
-            for (BillDTO billDTO : billDTOs) {
-                HashMap<String, Object> response = HashMapConverter.toHashMap(billDTO);
-                response.remove("roooms");
-                billMaps.add(response);
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", billMaps));
-        } catch (Exception e) {
-            // TODO: handle exception
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+  @GetMapping(value = { "", "/" })
+  public ResponseEntity<ResponeMessage> getBills() {
+    try {
+      List<BillDTO> billDTOs = billService.getBills();
+      List<Map<String, Object>> billMaps = new ArrayList<>();
 
+      for (BillDTO billDTO : billDTOs) {
+        HashMap<String, Object> response = HashMapConverter.toHashMap(billDTO);
+        response.remove("roooms");
+        billMaps.add(response);
+      }
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", billMaps));
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PostMapping(value = {
-            "", "/add"
-    }, consumes = {
-            "application/json",
-            "application/x-www-form-urlencoded"
-    })
-    public ResponseEntity<ResponeMessage> addRoom(@RequestBody Bill bill) {
+  }
 
-        try {
-            billService.addBill(bill);
+  @GetMapping(value = { "/getSession" })
+  public ResponseEntity<ResponeMessage> getSession(HttpServletRequest req) {
+    try {
+      BillDTO dataKuga = (BillDTO) session.getAttribute("bill");
 
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponeMessage("error", "Not found", e.getMessage()));
-        }
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", dataKuga));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
+    }
+  }
+
+
+
+  @PostMapping(value = {
+      "", "/addCart"
+  }, consumes = {
+      "application/json",
+      "application/x-www-form-urlencoded"
+  })
+  public ResponseEntity<ResponeMessage> addItem(@RequestBody Room room, HttpServletRequest req) {
+    try {
+      session = req.getSession(true);
+      // session.setAttribute("bill", data);
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
     }
 
-    @GetMapping("/{roomId}")
+    // try {
+    // billService.addBill(bill);
+
+    // return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok",
+    // "success", null));
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body(new ResponeMessage("error", "Not found", e.getMessage()));
+    // }
+
+    // get data from session
+
+  }
+
+  @PostMapping(value = {
+      "", "/checkout"
+  }, consumes = {
+      "application/json",
+      "application/x-www-form-urlencoded"
+  })
+  public ResponseEntity<ResponeMessage> checkOut(@RequestBody BillDTO data, HttpServletRequest req) {
+    try {
+      session = req.getSession(true);
+      session.setAttribute("data", data);
+      System.out.println(data);
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
+    }
+
+    // try {
+    // billService.addBill(bill);
+
+    // return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok",
+    // "success", null));
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body(new ResponeMessage("error", "Not found", e.getMessage()));
+    // }
+
+    // get data from session
+
+  }
+
+
+  @PostMapping(value = {
+    "", "/add"
+}, consumes = {
+    "application/json",
+    "application/x-www-form-urlencoded"
+})
+public ResponseEntity<ResponeMessage> addRoom(@RequestBody BillDTO newBillDTO) {
+
+try {
+    BillDTO billDTO = billService.addBill(newBillDTO);
+
+    return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", billDTO));
+} catch (Exception e) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ResponeMessage("error", "Not found", e.getMessage()));
+}
+}
+
+
+
+  @GetMapping("/{billId}")
   public ResponseEntity<ResponeMessage> getRoomById(@PathVariable String billId) {
     try {
       BillDTO billDTO = billService.getBill(billId);
@@ -83,4 +165,5 @@ public class BillCtrl {
           .body(new ResponeMessage("error", "Not found", e.getMessage()));
     }
   }
+
 }

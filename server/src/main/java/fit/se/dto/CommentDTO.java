@@ -14,9 +14,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentDTO {
-    private String user_ID;
-    private String room_ID;
-    private Date date;
-    private String comment;
-    private int point;
+  private String user_ID;
+  private String room_ID;
+  private Date date;
+  private String comment;
+  private int point;
 }

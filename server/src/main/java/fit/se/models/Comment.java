@@ -21,22 +21,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "Comments")
+@Table(name = "comments")
 @IdClass(CommentPK.class)
 public class Comment {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "user_ID")
-    private User users;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "user_ID")
+  private User users;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "room_ID")
-    private Room rooms;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "room_ID")
+  private Room rooms;
 
-    @Id
-    private Date date;
+  @Id
+  private Date date;
 
-    private String comment;
-    private int point;
+  private String comment;
+  private int point;
 }

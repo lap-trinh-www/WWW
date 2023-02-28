@@ -97,7 +97,6 @@ public class Jwtservice {
     }
 
     var token = tokenOpt.get();
-    System.out.println("token: " + token);
     if (!isTokenExpired(token.getExpiration())) {
       // refreshTokenRepository.delete(token);
       throw new RuntimeException("Refresh Token %s was expired!".formatted(rfToken));

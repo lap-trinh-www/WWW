@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fit.se.dto.RoomDTO;
 import fit.se.models.Room;
+import fit.se.models.RoomType;
 import fit.se.services.RoomService;
+import fit.se.services.RoomTypeService;
 import fit.se.util.HashMapConverter;
 import fit.se.util.ResponeMessage;
 
@@ -28,6 +30,9 @@ import fit.se.util.ResponeMessage;
 @RequestMapping("api/rooms")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class RoomCtrl {
+
+  @Autowired
+  private RoomTypeService roomTypeService;
 
   @Autowired
   private RoomService roomService;
@@ -59,10 +64,10 @@ public class RoomCtrl {
       "application/json",
       "application/x-www-form-urlencoded"
   })
-  public ResponseEntity<ResponeMessage> addRoom(@RequestBody Room room) {
-
+  public ResponseEntity<ResponeMessage> addRoom(@RequestBody RoomDTO roomDTO) {
+   
     try {
-      roomService.addRoom(room);
+      roomService.addRoom(roomDTO);
 
       return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
     } catch (Exception e) {

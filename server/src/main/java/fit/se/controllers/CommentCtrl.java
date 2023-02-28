@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fit.se.dto.CommentDTO;
-import fit.se.models.Comment;
 import fit.se.services.CommentService;
 import fit.se.util.HashMapConverter;
 import fit.se.util.ResponeMessage;
@@ -26,57 +25,52 @@ import fit.se.util.ResponeMessage;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CommentCtrl {
 
-    @Autowired
-    private CommentService commentService;
+  @Autowired
+  private CommentService commentService;
 
-    @Autowired
-    private ModelMapper modelMapper;
+  @GetMapping(value = {
+      "", "/"
+  })
+  public ResponseEntity<ResponeMessage> getAllComment() {
+    try {
+      List<CommentDTO> commentDTOs = commentService.getAllComment();
+      List<HashMap<String, Object>> commentMaps = HashMapConverter.toListOf(commentDTOs);
 
-    @GetMapping(value = {
-        "", "/"
-    })
-    public ResponseEntity<ResponeMessage> getAllComment(){
-        try {
-            List<CommentDTO> commentDTOs = commentService.getAllComment();
-            List<HashMap<String, Object>> commentMaps = HashMapConverter.toListOf(commentDTOs);
-      
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", commentMaps));
-          } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ResponeMessage("error", "Not found", e.getMessage()));
-          }
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", commentMaps));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
     }
+  }
 
-    @PostMapping(value = {
-        "", "/add"
-    }, consumes = {
-        "application/json",
-        "application/x-www-form-urlencoded"
-    })
-    public ResponseEntity<ResponeMessage> addComment(@RequestBody CommentDTO commentDTO) {
-      System.out.println("1 :   " + commentDTO);
-      try {
-       Comment comment = modelMapper.map(commentDTO, Comment.class);
-       System.out.println("2 :   " + comment);
-        commentService.addComment(comment);
-  
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", null));
-      } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(new ResponeMessage("error", "Not found", e.getMessage()));
-      }
+  @PostMapping(value = {
+      "", "/add"
+  }, consumes = {
+      "application/json",
+      "application/x-www-form-urlencoded"
+  })
+  public ResponseEntity<ResponeMessage> addComment(@RequestBody CommentDTO newCommentDTO) {
+    try {
+       CommentDTO commentDTO =  commentService.addComment(newCommentDTO);
+
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", commentDTO));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
     }
-    @GetMapping("/{roomId}")
-    public ResponseEntity<ResponeMessage> getRoomById(@PathVariable String roomId) {
-      try {
-        List<CommentDTO> commentDTOs = commentService.getCommentByRoomID(roomId);
-        
-        List<HashMap<String,Object>> commentMaps = HashMapConverter.toListOf(commentDTOs);
-        
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", commentMaps));
-      } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(new ResponeMessage("error", "Not found", e.getMessage()));
-      }
+  }
+
+  @GetMapping("/{roomId}")
+  public ResponseEntity<ResponeMessage> getRoomById(@PathVariable String roomId) {
+    try {
+      List<CommentDTO> commentDTOs = commentService.getCommentByRoomID(roomId);
+
+      List<HashMap<String, Object>> commentMaps = HashMapConverter.toListOf(commentDTOs);
+
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponeMessage("ok", "success", commentMaps));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponeMessage("error", "Not found", e.getMessage()));
     }
+  }
 }

@@ -2,7 +2,6 @@ package fit.se.dto;
 
 import java.util.List;
 
-import fit.se.models.BillDetail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomDTO {
-  private String roomID;
+  private String room_ID;
   private String roomName;
   private List<String> images;
   private int limitQuantity;
@@ -24,7 +23,6 @@ public class RoomDTO {
   private List<String> services;
   private String description;
   private double price;
-  private List<BillDetail> bills;
   private String type_ID;
 
 }
