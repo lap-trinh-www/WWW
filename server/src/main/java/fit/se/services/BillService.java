@@ -19,9 +19,6 @@ public class BillService {
   @Autowired
   private BillRepository billRepository;
 
-  @Autowired
-  private ModelMapper modelMapper;
-
   /**
    *
    * @param bill
@@ -29,7 +26,10 @@ public class BillService {
    */
   private BillDTO convertEntityToDTO(Bill bill) {
     BillDTO billDTO = new BillDTO();
-    billDTO = modelMapper.map(bill, BillDTO.class);
+    billDTO.setBill_ID(bill.getBill_ID());
+    billDTO.setDate(bill.getDate());
+    billDTO.setTotal(bill.getTotal());
+    billDTO.setUser_ID(bill.getUser().getId());
     return billDTO;
   }
   public Bill convertDTOToEntity(BillDTO billDTO) {
